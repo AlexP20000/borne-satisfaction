@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.56630543"
-     inkscape:cx="580.95858"
-     inkscape:cy="645.41143"
+     inkscape:zoom="1.1326109"
+     inkscape:cx="584.49025"
+     inkscape:cy="1278.9035"
      inkscape:window-width="3840"
      inkscape:window-height="2081"
      inkscape:window-x="-9"
@@ -260,11 +260,6 @@
        cx="120.39191"
        cy="246.03734"
        r="1.5" />
-    <path
-       id="rect8545"
-       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264582;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 244.11789,277.03734 v 79.99979 h 75.71454 v -79.99979 z m 20.30471,5.00023 h 35.08859 l 14.96396,15.09416 v 39.80894 l -15.1288,15.09676 H 264.4226 l -14.94743,-14.93139 v -40.13968 z"
-       sodipodi:nodetypes="cccccccccccccc" />
     <circle
        style="fill:none;stroke:#ff0000;stroke-width:0.264583"
        id="circle1002"
@@ -304,7 +299,71 @@
     <path
        id="path1240"
        style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.264582;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 37.427286,276.03734 v 79.99979 h 75.714544 v -79.99979 z m 20.30471,5.00023 H 92.82059 l 14.96396,15.09416 v 39.80894 l -15.1288,15.09676 H 57.731996 l -14.94743,-14.93139 v -40.13968 z"
+       d="m 37.427286,276.03734 v 89.99979 h 75.714544 v -89.99979 z m 20.30471,5.00023 H 92.82059 l 14.96396,15.09416 v 49.80894 l -15.1288,15.09676 H 57.731996 l -14.94743,-14.93139 v -50.13968 z"
        sodipodi:nodetypes="cccccccccccccc" />
+    <g
+       id="g4127">
+      <path
+         id="rect8545"
+         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264582;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 244.11789,277.03734 v 89.99979 h 75.71454 v -89.99979 z m 10.30471,5.00023 h 55.08859 l 4.96396,5.09416 v 69.80894 l -5.1288,5.09676 H 254.4226 l -4.94743,-4.93139 v -70.13968 z"
+         sodipodi:nodetypes="cccccccccccccc" />
+      <rect
+         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect3645"
+         width="10"
+         height="10"
+         x="309.83243"
+         y="357.03714"
+         ry="0" />
+      <circle
+         style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+         id="path3749"
+         cx="314.83243"
+         cy="362.03714"
+         r="0.75" />
+      <rect
+         style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect3645-5"
+         width="10"
+         height="10"
+         x="244.11789"
+         y="357.03714"
+         ry="0" />
+      <circle
+         style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+         id="path3749-8"
+         cx="249.11789"
+         cy="362.03714"
+         r="0.75" />
+      <rect
+         style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect3912"
+         width="10"
+         height="10"
+         x="244.11789"
+         y="277.03735"
+         ry="0" />
+      <circle
+         style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+         id="circle3914"
+         cx="249.11789"
+         cy="282.03735"
+         r="0.75" />
+      <rect
+         style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="rect3916"
+         width="10"
+         height="10"
+         x="309.83243"
+         y="277.03735"
+         ry="0" />
+      <circle
+         style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+         id="circle3918"
+         cx="314.83243"
+         cy="282.03735"
+         r="0.75" />
+    </g>
   </g>
 </svg>
