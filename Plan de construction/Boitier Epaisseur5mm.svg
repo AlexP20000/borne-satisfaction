@@ -2,13 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="614.97101mm"
+   width="610.26459mm"
    height="412.05289mm"
-   viewBox="0 0 614.97101 412.05289"
+   viewBox="0 0 610.26459 412.05289"
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
-   sodipodi:docname="Boitier.svg"
+   sodipodi:docname="Boitier Epaisseur5mm.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,8 +24,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.80087682"
-     inkscape:cx="1267.3609"
-     inkscape:cy="1181.8297"
+     inkscape:cx="966.44076"
+     inkscape:cy="832.21287"
      inkscape:window-width="3840"
      inkscape:window-height="2081"
      inkscape:window-x="-9"
@@ -37,8 +37,8 @@
     <inkscape:grid
        type="xygrid"
        id="grid2870"
-       originx="-6.4714243e-07"
-       originy="9.9835874e-07" />
+       originx="-9.7071368e-07"
+       originy="9.9671748e-07" />
   </sodipodi:namedview>
   <defs
      id="defs2" />
@@ -54,14 +54,6 @@
        height="140"
        x="-23.125696"
        y="-6.2274785"
-       ry="23.588207" />
-    <rect
-       style="vector-effect:none;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264585;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect868-4"
-       width="300"
-       height="140"
-       x="291.58072"
-       y="-4.4921398"
        ry="23.588207" />
     <circle
        style="fill:none;stroke:#ff0000;stroke-width:0.264583"
@@ -221,14 +213,22 @@
        d="m -12.215444,206.03734 h 30.04686 l -0.04686,-3 h 20 l -0.0072,3 H 192.88467 l -0.10011,-3 h 20 l 0.046,3 h 109.95396"
        id="path4662"
        sodipodi:nodetypes="cccccccccc" />
+    <rect
+       style="opacity:1;vector-effect:none;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264585;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect1000"
+       width="300"
+       height="140"
+       x="286.8743"
+       y="-6.2274785"
+       ry="23.588207" />
     <g
        id="g7477"
-       transform="translate(-110,-5.533361)"
+       transform="translate(-114.70642,-7.2686973)"
        style="fill:none">
       <g
          id="g7221"
          transform="matrix(1,0,0,1.6666673,306.29381,-298.1878)"
-         style="stroke-width:0.774597;fill:none">
+         style="fill:none;stroke-width:0.774597">
         <rect
            style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.204945;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
            id="rect4167-9"
@@ -249,7 +249,7 @@
       <g
          id="g7469"
          transform="matrix(1,0,0,1.6666673,306.29381,-218.1878)"
-         style="stroke-width:0.774597;fill:none">
+         style="fill:none;stroke-width:0.774597">
         <rect
            style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.204945;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
            id="rect7465"
@@ -308,6 +308,47 @@
        id="rect8545"
        style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264582;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 244.11789,267.03734 v 79.99979 h 75.71454 v -79.99979 z m 20.30471,5.00023 h 35.08859 l 14.96396,15.09416 v 39.80894 l -15.1288,15.09676 H 264.4226 l -14.94743,-14.93139 v -40.13968 z"
+       sodipodi:nodetypes="cccccccccccccc" />
+    <circle
+       style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+       id="circle1002"
+       cx="335.84088"
+       cy="37.59845"
+       r="2.55" />
+    <circle
+       style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+       id="circle1004"
+       cx="433.01526"
+       cy="37.59845"
+       r="2.55" />
+    <circle
+       style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+       id="circle1006"
+       cx="530.18964"
+       cy="37.59845"
+       r="2.55" />
+    <circle
+       style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+       id="circle1008"
+       cx="335.84088"
+       cy="83.735275"
+       r="13.5" />
+    <circle
+       style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+       id="circle1010"
+       cx="433.01526"
+       cy="83.735275"
+       r="13.5" />
+    <circle
+       style="fill:none;stroke:#ff0000;stroke-width:0.264583"
+       id="circle1012"
+       cx="530.18964"
+       cy="83.735275"
+       r="13.5" />
+    <path
+       id="path1240"
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.264582;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 77.427286,266.03734 v 79.99979 h 75.714544 v -79.99979 z m 20.30471,5.00023 h 35.088594 l 14.96396,15.09416 v 39.80894 l -15.1288,15.09676 H 97.731996 l -14.94743,-14.93139 v -40.13968 z"
        sodipodi:nodetypes="cccccccccccccc" />
   </g>
 </svg>
