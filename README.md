@@ -82,7 +82,7 @@ fonctionnement :
 
 Pour la partie '''Faut-il faire les tests''' voir les possibilités techniques :
 
-# Voir s'il est possible de savoir qu'on vient de mettre sous tension le microcontrôleur (et non pas qu'on sort d'un Deep sleep). {{fixme}}
+# Voir s'il est possible de savoir qu'on vient de mettre sous tension le microcontrôleur (et non pas qu'on sort d'un Deep sleep).
 Oui, la fonction esp_sleep_get_wakeup_cause() permet de savoir pourquoi l'ESP à rebooté : 
 * ESP_SLEEP_WAKEUP_EXT0 : réveil de deep sleep à partir d'un  signal extérieur (RTC IO)
 * ESP_SLEEP_WAKEUP_EXT1 : réveil de deep sleep à partir d'un parmi plusieurs signaux extérieurs (RTC IO) (Utilisé par la borne)
