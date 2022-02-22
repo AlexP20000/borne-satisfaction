@@ -64,7 +64,7 @@ Il y a 3 LEDs sur la borne, chacune au-dessus d'un bouton afin d'indiquer que le
 
 
 ### Algorithme du microcontrôleur ###
-![Algorithme du microcontrôleur](./doc/Diagrams.png)
+![Algorithme du microcontrôleur](./illustrations/Diagrams.png)
 
 
 fonctionnement :
