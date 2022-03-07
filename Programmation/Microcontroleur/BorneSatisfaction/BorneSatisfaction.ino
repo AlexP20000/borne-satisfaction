@@ -3,6 +3,16 @@
    - La sauvegarde de chaque vote est faite dans un fichier CSV.
    - La sauvegarde du cumul de chaque vote est faite dans un fichier TXT.
 */
+#define DEBUG(message) \
+  Serial.print("[DEBUG:"); \
+  Serial.print(__func__); \
+  Serial.print("("); \
+  Serial.print(__LINE__); \
+  Serial.print(")]-> "); \
+  Serial.println(message);
+// Mode prod (sans aucune traces)
+//#define DEBUG(message);
+
 const int LED_ROUGE = 14;
 const int LED_VERT  = 4;
 const int LED_JAUNE = 12;
@@ -16,6 +26,12 @@ boolean BOO_ProblemeBatterie      = false;
 boolean BOO_ProblemeCarteSD       = false;
 boolean BOO_FichierParamsManquant = false;
 boolean BOO_Clignote = false;
+
+
+
+#include "Batterie.h";
+#include "SD.h";
+
 
 void setup() {
   // -------------------------------------------------------------------------------------------------------------
@@ -47,8 +63,8 @@ void setup() {
 
     } else {
       // .......................................................................
-      // Carte SD manquant
-      if () {
+      // Carte SD manquante
+      if (!SD.begin()) {
         BOO_ProblemeCarteSD = true;
 
       } else {
