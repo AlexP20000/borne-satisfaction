@@ -1,4 +1,6 @@
 /**
+   Programme pour micro-controlleur ESP32
+
    Ce programme permet de compter le nombre d'appuye sur un bouton de vote.
    - La sauvegarde de chaque vote est faite dans un fichier CSV.
    - La sauvegarde du cumul de chaque vote est faite dans un fichier TXT.
@@ -34,7 +36,7 @@ char *fileName_Mesures  = "mesures.csv";
 
 #include "Batterie.h";
 #include "SD.h";
-#include <esp_deep_sleep.h>
+
 
 void setup() {
   // -------------------------------------------------------------------------------------------------------------
@@ -51,7 +53,7 @@ void setup() {
   // -------------------------------------------------------------------------------------------------------------
   // Récupération de la cause du wake up
   //
-  esp_deep_sleep_wakeup_cause_t wakeupCause = esp_deep_sleep_get_wakeup_cause();
+  esp_sleep_wakeup_cause_t wakeupCause = esp_sleep_get_wakeup_cause();
 
 
 
@@ -59,7 +61,8 @@ void setup() {
       A-t-om une mise sous tension ?
      (on fait les tests de bon fonctionnements)
   */
-  if (wakeupCause == ESP_SLEEP_WAKEUP_EXT1 or wakeupCause == ESP_SLEEP_WAKEUP_EXT0) {
+  if (wakeupCause == ESP_SLEEP_WAKEUP_EXT1
+      or wakeupCause == ESP_SLEEP_WAKEUP_EXT0) {
     // .......................................................................
     // Batterie faible
     if (BATTERIE_getBatterieLevel() <= 20) {
@@ -80,9 +83,11 @@ void setup() {
         // .......................................................................
         // Fichier params manquant
         // (on test l'existance du fichier de configuration).
-        if (!SD_existeFile(SD, fileName_Config)) {
+        if (!SD_existeFile( fileName_Config )) {
           BOO_ProblemeCarteSD = true;
           BOO_Clignote = true;
+
+          SD_writeConfigFile( fileName_Config );
 
         } else {
           // .......................................................................
