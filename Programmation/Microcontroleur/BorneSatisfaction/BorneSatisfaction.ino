@@ -37,10 +37,10 @@ void setup() {
   if () {
     // .......................................................................
     // Batterie faible
-    if (BATTERIE_Niveau() <= 20) {
+    if (BATTERIE_getBatterieLevel() <= 20) {
       BOO_ProblemeBatterie = true;
 
-      if (BATTERIE_Niveau() <= 5) {
+      if (BATTERIE_getBatterieLevel() <= 5) {
         BOO_Clignote = true;
       }
 
