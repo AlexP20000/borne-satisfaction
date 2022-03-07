@@ -27,11 +27,14 @@ boolean BOO_ProblemeCarteSD       = false;
 boolean BOO_FichierParamsManquant = false;
 boolean BOO_Clignote = false;
 
+char *fileName_Config   = "configuration.ini";
+char *fileName_Synthese = "synthese.txt";
+char *fileName_Mesures  = "mesures.csv";
 
 
 #include "Batterie.h";
 #include "SD.h";
-
+#include <esp_deep_sleep.h>
 
 void setup() {
   // -------------------------------------------------------------------------------------------------------------
@@ -45,12 +48,18 @@ void setup() {
   pinMode(BTN_JAUNE,  INPUT_PULLUP);
 
 
+  // -------------------------------------------------------------------------------------------------------------
+  // Récupération de la cause du wake up
+  //
+  esp_deep_sleep_wakeup_cause_t wakeupCause = esp_deep_sleep_get_wakeup_cause();
+
+
 
   /** -------------------------------------------------------------------------------------------------------------
       A-t-om une mise sous tension ?
      (on fait les tests de bon fonctionnements)
   */
-  if () {
+  if (wakeupCause == ESP_SLEEP_WAKEUP_EXT1 or wakeupCause == ESP_SLEEP_WAKEUP_EXT0) {
     // .......................................................................
     // Batterie faible
     if (BATTERIE_getBatterieLevel() <= 20) {
@@ -70,7 +79,8 @@ void setup() {
       } else {
         // .......................................................................
         // Fichier params manquant
-        if () {
+        // (on test l'existance du fichier de configuration).
+        if (!SD_existeFile(SD, fileName_Config)) {
           BOO_ProblemeCarteSD = true;
           BOO_Clignote = true;
 
