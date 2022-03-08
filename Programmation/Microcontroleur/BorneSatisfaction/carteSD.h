@@ -1,8 +1,5 @@
-#include "libs/FS/src/FS.h";
-#include "libs/SD/src/SD.h";
-#include "libs/SPI/src/SPI.h";
-
-#include "libs/IniFile/src/IniFile.h";
+#include "SD.h";
+#include "libs/inifile/src/IniFile.h";
 
 /**
    ----------------------------------------------------------------------------------
