@@ -14,13 +14,16 @@
   Serial.println(message);
 // Mode prod (sans aucune traces)
 //#define DEBUG(message);
+#define ModeDebug true
 
 #define LED_VERT  4
 #define LED_JAUNE 12
 #define LED_ROUGE 14
+
 #define BTN_ROUGE 25
-#define BTN_VERT  27
 #define BTN_JAUNE 26
+#define BTN_VERT  27
+
 #define PIN_PWR_EN 13
 
 const int DelayExtinctionLEDs = 1000; // Délais d'extinction des lEDs lors du test = 1 seconde
@@ -37,15 +40,18 @@ char *fileName_Mesures  = "mesures.csv";
 
 #include "Batterie.h";
 #include "carteSD.h";
+#include "deepsleep.h";
 
 
 void setup() {
   // -------------------------------------------------------------------------------------------------------------
   // initialisation de la liaison série.
   //
-  Serial.begin(115200);
-  delay(1000);  // On attend que le port serie soit initialisé
-  DEBUG("OK, let's go ******************************************");
+  if ( ModeDebug ) {
+    Serial.begin(115200);
+    delay(1000);  // On attend que le port serie soit initialisé
+    DEBUG("OK, let's go ******************************************");
+  }
 
 
 
@@ -118,15 +124,61 @@ void setup() {
           digitalWrite(LED_VERT, HIGH);
           delay( DelayExtinctionLEDs );
           digitalWrite(LED_VERT, LOW);
+
+          DEEPSLEEP_start();
         }
       }
     }
-
   } else {
     /** -------------------------------------------------------------------------------------------------------------
        On vient de réveiller la borne en appuyant sur un des boutons
     */
-    DEBUG("On vient de réveiller la borne en appuyant sur un des boutons");
+    // .......................................................................
+    //  Allumage de la LEDS correspondante au bouton appuyé
+    int gpio = DEEPSLEEP_getGPIOWakeUp();
+
+    switch ( gpio ) {
+      case BTN_VERT:
+        DEBUG("Bouton vert");
+        digitalWrite(LED_VERT,  HIGH);
+        break;
+      case BTN_ROUGE:
+        DEBUG("Bouton rouge");
+        digitalWrite(LED_ROUGE,  HIGH);
+        break;
+      case BTN_JAUNE:
+        DEBUG("Bouton jaune");
+        digitalWrite(LED_JAUNE,  HIGH);
+        break;
+      default:
+        DEBUG("Le GPIO " + String(gpio) + " a réveillé l'ESP32 : cas non traité (GPIO inconnu)");
+    }
+
+
+
+    // .......................................................................
+    //  Lecture du fichier de configuration
+    delay( DelayExtinctionLEDs );
+
+    // .......................................................................
+    //  Ecriture dans le fichier des mesures
+    delay( DelayExtinctionLEDs );
+
+    // .......................................................................
+    //  Mise à jour de la synthèse des votes
+    delay( DelayExtinctionLEDs );
+
+
+    // .......................................................................
+    //  Extinction des LEDs
+    digitalWrite(LED_ROUGE, LOW);
+    digitalWrite(LED_VERT,  LOW);
+    digitalWrite(LED_JAUNE, LOW);
+
+
+    // .......................................................................
+    // Deep sleep
+    DEEPSLEEP_start();
   }
 }
 
@@ -136,7 +188,7 @@ void setup() {
  * ****************************************************************************************************************
  * ****************************************************************************************************************
    Boocle principale.
-   On entre à l'interieur que pour la gestion des erreurs au démarrage du boitier de vote.
+   On n'entre à l'interieur que pour la gestion des erreurs au démarrage du boitier de vote.
 */
 void loop() {
   // Allumage led ROUGE
