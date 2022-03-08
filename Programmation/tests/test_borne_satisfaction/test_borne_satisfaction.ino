@@ -26,8 +26,8 @@
 
 #define TEST_LEDS false
 #define TEST_BP   false
-#define TEST_RTC  true
-#define TEST_SD   false
+#define TEST_RTC  false
+#define TEST_SD   true
 
 #define VERTE  0
 #define VERT 0
