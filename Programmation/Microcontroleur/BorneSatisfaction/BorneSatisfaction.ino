@@ -15,14 +15,15 @@
 // Mode prod (sans aucune traces)
 //#define DEBUG(message);
 
-const int LED_ROUGE = 14;
-const int LED_VERT  = 4;
-const int LED_JAUNE = 12;
-const int BTN_ROUGE = 25;
-const int BTN_VERT  = 27;
-const int BTN_JAUNE = 26;
+#define LED_VERT  4
+#define LED_JAUNE 12
+#define LED_ROUGE 14
+#define BTN_ROUGE 25
+#define BTN_VERT  27
+#define BTN_JAUNE 26
+#define PIN_PWR_EN 13
 
-const int DelayExtinctionLEDs = 500; // 0.5 secondes
+const int DelayExtinctionLEDs = 1000; // Délais d'extinction des lEDs lors du test = 1 seconde
 
 boolean BOO_ProblemeBatterie      = false;
 boolean BOO_ProblemeCarteSD       = false;
@@ -40,20 +41,33 @@ char *fileName_Mesures  = "mesures.csv";
 
 void setup() {
   // -------------------------------------------------------------------------------------------------------------
-  // Definition des LEDS et BOUTONS.
+  // initialisation de la liaison série.
   //
-  pinMode(LED_ROUGE,  OUTPUT);
-  pinMode(LED_VERT,   OUTPUT);
-  pinMode(LED_JAUNE,  OUTPUT);
-  pinMode(BTN_ROUGE,  INPUT_PULLUP);
-  pinMode(BTN_VERT,   INPUT_PULLUP);
-  pinMode(BTN_JAUNE,  INPUT_PULLUP);
+  Serial.begin(115200);
+  delay(1000);  // On attend que le port serie soit initialisé
+  DEBUG("OK, let's go ******************************************");
+
+
+
+  // -------------------------------------------------------------------------------------------------------------
+  // Initialisation des PIN
+  //
+  pinMode(LED_ROUGE,  OUTPUT);  // Pin du bouton rouge
+  pinMode(LED_VERT,   OUTPUT);  // Pin du bouton vert
+  pinMode(LED_JAUNE,  OUTPUT);  // Pin du bouton jaune
+  pinMode(BTN_ROUGE,  INPUT_PULLUP);  // Pin du bouton rouge
+  pinMode(BTN_VERT,   INPUT_PULLUP);  // Pin du bouton vert
+  pinMode(BTN_JAUNE,  INPUT_PULLUP);  // Pin du bouton jaune
+  pinMode(PIN_PWR_EN, OUTPUT);  // Pin du ??????????
+  digitalWrite(PIN_PWR_EN, HIGH);
+  delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
 
 
   // -------------------------------------------------------------------------------------------------------------
   // Récupération de la cause du wake up
   //
   esp_sleep_wakeup_cause_t wakeupCause = esp_sleep_get_wakeup_cause();
+  DEBUG("Wake up reason : " + String(wakeupCause) );
 
 
 
@@ -61,14 +75,20 @@ void setup() {
       A-t-om une mise sous tension ?
      (on fait les tests de bon fonctionnements)
   */
-  if (wakeupCause == ESP_SLEEP_WAKEUP_EXT1
-      or wakeupCause == ESP_SLEEP_WAKEUP_EXT0) {
+  if (wakeupCause != ESP_SLEEP_WAKEUP_EXT0
+      and wakeupCause != ESP_SLEEP_WAKEUP_EXT1
+      and wakeupCause != ESP_SLEEP_WAKEUP_TIMER
+      and wakeupCause != ESP_SLEEP_WAKEUP_TOUCHPAD
+      and wakeupCause != ESP_SLEEP_WAKEUP_ULP) {
     // .......................................................................
     // Batterie faible
-    if (BATTERIE_getBatterieLevel() <= 20) {
+    int batterieLevel = BATTERIE_getBatterieLevel();
+    if (batterieLevel <= 20) {
+      DEBUG("Batterie faible");
       BOO_ProblemeBatterie = true;
 
-      if (BATTERIE_getBatterieLevel() <= 5) {
+      if (batterieLevel <= 5) {
+        DEBUG("Batterie Tres faible");
         BOO_Clignote = true;
       }
 
@@ -77,13 +97,15 @@ void setup() {
       // .......................................................................
       // Carte SD manquante
       if (!SD.begin()) {
+        DEBUG("Carte SD manquante");
         BOO_ProblemeCarteSD = true;
 
       } else {
         // .......................................................................
         // Fichier params manquant
         // (on test l'existance du fichier de configuration).
-        if (!SD_existeFile( fileName_Config )) {
+        if (! CARTESD_existeFile( fileName_Config )) {
+          DEBUG("Fichier params manquant");
           BOO_ProblemeCarteSD = true;
           BOO_Clignote = true;
 
@@ -92,6 +114,7 @@ void setup() {
         } else {
           // .......................................................................
           // Tout est ok
+          DEBUG("Tout est ok");
           digitalWrite(LED_VERT, HIGH);
           delay( DelayExtinctionLEDs );
           digitalWrite(LED_VERT, LOW);
@@ -103,6 +126,7 @@ void setup() {
     /** -------------------------------------------------------------------------------------------------------------
        On vient de réveiller la borne en appuyant sur un des boutons
     */
+    DEBUG("On vient de réveiller la borne en appuyant sur un des boutons");
   }
 }
 
@@ -115,25 +139,26 @@ void setup() {
    On entre à l'interieur que pour la gestion des erreurs au démarrage du boitier de vote.
 */
 void loop() {
-
   // Allumage led ROUGE
   if ( BOO_ProblemeBatterie ) {
+    DEBUG("ProblemeBatterie");
     digitalWrite(LED_ROUGE, HIGH);
   }
 
   // Allumage led JAUNE
   if ( BOO_ProblemeCarteSD ) {
+    DEBUG("ProblemeCarteSD");
     digitalWrite(LED_JAUNE, HIGH);
   }
 
   // Extinction des leds
+  delay( DelayExtinctionLEDs );
   if ( BOO_Clignote ) {
+    DEBUG("Clignote");
     digitalWrite(LED_ROUGE, LOW);
     digitalWrite(LED_VERT,  LOW);
     digitalWrite(LED_JAUNE, LOW);
 
     delay( DelayExtinctionLEDs );
   }
-
-  delay( DelayExtinctionLEDs );
 }

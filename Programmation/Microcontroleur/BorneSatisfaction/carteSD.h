@@ -52,9 +52,14 @@ void CARTESD_readFile(const char * path) {
    Ex : CARTESD_existeFile("/hello.txt");
   ---------------------------------------------------------------------------------- */
 boolean CARTESD_existeFile(const char * path) {
-  File file = SD.open(path);
+  // Ajout du "/" avant le nom du fichier
+  char fileName[strlen(path) + 1];
+  strcpy(fileName, "/");
+  strcat(fileName, path);
+
+  File file = SD.open(fileName);
   if (!file) {
-    DEBUG("Fil <" + String(path) + "> doesn't exist");
+    DEBUG("File <" + String(path) + "> doesn't exist");
     return false;
   } else {
     return true;
@@ -65,14 +70,17 @@ boolean CARTESD_existeFile(const char * path) {
    ----------------------------------------------------------------------------------
    Renvoie une chaine aléatoire avec nbCaract caractères.
   ---------------------------------------------------------------------------------- */
-char * _getRandomChar(int nbCaract) {
-  const char caracts[] = {"AZERTYUIOPQSDFGHJKLMWXCVBN "};
-  char *Chaine;
-
-  for ( int i = 0; i <= nbCaract; i++) {
-    Chaine[i] = caracts[random(0, 26)];
+String _getRandomChar(int nbCaract) {
+  char caracts[38] = "AZERTYUIOPQSDFGHJKLMWXCVBN 0123456789";
+  char Chaine[nbCaract];
+  for (int i = 0; i < nbCaract; i++) {
+    Chaine[i] = caracts[random(0, 38)];
   }
-  return Chaine;
+  
+  // Ajout du caractère de fin de chaine
+  Chaine[nbCaract] = '\0';
+
+  return String(Chaine);
 }
 
 
@@ -83,29 +91,31 @@ char * _getRandomChar(int nbCaract) {
    Ex : CARTESD_existeFile("/config.ini");
   ---------------------------------------------------------------------------------- */
 void CARTESD_writeConfigFile(const char * path) {
-  char fileName[strlen(fileName_Config) + 1];
+  // Ajout du "/" avant le nom du fichier
+  char fileName[strlen(path) + 1];
   strcpy(fileName, "/");
   strcat(fileName, path);
+
+  DEBUG("Ecriture du fichier de configuration: " + String(fileName));
 
   // Ouverture du fichier en écriture (et réinitialisation)
   File myFile = SD.open(fileName, FILE_WRITE);
   if (myFile) {
     myFile.println("# Ceci est le fichier de configuration pour l'application.");
     myFile.println("# Ne modifiez pas le nom des variables (ce qui se trouve avant le signe égale sur une ligne).");
-    myFile.println();
+    myFile.println("#____________________________________________________________________________________________");
 
-    myFile.println("#Le siteID est votre identifiant comme il vous a été donnée par l'enquêteur, ne le modifiez pas s'il ne vous le demande pas.");
-    myFile.println("siteID=Cool Food " + String(_getRandomChar(10)) );
-    myFile.println();
+    myFile.println("#Le siteID est votre identifiant comme il vous a ete donnee par l'enqueteur, ne le modifiez pas s'il ne vous le demande pas.");
+    myFile.println("siteID=Cool Food " + _getRandomChar(10) );
+    myFile.println("");
 
-    myFile.println("# Cette phrase apparaitra dans le fichier résultat à votre questionnaire mais n'est pas visible sur la borne.");
-    myFile.println("# Il est conseillé de définir ici une phrase courte.");
-    myFile.println("question= Aimez-vous les brocolis ?");
-    myFile.println();
+    myFile.println("# Cette phrase apparaitra dans le fichier resultat à votre questionnaire mais n'est pas visible sur la borne.");
+    myFile.println("# Il est conseille de definir ici une phrase courte.");
+    myFile.println("question=Aimez-vous les brocolis ?");
+    myFile.println("");
 
-
+    myFile.close();
   } else {
     DEBUG("Impossible d'ouvrir le fichier '" + String(fileName) + "' sur la carte SD pour écrire dedans");
   }
-  myFile.close();
 }
