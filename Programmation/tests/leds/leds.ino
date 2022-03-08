@@ -1,14 +1,14 @@
-#define PIN_LED_VERTE 4
-#define PIN_LED_JAUNE 12
-#define PIN_LED_ROUGE 14
+#define LED_VERT 4
+#define LED_JAUNE 12
+#define LED_ROUGE 14
 
 
 void setup() {
   Serial.begin(115200);
   delay(1000);
-  pinMode(PIN_LED_VERTE, OUTPUT);
-  pinMode(PIN_LED_JAUNE, OUTPUT);
-  pinMode(PIN_LED_ROUGE, OUTPUT);
+  pinMode(LED_VERT, OUTPUT);
+  pinMode(LED_JAUNE, OUTPUT);
+  pinMode(LED_ROUGE, OUTPUT);
 
   Serial.println("LEDs pin inititilisés");
 }
@@ -16,19 +16,19 @@ void setup() {
 void loop() {
   // test de la led verte
   Serial.println("Allumage de la led verte");
-  digitalWrite(PIN_LED_VERTE, HIGH);
+  digitalWrite(LED_VERT, HIGH);
   delay(1000);
-  digitalWrite(PIN_LED_VERTE, LOW);
+  digitalWrite(LED_VERT, LOW);
 
   // test de la led jaune
   Serial.println("Allumage de la led jaune");
-  digitalWrite(PIN_LED_JAUNE, HIGH);
+  digitalWrite(LED_JAUNE, HIGH);
   delay(1000);
-  digitalWrite(PIN_LED_JAUNE, LOW);
+  digitalWrite(LED_JAUNE, LOW);
 
   // test de la led rouge
   Serial.println("Allumage de la led rouge");
-  digitalWrite(PIN_LED_ROUGE, HIGH);
+  digitalWrite(LED_ROUGE, HIGH);
   delay(1000);
-  digitalWrite(PIN_LED_ROUGE, LOW);
+  digitalWrite(LED_ROUGE, LOW);
 }
