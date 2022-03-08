@@ -87,7 +87,7 @@ void setup() {
           BOO_ProblemeCarteSD = true;
           BOO_Clignote = true;
 
-          SD_writeConfigFile( fileName_Config );
+          CARTESD_writeConfigFile( fileName_Config );
 
         } else {
           // .......................................................................

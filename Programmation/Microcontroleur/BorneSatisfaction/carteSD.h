@@ -5,7 +5,7 @@
    ----------------------------------------------------------------------------------
    Ajout d'une ligne à la fin du fichier des mesures.
   ---------------------------------------------------------------------------------- */
-void SD_appendFile(const char * path, const char * message) {
+void CARTESD_appendFile(const char * path, const char * message) {
   // Constrction du nom du fichier
   char fileName[strlen(fileName_Mesures) + 1];
   strcpy(fileName, "/");
@@ -29,9 +29,9 @@ void SD_appendFile(const char * path, const char * message) {
 /**
    ----------------------------------------------------------------------------------
    Ajout d'une ligne à la fin du fichier.
-   Ex : SD_readFile( "/hello.txt");
+   Ex : CARTESD_readFile( "/hello.txt");
   ---------------------------------------------------------------------------------- */
-void SD_readFile(const char * path) {
+void CARTESD_readFile(const char * path) {
   File file = SD.open(path);
   if (!file) {
     DEBUG("Failed to open <" + String(path) + "> for reading");
@@ -49,9 +49,9 @@ void SD_readFile(const char * path) {
 /**
    ----------------------------------------------------------------------------------
    test l'existance d'un fichier.
-   Ex : SD_existeFile("/hello.txt");
+   Ex : CARTESD_existeFile("/hello.txt");
   ---------------------------------------------------------------------------------- */
-boolean SD_existeFile(const char * path) {
+boolean CARTESD_existeFile(const char * path) {
   File file = SD.open(path);
   if (!file) {
     DEBUG("Fil <" + String(path) + "> doesn't exist");
@@ -80,9 +80,9 @@ char * _getRandomChar(int nbCaract) {
 /**
    ----------------------------------------------------------------------------------
    Ecriture d'un fichier de configuration.
-   Ex : SD_existeFile("/config.ini");
+   Ex : CARTESD_existeFile("/config.ini");
   ---------------------------------------------------------------------------------- */
-void SD_writeConfigFile(const char * path) {
+void CARTESD_writeConfigFile(const char * path) {
   char fileName[strlen(fileName_Config) + 1];
   strcpy(fileName, "/");
   strcat(fileName, path);
