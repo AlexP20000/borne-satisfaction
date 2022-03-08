@@ -6,8 +6,8 @@
    Ajout d'une ligne à la fin du fichier des mesures.
   ---------------------------------------------------------------------------------- */
 void CARTESD_appendFile(const char * path, const char * message) {
-  // Constrction du nom du fichier
-  char fileName[strlen(fileName_Mesures) + 1];
+  // Construction du nom du fichier
+  char fileName[strlen(path) + 1];
   strcpy(fileName, "/");
   strcat(fileName, path);
 
@@ -46,6 +46,61 @@ void CARTESD_readFile(const char * path) {
 }
 
 
+
+/**
+   ----------------------------------------------------------------------------------
+   Lecture du fichier de configuration.
+   @return
+    String siteID:    le Site ID du boitier de vote
+    String question:  la question écrite dans le ficheir de configuration.
+  ---------------------------------------------------------------------------------- */
+void CARTESD_readConfigFile(const char * path, String &p_STR_siteID, String &p_STR_question) {
+  // Construction du nom du fichier
+  char fileName[strlen(path) + 1];
+  strcpy(fileName, "/");
+  strcat(fileName, path);
+
+  IniFile ini(fileName);
+  // Si on ne peut pas ouvrir le fichier de configuration
+  if (!ini.open()) {
+    DEBUG("Failed to open <" + String(fileName) + "> for reading");
+
+    // Cannot do anything else
+    while (1)
+      ;
+  }
+
+
+  // Check the file is valid. This can be used to warn if any lines
+  // are longer than the buffer.
+  const size_t bufferLen = 80;
+  char buffer[bufferLen];
+  if (!ini.validate(buffer, bufferLen)) {
+    DEBUG("ini file " + String(ini.getFilename()) + " not valid");
+
+    // Cannot do anything else
+    while (1)
+      ;
+  }
+
+
+  // Lecture des variables
+  if (ini.getValue("", "siteID", buffer, bufferLen)) {
+    DEBUG("section 'network' has an entry 'siteID' with value ");
+    DEBUG(buffer);
+    p_STR_siteID = buffer;
+    
+  }  else {
+    DEBUG("Could not read 'siteID' from section ''");
+  }
+
+
+  p_STR_question = "";
+}
+
+
+
+
 /**
    ----------------------------------------------------------------------------------
    test l'existance d'un fichier.
@@ -76,7 +131,7 @@ String _getRandomChar(int nbCaract) {
   for (int i = 0; i < nbCaract; i++) {
     Chaine[i] = caracts[random(0, 38)];
   }
-  
+
   // Ajout du caractère de fin de chaine
   Chaine[nbCaract] = '\0';
 

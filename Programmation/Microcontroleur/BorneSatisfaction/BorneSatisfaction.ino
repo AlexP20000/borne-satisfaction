@@ -158,7 +158,10 @@ void setup() {
 
     // .......................................................................
     //  Lecture du fichier de configuration
+    String siteID, question;
+    CARTESD_readConfigFile( fileName_Config, siteID, question ); // Initialise siteID et question
     delay( DelayExtinctionLEDs );
+    
 
     // .......................................................................
     //  Ecriture dans le fichier des mesures
