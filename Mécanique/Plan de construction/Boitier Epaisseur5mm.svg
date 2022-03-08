@@ -25,8 +25,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.80087684"
-     inkscape:cx="1226.7804"
-     inkscape:cy="435.77237"
+     inkscape:cx="870.92043"
+     inkscape:cy="1123.7683"
      inkscape:window-width="2560"
      inkscape:window-height="1387"
      inkscape:window-x="-8"
@@ -119,7 +119,7 @@
          style="fill:none;stroke:#ff0000;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none"
          sodipodi:nodetypes="ccccccccccc" />
       <path
-         d="m 265.00007,70.00019 h -55.05409 l -0.005,2.999983 h -20 l 0.0591,-2.999983 H 29.975179 l -0.03977,2.999998 h -20 L 10.000068,70.00019 -45,70"
+         d="m 265.00007,70.00019 h -55.05409 l -0.005,4.999983 h -20 l 0.0591,-4.999983 H 29.975179 l -0.03977,4.999998 h -20 L 10.000068,70.00019 -45,70"
          fill="transparent"
          id="path12"
          style="fill:none;stroke:#ff0000;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none"
@@ -720,7 +720,8 @@
         <path
            id="rect8206"
            style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           d="m 372.1156,214.13106 v 3.00034 h -24.94111 v 64.99964 5.00023 h 15.00011 v -5.00023 h 55.00027 v 5.00023 h 14.9996 v -5.00023 -5.45082 -59.54882 h -40.05389 v -3.00034 z" />
+           d="m 372.1156,212.13106 v 5.00034 h -24.94111 v 64.99964 5.00023 h 15.00011 v -5.00023 h 55.00027 v 5.00023 h 14.9996 v -5.00023 -5.45082 -59.54882 h -40.05389 v -5.00034 z"
+           sodipodi:nodetypes="cccccccccccccccc" />
       </g>
       <g
          inkscape:label="Hershey Text"
