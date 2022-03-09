@@ -7,12 +7,17 @@ void DEEPSLEEP_start() {
   // Calcul du mask de bits pour les GPIO utilisés par les boutons
   int somme = pow(2, BTN_ROUGE) + pow(2, BTN_VERT) + pow(2, BTN_JAUNE); // 33554432 + 67108864 + 268435456 = 234881024
   String chaine = "0x" + String( somme, HEX);
-  DEBUG(chaine);
+  DEBUG("Masque de réveille pour le deep sleep :" + chaine);
 
   // On authorise l'appuie sur les boutons à réveiller l'ESP32
   esp_sleep_enable_ext1_wakeup(0xe000000, ESP_EXT1_WAKEUP_ANY_HIGH);
 
+  // On coupe l'alimentation des périphériques
+  digitalWrite(PIN_PWR_EN, LOW);
+  delay(20);
+
   // Mise en deep sleep
+  DEBUG("En deep sleep");
   esp_deep_sleep_start();
 }
 
@@ -23,8 +28,8 @@ void DEEPSLEEP_start() {
    Renvoie le numéro du GPIO qui a sortie l'ESP du Deep sleep.
    @see https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/
    ---------------------------------------------------------------------------------- */
-int DEEPSLEEP_getGPIOWakeUp(){
+int DEEPSLEEP_getGPIOWakeUp() {
   uint64_t GPIO_reason = esp_sleep_get_ext1_wakeup_status();
-  
-  return (log(GPIO_reason))/log(2); 
+
+  return (log(GPIO_reason)) / log(2);
 }
