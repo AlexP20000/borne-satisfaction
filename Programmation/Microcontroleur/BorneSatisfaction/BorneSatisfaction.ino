@@ -21,8 +21,8 @@
 // Definition des noms des fichiers
 // La synthese et les mesuress seront modifiés avec la date courante.
 char *fileName_Config       = "/configuration.ini";
-char *filePrefixe_Synthese  = "_synthese.txt";
-char *filePrefixe_Mesures   = "_mesures.csv";
+char *postfixeFileSynthese  = "_synthese.txt";
+char *postfixeFileMesures   = "_mesures.csv";
 
 
 // Brochage des PIN
@@ -37,7 +37,7 @@ char *filePrefixe_Mesures   = "_mesures.csv";
 #define PIN_PWR_EN 13
 
 // Délais d'extinction des lEDs lors du test et des message d'erreur = 1 seconde
-const int DelayExtinctionLEDs = 1000; 
+const int DelayExtinctionLEDs = 1000;
 
 // Gestion des erreurs
 boolean BOO_ProblemeBatterie;
@@ -59,6 +59,8 @@ void setup() {
   BOO_ProblemeCarteSD       = false;
   BOO_FichierParamsManquant = false;
   BOO_Clignote = false;
+
+  int batterieLevel =  0;
 
   // -------------------------------------------------------------------------------------------------------------
   // initialisation de la liaison série.
@@ -102,7 +104,7 @@ void setup() {
       and wakeupCause != ESP_SLEEP_WAKEUP_ULP) {
     // .......................................................................
     // Batterie faible
-    int batterieLevel = BATTERIE_getBatterieLevel();
+    batterieLevel = BATTERIE_getBatterieLevel();
     if (batterieLevel <= 20) {
       DEBUG("Batterie faible");
       BOO_ProblemeBatterie = true;
@@ -154,19 +156,23 @@ void setup() {
     // .......................................................................
     //  Allumage de la LEDS correspondante au bouton appuyé
     int gpio = DEEPSLEEP_getGPIOWakeUp();
+    int reponseVert, reponseRouge, reponseJaune =0;
 
     switch ( gpio ) {
       case BTN_VERT:
         DEBUG("Bouton vert");
         digitalWrite(LED_VERT,  HIGH);
+        reponseVert = 1;
         break;
       case BTN_ROUGE:
         DEBUG("Bouton rouge");
         digitalWrite(LED_ROUGE,  HIGH);
+        reponseRouge = 1;
         break;
       case BTN_JAUNE:
         DEBUG("Bouton jaune");
         digitalWrite(LED_JAUNE,  HIGH);
+        reponseJaune = 1;
         break;
       default:
         DEBUG("Le GPIO " + String(gpio) + " a réveillé l'ESP32 : cas non traité (GPIO inconnu)");
@@ -176,36 +182,60 @@ void setup() {
     //  Alimentation des périphériques
     digitalWrite(PIN_PWR_EN, HIGH);
     delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
+    SPI.begin();
+
+
+    // .......................................................................
+    //  Lecture de la date et l'heure
+    String date, heure = "";
+    /* A FAIRE*/
+
+
+
+    // .......................................................................
+    //  Lecture du niveau de la batterie
+    batterieLevel = BATTERIE_getBatterieLevel();
 
 
     // .......................................................................
     //  Lecture du fichier de configuration
-    String siteID, question;
-    CARTESD_readConfigFile( fileName_Config, siteID, question ); // Initialise siteID et question
-    delay( DelayExtinctionLEDs );
+    String siteID, question = "";
+    if ( CARTESD_readConfigFile( fileName_Config, siteID, question ) ) { // Initialise siteID et question
+      DEBUG(siteID);
+      DEBUG(question);
 
 
-    // .......................................................................
-    //  Ecriture dans le fichier des mesures
-    /* A FAIRE */
-    delay( DelayExtinctionLEDs );
-
-    // .......................................................................
-    //  Mise à jour de la synthèse des votes
-    /* A FAIRE */
-    delay( DelayExtinctionLEDs );
+      // .......................................................................
+      //  Ecriture dans le fichier des mesures
+      /* A FAIRE */
+      String ligneFichierMesure = siteID + ";" + date + ";" + heure + ";" + question +";" + reponseVert + ";" + reponseRouge + ";" + reponseJaune + ";" + String(batterieLevel);
+      CARTESD_appendFileMesure(date, postfixeFileMesures, ligneFichierMesure );
 
 
-    // .......................................................................
-    //  Extinction des LEDs
-    digitalWrite(LED_ROUGE, LOW);
-    digitalWrite(LED_VERT,  LOW);
-    digitalWrite(LED_JAUNE, LOW);
+      // .......................................................................
+      //  Mise à jour de la synthèse des votes
+      /* A FAIRE */
+      delay( DelayExtinctionLEDs );
 
 
-    // .......................................................................
-    // Deep sleep
-    DEEPSLEEP_start();
+      // .......................................................................
+      //  Extinction des LEDs
+      digitalWrite(LED_ROUGE, LOW);
+      digitalWrite(LED_VERT,  LOW);
+      digitalWrite(LED_JAUNE, LOW);
+
+
+      // .......................................................................
+      // Deep sleep
+      DEEPSLEEP_start();
+
+
+
+    } else {
+      // Il y a eu un poroblème de lecture de fichier de config sur la carte SD
+      BOO_ProblemeCarteSD = true;
+      BOO_Clignote = true;
+    }
   }
 }
 
