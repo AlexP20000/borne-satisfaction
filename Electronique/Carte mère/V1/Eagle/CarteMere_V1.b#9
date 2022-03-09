@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mm" altunit="mm"/>
+<grid distance="50" unitdist="mil" unit="mil" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -16,12 +16,12 @@
 <layer number="20" name="Dimension" color="24" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
@@ -44,8 +44,8 @@
 <layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="yes"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
 <layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
 <layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
@@ -1681,7 +1681,7 @@ design rules under a new name.</description>
 </element>
 <element name="Q501" library="Eagle_UOF_Lib" package="SOT23" value="SI2302DS" x="64.389" y="12.065" smashed="yes" rot="MR180">
 <attribute name="NAME" x="65.015" y="5.949" size="1.27" layer="25" rot="R90"/>
-<attribute name="VALUE" x="61.52" y="9.961" size="1.27" layer="27" rot="R270"/>
+<attribute name="VALUE" x="62.039" y="13.52" size="1.27" layer="27"/>
 </element>
 <element name="U200" library="Eagle_UOF_Lib" package="FIREBEETLE_ESP32" value="FIREBEETLE-ESP32-DFR0478" x="55.88" y="53.34" smashed="yes" rot="R270">
 <attribute name="ARROW_PART_NUMBER" value="" x="55.88" y="53.34" size="1.778" layer="27" rot="R270" display="off"/>
@@ -1727,7 +1727,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="78.058" y="57.086" size="1.27" layer="25" ratio="10" rot="R180"/>
 <attribute name="VALUE" x="82.2706" y="55.245" size="1.27" layer="27" ratio="10" rot="R180"/>
 </element>
-<element name="R501" library="Eagle_UOF_Lib" package="0207/10" value="100k" x="47.625" y="17.78" smashed="yes" rot="R180">
+<element name="R501" library="Eagle_UOF_Lib" package="0207/10" value="0R" x="47.625" y="17.78" smashed="yes" rot="R180">
 <attribute name="NAME" x="40.673" y="18.256" size="1.27" layer="25" ratio="10" rot="R180"/>
 <attribute name="VALUE" x="49.8856" y="18.415" size="1.27" layer="27" ratio="10" rot="R180"/>
 </element>
@@ -1737,23 +1737,23 @@ design rules under a new name.</description>
 </element>
 <element name="Q500" library="Eagle_UOF_Lib" package="SOT23" value="SI2303DS" x="47.625" y="12.065" smashed="yes" rot="MR180">
 <attribute name="NAME" x="53.72" y="9.16" size="1.27" layer="25" rot="R180"/>
-<attribute name="VALUE" x="50.28" y="6.57" size="1.27" layer="27"/>
+<attribute name="VALUE" x="46.28" y="9.57" size="1.27" layer="27"/>
 </element>
 <element name="JTEST300" library="pinhead" library_urn="urn:adsk.eagle:library:325" package="1X01" package3d_urn="urn:adsk.eagle:package:22485/1" value="" x="36.1971" y="6.9906" smashed="yes">
 <attribute name="NAME" x="25.8509" y="6.8194" size="1.27" layer="25" ratio="10"/>
 <attribute name="VALUE" x="34.9271" y="3.8156" size="1.27" layer="27"/>
 </element>
-<element name="JTEST301" library="pinhead" library_urn="urn:adsk.eagle:library:325" package="1X01" package3d_urn="urn:adsk.eagle:package:22485/1" value="" x="40.0099" y="6.9906" smashed="yes">
-<attribute name="NAME" x="36.6637" y="3.8194" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="38.7399" y="3.8156" size="1.27" layer="27"/>
+<element name="JTEST301" library="pinhead" library_urn="urn:adsk.eagle:library:325" package="1X01" package3d_urn="urn:adsk.eagle:package:22485/1" value="" x="38.7399" y="6.9906" smashed="yes">
+<attribute name="NAME" x="35.3937" y="3.8194" size="1.27" layer="25" ratio="10"/>
+<attribute name="VALUE" x="37.4699" y="3.8156" size="1.27" layer="27"/>
 </element>
 <element name="JTEST400" library="pinhead" library_urn="urn:adsk.eagle:library:325" package="1X01" package3d_urn="urn:adsk.eagle:package:22485/1" value="" x="36.2027" y="10.1656" smashed="yes">
 <attribute name="NAME" x="32.8565" y="11.9944" size="1.27" layer="25" ratio="10"/>
 <attribute name="VALUE" x="34.9327" y="6.9906" size="1.27" layer="27"/>
 </element>
-<element name="JTEST401" library="pinhead" library_urn="urn:adsk.eagle:library:325" package="1X01" package3d_urn="urn:adsk.eagle:package:22485/1" value="" x="40.0099" y="10.1608" smashed="yes">
-<attribute name="NAME" x="29.6637" y="9.9896" size="1.27" layer="25" ratio="10"/>
-<attribute name="VALUE" x="38.7399" y="6.9858" size="1.27" layer="27"/>
+<element name="JTEST401" library="pinhead" library_urn="urn:adsk.eagle:library:325" package="1X01" package3d_urn="urn:adsk.eagle:package:22485/1" value="" x="38.7399" y="10.1608" smashed="yes">
+<attribute name="NAME" x="28.3937" y="9.9896" size="1.27" layer="25" ratio="10"/>
+<attribute name="VALUE" x="37.4699" y="6.9858" size="1.27" layer="27"/>
 </element>
 </elements>
 <signals>
@@ -2032,7 +2032,7 @@ design rules under a new name.</description>
 <contactref element="JTEST301" pad="1"/>
 <contactref element="JTEST400" pad="1"/>
 <contactref element="JTEST401" pad="1"/>
-<wire x1="36.1971" y1="6.9906" x2="40.0099" y2="6.9906" width="0.8128" layer="16"/>
+<wire x1="36.1971" y1="6.9906" x2="38.7399" y2="6.9906" width="0.8128" layer="16"/>
 <wire x1="44.45" y1="7.62" x2="44.45" y2="7.715" width="0.8128" layer="16"/>
 <wire x1="34.29" y1="4.445" x2="30.48" y2="4.445" width="0.8128" layer="16"/>
 <wire x1="36.1971" y1="6.9906" x2="36.1971" y2="6.3521" width="0.8128" layer="16"/>
@@ -2042,12 +2042,12 @@ design rules under a new name.</description>
 <wire x1="36.195" y1="10.1733" x2="36.2027" y2="10.1656" width="0.8128" layer="16"/>
 <wire x1="36.195" y1="39.37" x2="36.195" y2="10.1733" width="0.8128" layer="16"/>
 <wire x1="36.2027" y1="10.1656" x2="36.2075" y2="10.1608" width="0.8128" layer="16"/>
-<wire x1="36.2075" y1="10.1608" x2="40.0099" y2="10.1608" width="0.8128" layer="16"/>
-<wire x1="40.0099" y1="10.1608" x2="40.0757" y2="10.095" width="0.8128" layer="16"/>
+<wire x1="36.2075" y1="10.1608" x2="38.7399" y2="10.1608" width="0.8128" layer="16"/>
+<wire x1="38.7399" y1="10.1608" x2="40.0757" y2="10.095" width="0.8128" layer="16"/>
 <wire x1="40.0757" y1="10.095" x2="43.815" y2="10.095" width="0.8128" layer="16"/>
-<wire x1="40.0099" y1="6.9906" x2="40.0155" y2="6.985" width="0.8128" layer="16"/>
+<wire x1="38.7399" y1="6.9906" x2="38.7455" y2="6.985" width="0.8128" layer="16"/>
 <wire x1="43.815" y1="6.985" x2="44.45" y2="7.62" width="0.8128" layer="16"/>
-<wire x1="40.0155" y1="6.985" x2="43.815" y2="6.985" width="0.8128" layer="16"/>
+<wire x1="38.7455" y1="6.985" x2="43.815" y2="6.985" width="0.8128" layer="16"/>
 <wire x1="30.48" y1="4.445" x2="26.035" y2="8.89" width="0.8128" layer="16"/>
 <wire x1="26.035" y1="8.89" x2="26.035" y2="26.67" width="0.8128" layer="16"/>
 <wire x1="46.45" y1="7.715" x2="47.625" y2="8.89" width="0.8128" layer="16"/>
