@@ -14,8 +14,18 @@
   Serial.println(message);
 // Mode prod (sans aucune traces)
 //#define DEBUG(message);
+
+// Lorsque = true, le port série n'est pas initialisé, ce qui permet de gagner de la vitesse d'execution au boot.
 #define ModeDebug true
 
+// Definition des noms des fichiers
+// La synthese et les mesuress seront modifiés avec la date courante.
+char *fileName_Config       = "/configuration.ini";
+char *filePrefixe_Synthese  = "_synthese.txt";
+char *filePrefixe_Mesures   = "_mesures.csv";
+
+
+// Brochage des PIN
 #define LED_VERT  4
 #define LED_JAUNE 12
 #define LED_ROUGE 14
@@ -26,24 +36,30 @@
 
 #define PIN_PWR_EN 13
 
-const int DelayExtinctionLEDs = 1000; // Délais d'extinction des lEDs lors du test = 1 seconde
+// Délais d'extinction des lEDs lors du test et des message d'erreur = 1 seconde
+const int DelayExtinctionLEDs = 1000; 
 
-boolean BOO_ProblemeBatterie      = false;
-boolean BOO_ProblemeCarteSD       = false;
-boolean BOO_FichierParamsManquant = false;
-boolean BOO_Clignote = false;
-
-char *fileName_Config   = "configuration.ini";
-char *fileName_Synthese = "synthese.txt";
-char *fileName_Mesures  = "mesures.csv";
+// Gestion des erreurs
+boolean BOO_ProblemeBatterie;
+boolean BOO_ProblemeCarteSD;
+boolean BOO_FichierParamsManquant;
+boolean BOO_Clignote;
 
 
-#include "Batterie.h";
+#include "batterie.h";
 #include "carteSD.h";
 #include "deepsleep.h";
 
 
 void setup() {
+  // -------------------------------------------------------------------------------------------------------------
+  // initialisation des clignotement des LEDs pour la gestion d'erreurs.
+  //
+  BOO_ProblemeBatterie      = false;
+  BOO_ProblemeCarteSD       = false;
+  BOO_FichierParamsManquant = false;
+  BOO_Clignote = false;
+
   // -------------------------------------------------------------------------------------------------------------
   // initialisation de la liaison série.
   //
@@ -64,9 +80,7 @@ void setup() {
   pinMode(BTN_ROUGE,  INPUT_PULLUP);  // Pin du bouton rouge
   pinMode(BTN_VERT,   INPUT_PULLUP);  // Pin du bouton vert
   pinMode(BTN_JAUNE,  INPUT_PULLUP);  // Pin du bouton jaune
-  pinMode(PIN_PWR_EN, OUTPUT);  // Pin du ??????????
-  digitalWrite(PIN_PWR_EN, HIGH);
-  delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
+  pinMode(PIN_PWR_EN, OUTPUT);  // Pin de l'autorisation de l'alimentation des périphériques
 
 
   // -------------------------------------------------------------------------------------------------------------
@@ -102,6 +116,10 @@ void setup() {
     } else {
       // .......................................................................
       // Carte SD manquante
+      digitalWrite(PIN_PWR_EN, HIGH);
+      delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
+      SPI.begin();
+
       if (!SD.begin()) {
         DEBUG("Carte SD manquante");
         BOO_ProblemeCarteSD = true;
@@ -154,6 +172,10 @@ void setup() {
         DEBUG("Le GPIO " + String(gpio) + " a réveillé l'ESP32 : cas non traité (GPIO inconnu)");
     }
 
+    // .......................................................................
+    //  Alimentation des périphériques
+    digitalWrite(PIN_PWR_EN, HIGH);
+    delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
 
 
     // .......................................................................
@@ -161,14 +183,16 @@ void setup() {
     String siteID, question;
     CARTESD_readConfigFile( fileName_Config, siteID, question ); // Initialise siteID et question
     delay( DelayExtinctionLEDs );
-    
+
 
     // .......................................................................
     //  Ecriture dans le fichier des mesures
+    /* A FAIRE */
     delay( DelayExtinctionLEDs );
 
     // .......................................................................
     //  Mise à jour de la synthèse des votes
+    /* A FAIRE */
     delay( DelayExtinctionLEDs );
 
 
