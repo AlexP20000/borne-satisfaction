@@ -7,7 +7,7 @@
    viewBox="0 0 750.26459 535.88665"
    version="1.1"
    id="svg5"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
    sodipodi:docname="Boitier Epaisseur5mm.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -24,17 +24,18 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.80087685"
-     inkscape:cx="1730.6032"
-     inkscape:cy="982.04862"
-     inkscape:window-width="3840"
-     inkscape:window-height="2081"
+     inkscape:zoom="0.25"
+     inkscape:cx="2036"
+     inkscape:cy="1134"
+     inkscape:window-width="1920"
+     inkscape:window-height="1013"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1"
      showguides="true"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     inkscape:lockguides="false">
     <inkscape:grid
        type="xygrid"
        id="grid2870"
@@ -69,9 +70,9 @@
        style="fill:none;stroke:#ff0000;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none" />
     <path
        id="use3966"
-       style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264586;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 286.35975,-71.981673 c 19.6018,0 35.38234,15.780538 35.38234,35.382337 V 92.63609 c 0,19.6018 -15.78054,35.38234 -35.38234,35.38234 H 7.12452 c -19.60183,0 -35.38233,-15.78054 -35.38233,-35.38234 V -36.599336 c 0,-19.601799 15.7805,-35.382337 35.38233,-35.382337 z m 10.38252,10.621903 H -3.25801 v 9.999906 h 300.00028 z"
-       sodipodi:nodetypes="sssssssssccccc" />
+       style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:1.00001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 209.82031,0.5 C 135.73466,0.5 76.091797,60.142976 76.091797,134.22852 v 488.44921 c 0,74.08555 59.642863,133.72852 133.728513,133.72852 H 1265.1973 c 74.0855,0 133.7285,-59.64297 133.7285,-133.72852 V 134.22852 C 1398.9258,60.142976 1339.2828,0.5 1265.1973,0.5 Z M 170.57812,40.646484 H 1304.4375 V 78.441406 H 170.57812 Z M 842.33594,143.81445 h 37.79492 v 18.89844 h -37.79492 z"
+       transform="matrix(0.26458333,0,0,0.26458333,-48.390281,-72.113966)" />
     <g
        id="g1742"
        transform="translate(0,5)">
@@ -586,17 +587,17 @@
          id="path24"
          style="stroke-width:0.264583" />
       <polygon
-         points="313.82,320.59 313.82,304.06 380.15,270.78 368.35,247.25 306.24,278.42 283.31,289.92 283.31,403.68 283.31,434.2 318.55,434.2 378.5,434.2 378.5,403.68 318.55,403.68 313.82,403.68 "
+         points="318.55,403.68 313.82,403.68 313.82,320.59 313.82,304.06 380.15,270.78 368.35,247.25 306.24,278.42 283.31,289.92 283.31,403.68 283.31,434.2 318.55,434.2 378.5,434.2 378.5,403.68 "
          id="polygon26"
          style="stroke-width:4.63439"
          transform="matrix(0.05709128,0,0,0.05709128,-2.2245144,407.45666)" />
       <polygon
-         points="411.76,434.2 440.37,434.2 440.37,403.68 440.37,381.54 409.86,381.54 409.86,403.68 387.46,403.68 387.46,434.2 "
+         points="440.37,381.54 409.86,381.54 409.86,403.68 387.46,403.68 387.46,434.2 411.76,434.2 440.37,434.2 440.37,403.68 "
          id="polygon28"
          style="stroke-width:4.63439"
          transform="matrix(0.05709128,0,0,0.05709128,-2.2245144,407.45666)" />
       <polygon
-         points="440.37,277.41 440.37,277.21 393.38,277.21 387.46,277.21 387.46,303.97 403.52,303.97 409.86,303.97 409.86,372.58 440.37,372.58 440.37,303.97 "
+         points="440.37,277.21 393.38,277.21 387.46,277.21 387.46,303.97 403.52,303.97 409.86,303.97 409.86,372.58 440.37,372.58 440.37,303.97 440.37,277.41 "
          id="polygon30"
          style="stroke-width:4.63439"
          transform="matrix(0.05709128,0,0,0.05709128,-2.2245144,407.45666)" />
@@ -1018,5 +1019,9 @@
            id="path15067" />
       </g>
     </g>
+    <path
+       id="rect1326"
+       style="fill:none;stroke:#ff0000;stroke-width:0.2"
+       d="m 394.4085,75.554089 v 9.999906 h -5.0002 v 5.000212 h 5.0002 v 4.999694 h 9.9999 v -4.999694 h 5.00023 v -5.000212 h -5.00023 v -9.999906 z" />
   </g>
 </svg>
