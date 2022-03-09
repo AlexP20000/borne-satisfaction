@@ -14,7 +14,7 @@ Ensuite, dans le menu Tools > Boards manager Recherchez "ESP32" et installez les
 ![Ajout des cartes ESP32](./illustrations/Arduino_ESP32.png)
 
 
-Dans le menu Tools > Boards, choississez la carte **ESP32 Dev Module**
+Dans le menu Tools > Boards, choississez la carte **FireBeetle-ESP32**
 ![Choix de la carte ESP32](./illustrations/Arduino_CardChoice.png)
 
 
