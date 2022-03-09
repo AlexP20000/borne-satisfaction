@@ -1,11 +1,12 @@
-#include "SD.h";
-#include "libs/inifile/src/IniFile.h";
+#include <SD.h>
+#include <SPI.h>
+#include <IniFile.h>
 
 /**
    ----------------------------------------------------------------------------------
    Ajout d'une ligne à la fin du fichier des mesures.
-  ---------------------------------------------------------------------------------- */
-void CARTESD_appendFile(const char * path, const char * message) {
+  ----------------------------------------------------------------------------------
+  void CARTESD_appendFile(const char * path, const char * message) {
   // Construction du nom du fichier
   char fileName[strlen(path) + 1];
   strcpy(fileName, "/");
@@ -23,15 +24,15 @@ void CARTESD_appendFile(const char * path, const char * message) {
     DEBUG("Append failed");
   }
   file.close();
-}
-
+  }
+*/
 
 /**
    ----------------------------------------------------------------------------------
    Ajout d'une ligne à la fin du fichier.
    Ex : CARTESD_readFile( "/hello.txt");
-  ---------------------------------------------------------------------------------- */
-void CARTESD_readFile(const char * path) {
+  ----------------------------------------------------------------------------------
+  void CARTESD_readFile(const char * path) {
   File file = SD.open(path);
   if (!file) {
     DEBUG("Failed to open <" + String(path) + "> for reading");
@@ -43,24 +44,24 @@ void CARTESD_readFile(const char * path) {
     Serial.write(file.read());
   }
   file.close();
-}
-
+  }
+*/
 
 
 /**
    ----------------------------------------------------------------------------------
    Lecture du fichier de configuration.
+   @param 
+    CHAR fileName: le nom du fichier (ne pas oublier le / en début de chaine).
    @return
     String siteID:    le Site ID du boitier de vote
-    String question:  la question écrite dans le ficheir de configuration.
+    String question:  la question écrite dans le fichier de configuration.
   ---------------------------------------------------------------------------------- */
-void CARTESD_readConfigFile(const char * path, String &p_STR_siteID, String &p_STR_question) {
-  // Construction du nom du fichier
-  char fileName[strlen(path) + 1];
-  strcpy(fileName, "/");
-  strcat(fileName, path);
-
+void CARTESD_readConfigFile(const char * fileName, String &p_STR_siteID, String &p_STR_question) {
+  // Construction de l'objet pour lecture du fichier ini (le fichier de configuration)
   IniFile ini(fileName);
+  
+  
   // Si on ne peut pas ouvrir le fichier de configuration
   if (!ini.open()) {
     DEBUG("Failed to open <" + String(fileName) + "> for reading");
@@ -84,18 +85,25 @@ void CARTESD_readConfigFile(const char * path, String &p_STR_siteID, String &p_S
   }
 
 
-  // Lecture des variables
-  if (ini.getValue("", "siteID", buffer, bufferLen)) {
-    DEBUG("section 'network' has an entry 'siteID' with value ");
+  // Lecture du siteID
+  if (ini.getValue("config", "siteID", buffer, bufferLen)) {
+    DEBUG("section 'config' has an entry 'siteID' with value ");
     DEBUG(buffer);
     p_STR_siteID = buffer;
-    
+
   }  else {
-    DEBUG("Could not read 'siteID' from section ''");
+    DEBUG("Could not read 'siteID' from section 'config'");
   }
 
+  // Lecture de la question
+  if (ini.getValue("config", "question", buffer, bufferLen)) {
+    DEBUG("section 'config' has an entry 'question' with value ");
+    DEBUG(buffer);
+    p_STR_question = buffer;
 
-  p_STR_question = "";
+  }  else {
+    DEBUG("Could not read 'question' from section 'config'");
+  }
 }
 
 
@@ -159,6 +167,8 @@ void CARTESD_writeConfigFile(const char * path) {
     myFile.println("# Ceci est le fichier de configuration pour l'application.");
     myFile.println("# Ne modifiez pas le nom des variables (ce qui se trouve avant le signe égale sur une ligne).");
     myFile.println("#____________________________________________________________________________________________");
+    myFile.println("[config]");
+    myFile.println("");
 
     myFile.println("#Le siteID est votre identifiant comme il vous a ete donnee par l'enqueteur, ne le modifiez pas s'il ne vous le demande pas.");
     myFile.println("siteID=Cool Food " + _getRandomChar(10) );
@@ -166,7 +176,7 @@ void CARTESD_writeConfigFile(const char * path) {
 
     myFile.println("# Cette phrase apparaitra dans le fichier resultat à votre questionnaire mais n'est pas visible sur la borne.");
     myFile.println("# Il est conseille de definir ici une phrase courte.");
-    myFile.println("question=Aimez-vous les brocolis ?");
+    myFile.println("question= Aimez-vous les brocolis ?");
     myFile.println("");
 
     myFile.close();
