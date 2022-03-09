@@ -2,30 +2,6 @@
 #include <SPI.h>
 #include <IniFile.h>
 
-/**
-   ----------------------------------------------------------------------------------
-   Ajout d'une ligne à la fin du fichier des mesures.
-   @todo
-  ----------------------------------------------------------------------------------*/
-void CARTESD_appendFileMesure(String date, const char *path, String message) {
-  // Construction du nom du fichier
-  char fileName[strlen(path) + 1];
-  strcpy(fileName, "/");
-  strcat(fileName, path);
-
-  // ajout de la ligne à la fin du fichier
-  File file = SD.open(fileName, FILE_APPEND);
-  if (!file) {
-    DEBUG("Failed to open <" + String(path) + "> for reading");
-    return;
-  }
-  if (file.print(message)) {
-    DEBUG("Message appended");
-  } else {
-    DEBUG("Append failed");
-  }
-  file.close();
-}
 
 
 /**
@@ -57,22 +33,6 @@ void CARTESD_appendFileMesure(String date, const char *path, String message) {
    @return
     String siteID:    le Site ID du boitier de vote
     String question:  la question écrite dans le fichier de configuration.
-
-    # Ceci est le fichier de configuration pour l'application 'Compteur de vote'.
-  # Ne modifiez pas le nom des variables (ce qui se trouve avant le signe egale sur une ligne).
-  # Vous pouvez modifier le texte se trouvant apres le signe egale a votre guise.
-  #____________________________________________________________________________________________
-  [config]
-
-  # Le siteID est votre identifiant comme il vous a ete donnee par l'enqueteur, ne le modifiez pas s'il ne vous le demande pas.
-  siteID=Cool Food U2HKLQP8BS
-
-  # Cette phrase apparaitra dans le fichier resultat à votre questionnaire mais n'est pas visible sur la borne.
-  # Il est conseille de definir ici une phrase courte.
-  question= Aimez-vous les brocolis ?
-
-
-
   ---------------------------------------------------------------------------------- */
 boolean CARTESD_readConfigFile(const char * fileName, String &p_STR_siteID, String &p_STR_question) {
 
@@ -107,7 +67,6 @@ boolean CARTESD_readConfigFile(const char * fileName, String &p_STR_siteID, Stri
 
   // Lecture du siteID
   if (ini.getValue("config", "siteID", buffer, bufferLen)) {
-    DEBUG(buffer);
     p_STR_siteID = buffer;
 
   }  else {
@@ -116,7 +75,6 @@ boolean CARTESD_readConfigFile(const char * fileName, String &p_STR_siteID, Stri
 
   // Lecture de la question
   if (ini.getValue("config", "question", buffer, bufferLen)) {
-    DEBUG(buffer);
     p_STR_question = buffer;
 
   }  else {
@@ -194,4 +152,44 @@ void CARTESD_writeConfigFile(const char * fileName) {
   } else {
     DEBUG("Impossible d'ouvrir le fichier '" + String(fileName) + "' sur la carte SD pour écrire dedans");
   }
+}
+
+
+/**
+   ----------------------------------------------------------------------------------
+   Ajout d'une ligne à la fin du fichier des mesures.
+   Si le fichier n'existe pas, on le cré.
+  ----------------------------------------------------------------------------------*/
+void CARTESD_appendFileMesure(String date, const char *path, String message) {
+
+  // Construction du nom du fichier avec la date en préfixe
+  date.replace("/", "-"); // remplacment des / par des - dans la date
+  String fileName = "/" + date + String(path);
+
+  // Convertion du nom du fichier en Char
+  char charFileName[25];
+  fileName.toCharArray(charFileName, 25);
+
+  // si le fichier n'existe pas
+  if (!CARTESD_existeFile(charFileName) ) {
+    DEBUG("Le fichier " + fileName + " n'existe pas, on l'initialise");
+
+    // Ajoute la ligne d'entête des colonnes
+    message = "Identifiant du site;Date;Heure;Question;Oui;Non;Indecis;Niveau Batterie\n" + message;
+    DEBUG( message );
+  }
+
+
+  // ajout de la ligne à la fin du fichier
+  File file = SD.open(fileName, FILE_APPEND);
+  if (!file) {
+    DEBUG("Failed to open <" + String(path) + "> for writing");
+    return;
+  }
+  if (file.println(message)) {
+    DEBUG("Message appended " + String(message) );
+  } else {
+    DEBUG("Append failed");
+  }
+  file.close();
 }
