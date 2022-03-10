@@ -27,13 +27,9 @@ Il est utilisé pour stocker la synthèse des votes.
 
 Son installation doit se faire avant la compilation du programme de la façon suivante :
 
-* Download de l'extension pour l'IDe Arduino [extension LittleFS](https://github.com/earlephilhower/arduino-esp8266littlefs-plugin/releases) (le fichier ESP8266LittleFS-2.6.0.zip)
+* Installer les librairies __LittleFS_esp32__ en passant par le gestionnaire de bibliothèques. FIXME
 
-* Décompresser le zip dans un répertoire.
-
-* Déplacer le répertoire dans C:\Program Files (x86)\Arduino\tools/
-
-* Relancer l'IDE Arduino.
+[Ressources](https://github.com/lorol/LITTLEFS)
 
 
 ### Algorithme du microcontrôleur ###
