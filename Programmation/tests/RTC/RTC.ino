@@ -1,79 +1,82 @@
 /*
-  capteur RTC pcf8523
-  Date and time functions using a PCF8523 RTC connected via I2C and Wire lib
+  Rui Santos
+  Complete project details at https://RandomNerdTutorials.com/esp32-date-time-ntp-client-server-arduino/
+  
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files.
+  
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
 */
-#define DEBUG(message) \
-  Serial.print("[DEBUG:"); \
-  Serial.print(__func__); \
-  Serial.print("("); \
-  Serial.print(__LINE__); \
-  Serial.print(")]-> "); \
-  Serial.println(message);
 
-#include <RTClib.h>
-RTC_PCF8523 rtc;
+#include <WiFi.h>
+#include "time.h"
 
-#include <NTPClient.h>
-#include <WiFiUdp.h>
+const char* ssid     = "REPLACE_WITH_YOUR_SSID";
+const char* password = "REPLACE_WITH_YOUR_PASSWORD";
 
+const char* ntpServer = "pool.ntp.org";
+const long  gmtOffset_sec = 0;
+const int   daylightOffset_sec = 3600;
 
-#define PIN_PWR_EN 13
-
-
-void setup() {
-  pinMode(PIN_PWR_EN, OUTPUT);  // Pin de l'autorisation de l'alimentation des périphériques
+void setup(){
   Serial.begin(115200);
-  delay(1000);  // On attend que le port serie soit initialisé
-  DEBUG("OK, let's go ******************************************");
 
-  digitalWrite(PIN_PWR_EN, HIGH);
-  delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
-
-
-  // On va chercher l'heure sur le serveur de temps de L'UBO
-  WiFiUDP ntpUDP;
-  NTPClient timeClient(ntpUDP, "chronos.univ-brest.fr");
-  timeClient.begin();
-  timeClient.setTimeOffset(7200); // Heure de Paris GMT +2 (in secondes)
-  timeClient.update();
-  DEBUG("Connection au serveur NTP ok");
-
-  // Get a Time structure for days, month and year
-  unsigned long epochTime = timeClient.getEpochTime();
-  struct tm *ptm    = gmtime ((time_t *)&epochTime);
-  String currentDate = String(ptm->tm_mday) + "/" + String(ptm->tm_mon + 1) + "/" + String(ptm->tm_year + 1900);
-
-  // Si on a pas reussi a lire l'heure du serveur de temps
-  if ( currentDate == "1/1/1970" ) {
-    DEBUG("Impossible de lire l'heure sur le serveur chronos.univ-brest.fr, on essaie sur pool.ntp.org");
-    timeClient.end();
-    timeClient.setPoolServerName("pool.ntp.org");
-
-    timeClient.begin();
-    timeClient.setTimeOffset(7200); // Heure de Paris GMT +2 (in secondes)
-    timeClient.update();
-
-    epochTime = timeClient.getEpochTime();
-    ptm    = gmtime ((time_t *)&epochTime);
-    currentDate = String(ptm->tm_mday) + "/" + String(ptm->tm_mon + 1) + "/" + String(ptm->tm_year + 1900);
+  // Connect to Wi-Fi
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
   }
+  Serial.println("");
+  Serial.println("WiFi connected.");
+  
+  // Init and get the time
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  printLocalTime();
 
-  String formattedTime = timeClient.getFormattedTime();
-
-  DEBUG("Il est : " + formattedTime);
-  DEBUG("Nous sommes le : " + currentDate);
-  // Si la RTC n'est pas trouvée
-  if (!rtc.begin()) {
-    DEBUG("Couldn't find RTC");
-
-
-  } else {
-    // Mise à l'heure de la RTC
-    DEBUG("Mise à l'heure de la RTC");
-    rtc.adjust(DateTime(timeClient.getEpochTime()));
-    rtc.start();
-  }
+  //disconnect WiFi as it's no longer needed
+  WiFi.disconnect(true);
+  WiFi.mode(WIFI_OFF);
 }
 
-void loop() {
+void loop(){
+  delay(1000);
+  printLocalTime();
+}
+
+void printLocalTime(){
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)){
+    Serial.println("Failed to obtain time");
+    return;
+  }
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+  Serial.print("Day of week: ");
+  Serial.println(&timeinfo, "%A");
+  Serial.print("Month: ");
+  Serial.println(&timeinfo, "%B");
+  Serial.print("Day of Month: ");
+  Serial.println(&timeinfo, "%d");
+  Serial.print("Year: ");
+  Serial.println(&timeinfo, "%Y");
+  Serial.print("Hour: ");
+  Serial.println(&timeinfo, "%H");
+  Serial.print("Hour (12 hour format): ");
+  Serial.println(&timeinfo, "%I");
+  Serial.print("Minute: ");
+  Serial.println(&timeinfo, "%M");
+  Serial.print("Second: ");
+  Serial.println(&timeinfo, "%S");
+
+  Serial.println("Time variables");
+  char timeHour[3];
+  strftime(timeHour,3, "%H", &timeinfo);
+  Serial.println(timeHour);
+  char timeWeekDay[10];
+  strftime(timeWeekDay,10, "%A", &timeinfo);
+  Serial.println(timeWeekDay);
+  Serial.println();
 }
