@@ -1,3 +1,6 @@
+/**
+ * @Author : Alexandre PERETJATKO
+ */
 /*
   capteur RTC pcf8523
   Date and time functions using a PCF8523 RTC connected via I2C and Wire lib
@@ -10,9 +13,9 @@ DateTime now;
 
 /**
   ----------------------------------------------------------------------------------
-  Renvoie le timestamp actuel sous forme de chaine de 10 caractères.
+  Initialise "now" avec la RTC
   ----------------------------------------------------------------------------------*/
-String RTC_getTimestamp() {
+String RTC_setTime() {
   rtc.begin();
   rtc.start();
 
@@ -45,9 +48,7 @@ String RTC_getTimestamp() {
 
 /**
   ----------------------------------------------------------------------------------
-   Renvoie la date et l'heure sous forme de chaine de caractères.
-   @return integer
-   librairie adafruit RTClib
+   Renvoie la date sous forme de chaine de caractères.
   ----------------------------------------------------------------------------------*/
 String RTC_getDate() {
   rtc.begin();
@@ -56,13 +57,23 @@ String RTC_getDate() {
   DateTime now = rtc.now();
   char jour[3]; sprintf(jour, "%02i", now.day());
   char mois[3]; sprintf(mois, "%02i", now.month());
-  String date = String(jour) + "-" + String(mois) + "-" + String(now.year() );
+
+  return String(now.year() ) + "/" + String(mois) + "/" + String(jour);
+}
 
 
+/**
+  ----------------------------------------------------------------------------------
+   Renvoie l'heure sous forme de chaine de caractères.
+  ----------------------------------------------------------------------------------*/
+String RTC_getTime() {
+  rtc.begin();
+  rtc.start();
+
+  DateTime now = rtc.now();
   char hour[3]; sprintf(hour, "%02i", now.hour());
   char minute[3]; sprintf(minute, "%02i", now.minute());
-  char second[3]; sprintf(second, "%02i", now.second());
-  String heure = String(hour) + ":" + String(minute) + ":" + String(second);
-
-  return date + " " + heure;
+  // char second[3]; sprintf(second, "%02i", now.second());
+ 
+  return String(hour) + ":" + String(minute);
 }

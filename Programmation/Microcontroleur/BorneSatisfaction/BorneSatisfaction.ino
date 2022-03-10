@@ -4,48 +4,10 @@
    Ce programme permet de compter le nombre d'appuye sur un bouton de vote.
    - La sauvegarde de chaque vote est faite dans un fichier CSV.
    - La sauvegarde du cumul de chaque vote est faite dans un fichier TXT.
+
+   @Author : Alexandre PERETJATKO
 */
-#define DEBUG(message) \
-  Serial.print("[DEBUG:"); \
-  Serial.print(__func__); \
-  Serial.print("("); \
-  Serial.print(__LINE__); \
-  Serial.print(")]-> "); \
-  Serial.println(message);
-// Mode prod (sans aucune traces)
-// #define DEBUG(message);
-
-// Lorsque = true, le port série n'est pas initialisé, ce qui permet de gagner de la vitesse d'execution au boot.
-#define ModeDebug true
-
-// Definition des noms des fichiers
-// La synthese et les mesuress seront modifiés avec la date courante.
-char *fileName_Config       = "/configuration.ini";
-char *postfixeFileSynthese  = "_synthese.txt";
-char *postfixeFileMesures   = "_mesures.csv";
-
-
-// Brochage des PIN
-#define LED_VERT  4
-#define LED_JAUNE 12
-#define LED_ROUGE 14
-
-#define BTN_ROUGE 25
-#define BTN_JAUNE 26
-#define BTN_VERT  27
-
-#define PIN_PWR_EN 13
-
-// Délais d'extinction des lEDs lors du test et des message d'erreur = 1 seconde
-const int DelayExtinctionLEDs = 1000;
-
-// Gestion des erreurs
-boolean BOO_ProblemeBatterie;
-boolean BOO_ProblemeCarteSD;
-boolean BOO_FichierParamsManquant;
-boolean BOO_Clignote;
-
-
+#include "initialisation.h";
 #include "RTC.h";
 #include "batterie.h";
 #include "carteSD.h";
@@ -71,9 +33,6 @@ void setup() {
     delay(1000);  // On attend que le port serie soit initialisé
     DEBUG("OK, let's go ******************************************");
   }
-
-
-
 
 
   // -------------------------------------------------------------------------------------------------------------
@@ -115,6 +74,7 @@ void setup() {
       and wakeupCause != ESP_SLEEP_WAKEUP_ULP) {
     // .......................................................................
     // Batterie faible
+    //
     batterieLevel = BATTERIE_getBatterieLevel();
     if (batterieLevel <= 20) {
       DEBUG("Batterie faible");
@@ -129,6 +89,7 @@ void setup() {
     } else {
       // .......................................................................
       // Carte SD manquante
+      //
       if (!SD.begin()) {
         DEBUG("Carte SD manquante");
         BOO_ProblemeCarteSD = true;
@@ -137,6 +98,7 @@ void setup() {
         // .......................................................................
         // Fichier params manquant
         // (on test l'existance du fichier de configuration).
+        //
         if (! CARTESD_existeFile( fileName_Config )) {
           DEBUG("Fichier params manquant");
           BOO_ProblemeCarteSD = true;
@@ -147,11 +109,18 @@ void setup() {
         } else {
           // .......................................................................
           // Tout est ok
+          //
           DEBUG("Tout est ok");
+          // Allumage LED verte
           digitalWrite(LED_VERT, HIGH);
-          delay( DelayExtinctionLEDs );
+
+          // Reinitialisation des fichiers de synthèse en ROM
+          CARTESD_EraseROMSynthese();
+
+          // Extinction LED verte
           digitalWrite(LED_VERT, LOW);
 
+          // Deep sleep
           DEEPSLEEP_start();
         }
       }
@@ -192,10 +161,9 @@ void setup() {
 
     // .......................................................................
     //  Lecture de la date et l'heure
-    String date, heure = "";
-    date = "2022/03/09";
-    heure = "14:06";
-    /* A FAIRE*/
+    RTC_setTime();
+    String date  = RTC_getDate();   // "2022/03/09";
+    String heure = RTC_getTime();  // "14:06";
 
 
 
@@ -214,14 +182,15 @@ void setup() {
 
       // .......................................................................
       //  Ecriture dans le fichier des mesures
-      String ligneFichierMesure = siteID + ";" + date + ";" + heure + ";" + question + ";" + String(reponseVert) + ";" + String(reponseRouge) + ";" + String(reponseJaune) + ";" + String(batterieLevel);
+      String ligneFichierMesure = siteID + ";" + date + ";" + heure + ";" + question + ";"
+            + String(reponseVert) + ";" + String(reponseRouge) + ";" + String(reponseJaune) + ";" 
+            + String(batterieLevel);
       CARTESD_appendFileMesure(date, postfixeFileMesures, ligneFichierMesure );
 
 
       // .......................................................................
       //  Mise à jour de la synthèse des votes
-      CARTESD_miseAJourSynthese(postfixeFileSynthese, reponseVert, reponseRouge, reponseJaune, batterieLevel, date, question, siteID);
-      /* A FAIRE */
+      CARTESD_miseAJourSynthese(postfixeFileSynthese, reponseRouge, reponseVert, reponseJaune, batterieLevel, date, question, siteID);
       delay( DelayExtinctionLEDs );
 
 

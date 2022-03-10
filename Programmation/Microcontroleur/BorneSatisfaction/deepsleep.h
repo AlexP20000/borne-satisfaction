@@ -1,4 +1,8 @@
 /**
+ * @Author : Alexandre PERETJATKO
+ */
+
+/**
    ----------------------------------------------------------------------------------
    Défintion du deep sleep pour la mise ne palce du wake up lorsqu'on appuie sur un bouton.
    @see https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/

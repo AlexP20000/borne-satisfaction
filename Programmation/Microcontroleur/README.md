@@ -6,9 +6,8 @@ Afin de pouvoir compiler le programme, il est nécessaire d'installer [l'IDE Ard
 
 ### Installation des cartes ESP32 ###
 Dans les préférences de l'IDE Arduino (Fichier>Préférences ou [Ctrl] + [,]), ajouter l'URL :
-``` https://dl.espressif.com/dl/package_esp32_index.json``` dans les URL de cartes suplémentaires (il est possible d'avoir plusieurs jeux de cartes, il faut les séparer par des virgules), comme sur l'image ci-dessous.
+``` https://dl.espressif.com/dl/package_esp32_index.json ``` dans les URL de cartes suplémentaires (il est possible d'avoir plusieurs jeux de cartes, il faut les séparer par des virgules), comme sur l'image ci-dessous.
 ![Ajout des cartes ESP32](./illustrations/Arduino_preferences.png)
-
 
 Ensuite, dans le menu Tools > Boards manager Recherchez "ESP32" et installez les cartes trouvées.
 ![Ajout des cartes ESP32](./illustrations/Arduino_ESP32.png)

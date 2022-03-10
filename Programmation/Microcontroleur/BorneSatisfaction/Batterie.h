@@ -1,4 +1,6 @@
-
+/**
+ * @Author : Alexandre PERETJATKO
+ */
 /**
    ----------------------------------------------------------------------------------
    Renvoie le niveau de la batterie en pourcentage (sans le signe).
