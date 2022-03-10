@@ -46,10 +46,11 @@ boolean BOO_FichierParamsManquant;
 boolean BOO_Clignote;
 
 
+#include "RTC.h";
 #include "batterie.h";
 #include "carteSD.h";
 #include "deepsleep.h";
-#include "RTC.h";
+
 
 void setup() {
   // -------------------------------------------------------------------------------------------------------------

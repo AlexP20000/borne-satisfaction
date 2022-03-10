@@ -4,7 +4,7 @@
 */
 #include <RTClib.h>
 RTC_PCF8523 rtc;
-
+DateTime now;
 
 
 
@@ -16,7 +16,7 @@ String RTC_getTimestamp() {
   rtc.begin();
   rtc.start();
 
-  DateTime now = rtc.now();
+  now = rtc.now();
   /*
     Serial.print(now.year(), DEC);
     Serial.print('/');

@@ -220,15 +220,18 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
     DEBUG("Il n'y a pas de file system little FS installé, lecture impossible !");
   }
 
-  // Constructio ndu nom du fichier de synthese pour la ROM
-  char littleFSFileName[25];
+  // Construction du nom du fichier de synthese pour la ROM
+  // L enom du fichier est sous la forme "synthese_11"
+  char littleFSFileName[13];
   strcpy( littleFSFileName, "/synthese_");
-  strcat( littleFSFileName, now.month);
+  strcat( littleFSFileName, "10"); // @toto utiliser le mois provenant le la RTC
+  DEBUG(littleFSFileName);
 
 
   // Lecture du fichier de synthses de la rom
   if ( LITTLEFS.exists(littleFSFileName) ) {
-    LITTELFS.open(littleFSFileName, "r");
+    LITTLEFS.open(littleFSFileName, "r");
+    
   }
 
   // Ecriture du fichier de synthese en ROM
