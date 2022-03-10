@@ -2,7 +2,9 @@
 #include <SPI.h>
 #include <IniFile.h>
 
-
+#include <Arduino.h>
+#include "FS.h"
+#include <LITTLEFS.h>
 
 /**
    ----------------------------------------------------------------------------------
@@ -37,15 +39,13 @@
 boolean CARTESD_readConfigFile(const char * fileName, String &p_STR_siteID, String &p_STR_question) {
 
   // test de la carte SD
-  SPI.begin();
   if (!SD.begin())
     while (1)
       DEBUG("SD.begin() failed");
 
 
-  IniFile ini(fileName);
-
   // Si on ne peut pas ouvrir le fichier de configuration
+  IniFile ini(fileName);
   if (!ini.open()) {
     DEBUG("Failed to open <" + String(fileName) + "> for reading");
 
@@ -192,4 +192,95 @@ void CARTESD_appendFileMesure(String date, const char *path, String message) {
     DEBUG("Append failed");
   }
   file.close();
+}
+
+
+
+
+/**
+   ----------------------------------------------------------------------------------
+   Mise à jour du fichier de synthese des votes.
+   ----------------------------------------------------------------------------------*/
+void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune, int batterieLevel, String date, String question, String siteID ) {
+
+  // Remplacment des / par des - dans la date
+  String l_STR_Date = date;
+  l_STR_Date.replace("/", "-");
+  char l_CHAR_Date[15];
+  l_STR_Date.toCharArray(l_CHAR_Date, 15);
+
+  // Construction du nom du fichier avec la date en préfixe
+  char l_CHAR_fileName[25];
+  strcpy( l_CHAR_fileName, "/");
+  strcat( l_CHAR_fileName, l_CHAR_Date);
+  strcat( l_CHAR_fileName, path );
+
+  // Mise en place de LittleFS pour aller lire le fichier de synthese
+  if (!LITTLEFS.begin(true)) {
+    DEBUG("Il n'y a pas de file system little FS installé, lecture impossible !");
+  }
+
+  // Constructio ndu nom du fichier de synthese pour la ROM
+  char littleFSFileName[25];
+  strcpy( littleFSFileName, "/synthese_");
+  strcat( littleFSFileName, now.month);
+
+
+  // Lecture du fichier de synthses de la rom
+  if ( LITTLEFS.exists(littleFSFileName) ) {
+    LITTELFS.open(littleFSFileName, "r");
+  }
+
+  // Ecriture du fichier de synthese en ROM
+
+
+
+
+  /*
+    // si le fichier n'existe pas
+    if (!CARTESD_existeFile(l_CHAR_fileName) ) {
+      File file = SD.open(l_CHAR_fileName, FILE_APPEND);
+
+      file.println("[synthese]");
+      file.println("Etablissement = " + siteID);
+      file.println("Date          = " + date);
+      file.println("Question      = " + question);
+      file.println("Batterie      = " + String(batterieLevel) + "%" );
+      file.println("# Nombre d'appuie sur les boutons");
+      file.println("Rouge = " + String(rouge, DEC) );
+      file.println("Vert  = " + String(vert,  DEC) );
+      file.println("Jaune = " + String(jaune, DEC) );
+
+      file.close();
+
+    } else {
+      const size_t bufferLen = 80;
+      char buffer[bufferLen];
+
+      // Lecture du fichier de synthese
+      IniFile ini(l_CHAR_fileName);
+      int valRouge, valVert, valJaune;
+      if (ini.getValue("synthese", "Rouge", buffer, bufferLen)) {
+        valRouge = atol(buffer);
+      }  else {
+        DEBUG("Could not read 'Rouge' from section 'synthese'");
+      }
+      if (ini.getValue("synthese", "Vert", buffer, bufferLen)) {
+        valVert = atol(buffer);
+      }  else {
+        DEBUG("Could not read 'Vert' from section 'synthese'");
+      }
+      if (ini.getValue("synthese", "Jaune", buffer, bufferLen)) {
+        valJaune = atol(buffer);
+      }  else {
+        DEBUG("Could not read 'Jaune' from section 'synthese'");
+      }
+  */
+
+  // Cumul des résultats
+
+  // Calcul des moyennes
+
+  // Enregistrement
+}
 }

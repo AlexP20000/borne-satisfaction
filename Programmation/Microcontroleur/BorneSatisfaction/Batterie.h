@@ -4,8 +4,8 @@
    Renvoie le niveau de la batterie en pourcentage (sans le signe).
    ---------------------------------------------------------------------------------- */
 int BATTERIE_getBatterieLevel() {
-  float mesure_MAX = 1024;
-  float mesure_MIN = 750;
+  float mesure_MAX = 603;
+  float mesure_MIN = 250; // <- A fixer
 
   // Renvoie la tension
   int tension = (int) analogRead(A0);

@@ -13,7 +13,7 @@
   Serial.print(")]-> "); \
   Serial.println(message);
 // Mode prod (sans aucune traces)
-//#define DEBUG(message);
+// #define DEBUG(message);
 
 // Lorsque = true, le port série n'est pas initialisé, ce qui permet de gagner de la vitesse d'execution au boot.
 #define ModeDebug true
@@ -49,7 +49,7 @@ boolean BOO_Clignote;
 #include "batterie.h";
 #include "carteSD.h";
 #include "deepsleep.h";
-
+#include "RTC.h";
 
 void setup() {
   // -------------------------------------------------------------------------------------------------------------
@@ -73,6 +73,8 @@ void setup() {
 
 
 
+
+
   // -------------------------------------------------------------------------------------------------------------
   // Initialisation des PIN
   //
@@ -91,6 +93,14 @@ void setup() {
   esp_sleep_wakeup_cause_t wakeupCause = esp_sleep_get_wakeup_cause();
   DEBUG("Wake up reason : " + String(wakeupCause) );
 
+
+
+  // -------------------------------------------------------------------------------------------------------------
+  // Alimenation des périphériques
+  //
+  digitalWrite(PIN_PWR_EN, HIGH);
+  delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
+  SPI.begin();
 
 
   /** -------------------------------------------------------------------------------------------------------------
@@ -118,10 +128,6 @@ void setup() {
     } else {
       // .......................................................................
       // Carte SD manquante
-      digitalWrite(PIN_PWR_EN, HIGH);
-      delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
-      SPI.begin();
-
       if (!SD.begin()) {
         DEBUG("Carte SD manquante");
         BOO_ProblemeCarteSD = true;
@@ -156,7 +162,9 @@ void setup() {
     // .......................................................................
     //  Allumage de la LEDS correspondante au bouton appuyé
     int gpio = DEEPSLEEP_getGPIOWakeUp();
-    int reponseVert, reponseRouge, reponseJaune =0;
+    int reponseVert  = 0;
+    int reponseRouge = 0;
+    int reponseJaune = 0;
 
     switch ( gpio ) {
       case BTN_VERT:
@@ -164,11 +172,13 @@ void setup() {
         digitalWrite(LED_VERT,  HIGH);
         reponseVert = 1;
         break;
+
       case BTN_ROUGE:
         DEBUG("Bouton rouge");
         digitalWrite(LED_ROUGE,  HIGH);
         reponseRouge = 1;
         break;
+
       case BTN_JAUNE:
         DEBUG("Bouton jaune");
         digitalWrite(LED_JAUNE,  HIGH);
@@ -178,16 +188,12 @@ void setup() {
         DEBUG("Le GPIO " + String(gpio) + " a réveillé l'ESP32 : cas non traité (GPIO inconnu)");
     }
 
-    // .......................................................................
-    //  Alimentation des périphériques
-    digitalWrite(PIN_PWR_EN, HIGH);
-    delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
-    SPI.begin();
-
 
     // .......................................................................
     //  Lecture de la date et l'heure
     String date, heure = "";
+    date = "2022/03/09";
+    heure = "14:06";
     /* A FAIRE*/
 
 
@@ -207,13 +213,13 @@ void setup() {
 
       // .......................................................................
       //  Ecriture dans le fichier des mesures
-      /* A FAIRE */
-      String ligneFichierMesure = siteID + ";" + date + ";" + heure + ";" + question +";" + reponseVert + ";" + reponseRouge + ";" + reponseJaune + ";" + String(batterieLevel);
+      String ligneFichierMesure = siteID + ";" + date + ";" + heure + ";" + question + ";" + String(reponseVert) + ";" + String(reponseRouge) + ";" + String(reponseJaune) + ";" + String(batterieLevel);
       CARTESD_appendFileMesure(date, postfixeFileMesures, ligneFichierMesure );
 
 
       // .......................................................................
       //  Mise à jour de la synthèse des votes
+      CARTESD_miseAJourSynthese(postfixeFileSynthese, reponseVert, reponseRouge, reponseJaune, batterieLevel, date, question, siteID);
       /* A FAIRE */
       delay( DelayExtinctionLEDs );
 
