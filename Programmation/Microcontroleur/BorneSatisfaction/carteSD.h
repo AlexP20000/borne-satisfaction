@@ -1,4 +1,7 @@
-#include <SD.h>
+/**
+ * @Author : Alexandre PERETJATKO
+ */
+
 #include <SPI.h>
 #include <IniFile.h>
 
@@ -6,27 +9,20 @@
 #include "FS.h"
 #include <LITTLEFS.h>
 
+
 /**
    ----------------------------------------------------------------------------------
-   Ajout d'une ligne à la fin du fichier.
-   Ex : CARTESD_readFile( "/hello.txt");
-  ----------------------------------------------------------------------------------
-  void CARTESD_readFile(const char * path) {
-  File file = SD.open(path);
-  if (!file) {
-    DEBUG("Failed to open <" + String(path) + "> for reading");
-    return;
-  }
+   Effacement des fichiers en ROM. (Formattage du file system)
+   ----------------------------------------------------------------------------------*/
+void CARTESD_EraseROMSynthese() {
+  if (LITTLEFS.begin(true)) {
+    if ( LITTLEFS.format() )
+      DEBUG("Formattage du file system en ROM");
 
-  DEBUG("Read from file: ");
-  while (file.available()) {
-    Serial.write(file.read());
+  } else {
+    DEBUG("Impossible de formatter le file system en ROM");
   }
-  file.close();
-  }
-*/
-
-
+}
 /**
    ----------------------------------------------------------------------------------
    Lecture du fichier de configuration.
@@ -36,7 +32,7 @@
     String siteID:    le Site ID du boitier de vote
     String question:  la question écrite dans le fichier de configuration.
   ---------------------------------------------------------------------------------- */
-boolean CARTESD_readConfigFile(const char * fileName, String &p_STR_siteID, String &p_STR_question) {
+boolean CARTESD_readConfigFile(const char *fileName, String &p_STR_siteID, String &p_STR_question) {
 
   // test de la carte SD
   if (!SD.begin())
@@ -69,7 +65,7 @@ boolean CARTESD_readConfigFile(const char * fileName, String &p_STR_siteID, Stri
   if (ini.getValue("config", "siteID", buffer, bufferLen)) {
     p_STR_siteID = buffer;
 
-  }  else {
+  } else {
     DEBUG("Could not read 'siteID' from section 'config'");
   }
 
@@ -77,7 +73,7 @@ boolean CARTESD_readConfigFile(const char * fileName, String &p_STR_siteID, Stri
   if (ini.getValue("config", "question", buffer, bufferLen)) {
     p_STR_question = buffer;
 
-  }  else {
+  } else {
     DEBUG("Could not read 'question' from section 'config'");
   }
   return true;
@@ -91,7 +87,7 @@ boolean CARTESD_readConfigFile(const char * fileName, String &p_STR_siteID, Stri
    test l'existance d'un fichier.
    Ex : CARTESD_existeFile("/hello.txt");
   ---------------------------------------------------------------------------------- */
-boolean CARTESD_existeFile(const char * fileName) {
+boolean CARTESD_existeFile(const char *fileName) {
   File file = SD.open(fileName);
   if (!file) {
     DEBUG("File <" + String(fileName) + "> doesn't exist");
@@ -125,7 +121,7 @@ String _getRandomChar(int nbCaract) {
    Ecriture d'un fichier de configuration.
    Ex : CARTESD_existeFile("/config.ini");
   ---------------------------------------------------------------------------------- */
-void CARTESD_writeConfigFile(const char * fileName) {
+void CARTESD_writeConfigFile(const char *fileName) {
 
   DEBUG("Ecriture du fichier de configuration: " + String(fileName));
 
@@ -140,7 +136,7 @@ void CARTESD_writeConfigFile(const char * fileName) {
     myFile.println("");
 
     myFile.println("# Le siteID est votre identifiant comme il vous a ete donnee par l'enqueteur, ne le modifiez pas s'il ne vous le demande pas.");
-    myFile.println("siteID=Cool Food " + _getRandomChar(10) );
+    myFile.println("siteID=Cool Food " + _getRandomChar(10));
     myFile.println("");
 
     myFile.println("# Cette phrase apparaitra dans le fichier resultat à votre questionnaire mais n'est pas visible sur la borne.");
@@ -163,7 +159,7 @@ void CARTESD_writeConfigFile(const char * fileName) {
 void CARTESD_appendFileMesure(String date, const char *path, String message) {
 
   // Construction du nom du fichier avec la date en préfixe
-  date.replace("/", "-"); // remplacment des / par des - dans la date
+  date.replace("/", "-");  // remplacment des / par des - dans la date
   String fileName = "/" + date + String(path);
 
   // Convertion du nom du fichier en Char
@@ -171,12 +167,12 @@ void CARTESD_appendFileMesure(String date, const char *path, String message) {
   fileName.toCharArray(charFileName, 25);
 
   // si le fichier n'existe pas
-  if (!CARTESD_existeFile(charFileName) ) {
+  if (!CARTESD_existeFile(charFileName)) {
     DEBUG("Le fichier " + fileName + " n'existe pas, on l'initialise");
 
     // Ajoute la ligne d'entête des colonnes
     message = "Identifiant du site;Date;Heure;Question;Oui;Non;Indecis;Niveau Batterie\n" + message;
-    DEBUG( message );
+    DEBUG(message);
   }
 
 
@@ -187,7 +183,7 @@ void CARTESD_appendFileMesure(String date, const char *path, String message) {
     return;
   }
   if (file.println(message)) {
-    DEBUG("Message appended " + String(message) );
+    DEBUG("Message appended " + String(message));
   } else {
     DEBUG("Append failed");
   }
@@ -201,7 +197,7 @@ void CARTESD_appendFileMesure(String date, const char *path, String message) {
    ----------------------------------------------------------------------------------
    Mise à jour du fichier de synthese des votes.
    ----------------------------------------------------------------------------------*/
-void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune, int batterieLevel, String date, String question, String siteID ) {
+void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune, int batterieLevel, String date, String question, String siteID) {
 
   // Remplacment des / par des - dans la date
   String l_STR_Date = date;
@@ -211,79 +207,68 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
 
   // Construction du nom du fichier avec la date en préfixe
   char l_CHAR_fileName[25];
-  strcpy( l_CHAR_fileName, "/");
-  strcat( l_CHAR_fileName, l_CHAR_Date);
-  strcat( l_CHAR_fileName, path );
+  strcpy(l_CHAR_fileName, "/");
+  strcat(l_CHAR_fileName, l_CHAR_Date);
+  strcat(l_CHAR_fileName, path);
+  DEBUG("l_CHAR_fileName:" + String(l_CHAR_fileName) );
 
   // Mise en place de LittleFS pour aller lire le fichier de synthese
   if (!LITTLEFS.begin(true)) {
     DEBUG("Il n'y a pas de file system little FS installé, lecture impossible !");
   }
 
-  // Construction du nom du fichier de synthese pour la ROM
-  // L enom du fichier est sous la forme "synthese_11"
-  char littleFSFileName[13];
-  strcpy( littleFSFileName, "/synthese_");
-  strcat( littleFSFileName, "10"); // @toto utiliser le mois provenant le la RTC
-  DEBUG(littleFSFileName);
+  // Lecture du fichier de syntheses de la ROM
+  int cumulRouge  = 0;
+  int cumulVert   = 0;
+  int cumulJaune  = 0;
+  String buff;
+  File fileFs = LITTLEFS.open(l_CHAR_fileName, FILE_READ);
+  cumulRouge  = fileFs.readStringUntil('\n').toInt();   // 1ere ligne
+  cumulVert   = fileFs.readStringUntil('\n').toInt();   // 2eme ligne
+  cumulJaune  = fileFs.readStringUntil('\n').toInt();   // 3eme ligne
+  fileFs.close();
+  DEBUG("cumulRouge lu:" + String(cumulRouge, DEC));
+  DEBUG("cumulVert lu:" + String(cumulVert, DEC));
+  DEBUG("cumulJaune lu:" + String(cumulJaune, DEC));
 
 
-  // Lecture du fichier de synthses de la rom
-  if ( LITTLEFS.exists(littleFSFileName) ) {
-    LITTLEFS.open(littleFSFileName, "r");
-    
-  }
+  // Calcul des cumuls et des moyennes
+  cumulRouge  = cumulRouge  + rouge;
+  cumulVert   = cumulVert   + vert;
+  cumulJaune  = cumulJaune  + jaune;
+  int total   = cumulRouge + cumulVert + cumulJaune;
+  DEBUG("cumulRouge:" + String(cumulRouge, DEC));
+  DEBUG("cumulVert:" + String(cumulVert, DEC));
+  DEBUG("cumulJaune:" + String(cumulJaune, DEC));
+  DEBUG("total:" + String(total, DEC) );
+
 
   // Ecriture du fichier de synthese en ROM
+  File file = LITTLEFS.open(l_CHAR_fileName, FILE_WRITE);
+  file.println(cumulRouge);
+  file.println(cumulVert);
+  file.println(cumulJaune);
+  file.close();
 
 
+  // Ecriture du fichier de synthèse sur la carte SD
+  file = SD.open(l_CHAR_fileName, FILE_APPEND);
+  file.println("Etablissement = " + siteID);
+  file.println("Date          = " + date);
+  file.println("Question      = " + question);
+  file.println("Batterie      = " + String(batterieLevel) + "%" );
+  file.println("Nombre d'appuie sur les boutons :");
+  file.println("  Rouge = " + String(cumulRouge, DEC) );
+  file.println("  Vert  = " + String(cumulVert,  DEC) );
+  file.println("  Jaune = " + String(cumulJaune, DEC) );
+  file.println("  TOTAL = " + String(total, DEC) );
+  file.println("Pourcentage d'appuie sur les boutons :");
+  file.println("  Rouge = " + String(int(round(cumulRouge * 100 / total)), DEC) + "%" );
+  file.println("  Vert  = " + String(int(round(cumulVert * 100 / total)),  DEC) + "%" );
+  file.println("  Jaune = " + String(int(round(cumulJaune * 100 / total)), DEC) + "%" );
+  DEBUG("  Rouge = " + String(int(round(cumulRouge * 100 / total)), DEC) + "%" );
+  DEBUG("  Vert  = " + String(int(round(cumulVert * 100 / total)),  DEC) + "%" );
+  DEBUG("  Jaune = " + String(int(round(cumulJaune * 100 / total)), DEC) + "%" );
 
-
-  /*
-    // si le fichier n'existe pas
-    if (!CARTESD_existeFile(l_CHAR_fileName) ) {
-      File file = SD.open(l_CHAR_fileName, FILE_APPEND);
-
-      file.println("[synthese]");
-      file.println("Etablissement = " + siteID);
-      file.println("Date          = " + date);
-      file.println("Question      = " + question);
-      file.println("Batterie      = " + String(batterieLevel) + "%" );
-      file.println("# Nombre d'appuie sur les boutons");
-      file.println("Rouge = " + String(rouge, DEC) );
-      file.println("Vert  = " + String(vert,  DEC) );
-      file.println("Jaune = " + String(jaune, DEC) );
-
-      file.close();
-
-    } else {
-      const size_t bufferLen = 80;
-      char buffer[bufferLen];
-
-      // Lecture du fichier de synthese
-      IniFile ini(l_CHAR_fileName);
-      int valRouge, valVert, valJaune;
-      if (ini.getValue("synthese", "Rouge", buffer, bufferLen)) {
-        valRouge = atol(buffer);
-      }  else {
-        DEBUG("Could not read 'Rouge' from section 'synthese'");
-      }
-      if (ini.getValue("synthese", "Vert", buffer, bufferLen)) {
-        valVert = atol(buffer);
-      }  else {
-        DEBUG("Could not read 'Vert' from section 'synthese'");
-      }
-      if (ini.getValue("synthese", "Jaune", buffer, bufferLen)) {
-        valJaune = atol(buffer);
-      }  else {
-        DEBUG("Could not read 'Jaune' from section 'synthese'");
-      }
-  */
-
-  // Cumul des résultats
-
-  // Calcul des moyennes
-
-  // Enregistrement
-}
+  file.close();
 }
