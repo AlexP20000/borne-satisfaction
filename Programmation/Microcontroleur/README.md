@@ -18,18 +18,32 @@ Dans le menu Tools > Boards, choississez la carte **FireBeetle-ESP32**
 ![Choix de la carte ESP32](./illustrations/Arduino_CardChoice.png)
 
 
-### Installation de LittleFS ###
+### Installation de LittleFS pour l'ESP32 ###
 LittleFS est un file system utilisé en ram disk dans l'ESP 32. Son avantage est que l'accès
 est extrèmement rapide. 
 [En lire plus](https://www.mischianti.org/2021/04/01/esp32-integrated-littlefs-filesystem-5/)
 
-Il est utilisé pour stocker la synthèse des votes.
+Il est utilisé pour stocker la synthèse des votes et la relire.
 
 Son installation doit se faire avant la compilation du programme de la façon suivante :
 
-* Installer les librairies __LittleFS_esp32__ en passant par le gestionnaire de bibliothèques. FIXME
+* Make sure you use one of the supported versions of Arduino IDE and have ESP32 core installed.
 
-[Ressources](https://github.com/lorol/LITTLEFS)
+* Download __esp32fs.zip__ zipped tool from [latest release](https://github.com/lorol/arduino-esp32fs-plugin/releases)
+
+* In your Arduino sketchbook directory, create tools directory if it doesn't exist yet.
+
+* Unpack the tool into "Setup->sketchbook location" /tools directory. Example: <home_dir>/Arduino/tools/ESP32FS/tool/esp32fs.jar or on OSX /Applications/Arduino.app/Contents/Java/tools/ESP32FS .
+
+* Make sure you have mklittlefs[.exe] and mkfatfs[.exe] available at esp32 core installation folder. Look inside of \AppData\Local\Arduino15... or on zip IDE install, see "Setup->sketchbook location" hardware\espressif\esp32\tools
+
+* For reference, see at [previous releases](https://github.com/lorol/arduino-esp32fs-plugin/releases) for copies of archived binaries in question.
+
+* You can also use provided __package_esp32_index.template.json__ to run __get.py__ with it and download the missing binary files
+
+* Restart Arduino IDE.
+
+[Ressources](https://github.com/lorol/arduino-esp32fs-plugin)
 
 
 ### Algorithme du microcontrôleur ###
