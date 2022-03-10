@@ -18,5 +18,23 @@ Dans le menu Tools > Boards, choississez la carte **FireBeetle-ESP32**
 ![Choix de la carte ESP32](./illustrations/Arduino_CardChoice.png)
 
 
+### Installation de LittleFS ###
+LittleFS est un file system utilisé en ram disk dans l'ESP 32. Son avantage est que l'accès
+est extrèmement rapide. 
+[En lire plus](https://www.mischianti.org/2021/04/01/esp32-integrated-littlefs-filesystem-5/)
+
+Il est utilisé pour stocker la synthèse des votes.
+
+Son installation doit se faire avant la compilation du programme de la façon suivante :
+
+* Download de l'extension pour l'IDe Arduino [extension LittleFS](https://github.com/earlephilhower/arduino-esp8266littlefs-plugin/releases) (le fichier ESP8266LittleFS-2.6.0.zip)
+
+* Décompresser le zip dans un répertoire.
+
+* Déplacer le répertoire dans C:\Program Files (x86)\Arduino\tools/
+
+* Relancer l'IDE Arduino.
+
+
 ### Algorithme du microcontrôleur ###
 ![Algorithme du microcontrôleur](./illustrations/Diagrams.png)
