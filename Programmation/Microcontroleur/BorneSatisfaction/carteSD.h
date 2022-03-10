@@ -252,7 +252,7 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
 
 
   // Ecriture du fichier de synthèse sur la carte SD
-  file = SD.open(l_CHAR_fileName, FILE_APPEND);
+  file = SD.open(l_CHAR_fileName, FILE_WRITE);
   file.println("Etablissement = " + siteID);
   file.println("Date          = " + date);
   file.println("Question      = " + question);

@@ -1,3 +1,8 @@
+/**
+ * Every globale variables are initiate here.
+ * 
+ * @Author : Alexandre PERETJATKO
+ */
 #define DEBUG(message) \
   Serial.print("[DEBUG:"); \
   Serial.print(__func__); \
@@ -5,9 +10,11 @@
   Serial.print(__LINE__); \
   Serial.print(")]-> "); \
   Serial.println(message);
-// Mode prod (sans aucune traces)
-// #define DEBUG(message);
 
+// Mode prod = décommenter la ligne suivante
+//#define DEBUG(message);
+
+// Mode prod = ModeDebug false
 // Lorsque = true, le port série n'est pas initialisé, ce qui permet de gagner de la vitesse d'execution au boot.
 #define ModeDebug true
 
