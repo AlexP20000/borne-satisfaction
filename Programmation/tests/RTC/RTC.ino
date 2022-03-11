@@ -59,6 +59,7 @@ void printLocalTime() {
 
 void setup() {
   Serial.begin(115200);
+  pinMode(PIN_PWR_EN, OUTPUT);  // Pin de l'autorisation de l'alimentation des périphériques
   digitalWrite(PIN_PWR_EN, HIGH);
   delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
 
@@ -69,41 +70,41 @@ void setup() {
   }
 
 
+  /*
+    // Connect to Wi-Fi
+    Serial.print("Connecting to ");
+    Serial.println(ssid);
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+    }
+    Serial.println("");
+    Serial.println("WiFi connected.");
 
-  // Connect to Wi-Fi
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.println("WiFi connected.");
+    // Init and get the time
+    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+    printLocalTime();
 
-  // Init and get the time
-  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-  printLocalTime();
-
-  //disconnect WiFi as it's no longer needed
-  WiFi.disconnect(true);
-  WiFi.mode(WIFI_OFF);
+    //disconnect WiFi as it's no longer needed
+    WiFi.disconnect(true);
+    WiFi.mode(WIFI_OFF);
 
 
-  // Affichage de l'heure et la date du serveur NTP
-  printLocalTime();
-
+    // Affichage de l'heure et la date du serveur NTP
+    printLocalTime();
+  */
 
   // Initilisaiton de la RTC avec l'heure récupéréé du serveur NTP
   // Voir référence de struct tm http://www.cplusplus.com/reference/ctime/tm/
   Serial.println("Mise à l'heure de la RTC avec le serveur NTP");
 
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
   if (! rtc.initialized() || rtc.lostPower()) {
     Serial.println("RTC is NOT initialized, let's set the time!");
     // When time needs to be set on a new device, or after a power loss, the
     // following line sets the RTC to the date & time this sketch was compiled
-    // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
     // This line sets the RTC with an explicit date & time, for example to set
     // January 21, 2014 at 3am you would call:
     // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
@@ -113,20 +114,21 @@ void setup() {
     // crystal oscillator time to stabilize. If you call adjust() very quickly
     // after the RTC is powered, lostPower() may still return true.
 
-
-    rtc.adjust(DateTime(timeinfo.tm_year,
-                        timeinfo.tm_mon + 1,
-                        timeinfo.tm_mday,
-                        timeinfo.tm_hour + 1,
-                        timeinfo.tm_min,
-                        timeinfo.tm_sec));
+    /*
+        rtc.adjust(DateTime(timeinfo.tm_year,
+                            timeinfo.tm_mon + 1,
+                            timeinfo.tm_mday,
+                            timeinfo.tm_hour + 1,
+                            timeinfo.tm_min,
+                            timeinfo.tm_sec));
+    */
   }
   rtc.start();
 }
 
 void loop() {
   delay(1000);
-  
+
   // Heure de la RTC
   DateTime now = rtc.now();
 

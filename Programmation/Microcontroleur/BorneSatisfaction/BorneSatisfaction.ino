@@ -130,9 +130,6 @@ void setup() {
           // Allumage LED verte
           digitalWrite(LED_VERT, HIGH);
 
-          // Reinitialisation des fichiers de synthèse en ROM
-          CARTESD_EraseROMSynthese();
-
           // Extinction LED verte
           digitalWrite(LED_VERT, LOW);
 
@@ -194,6 +191,15 @@ void setup() {
     if ( CARTESD_readConfigFile( fileName_Config, siteID, question ) ) { // Initialise siteID et question
       DEBUG(siteID);
       DEBUG(question);
+
+      // .......................................................................
+      // si la question à changée, on réinitialise les synthèses
+      if ( CARTESD_questionChange(question) ){
+        
+          // Reinitialisation des fichiers de synthèse en ROM
+          CARTESD_EraseROMSynthese();
+      }
+      
 
 
       // .......................................................................

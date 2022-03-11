@@ -272,3 +272,19 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
 
   file.close();
 }
+
+
+/**
+   ----------------------------------------------------------------------------------
+   Vérifie si la question a changée.
+   @todo
+   ----------------------------------------------------------------------------------*/
+boolean CARTESD_questionChange(String p_CHAR_question){
+  // Calcul le checksum de la question actuellement
+
+  // Comparaison avec le checksum stocké sur littleFS
+
+  // Stock le nouveau checksum
+  
+  return false;
+}
