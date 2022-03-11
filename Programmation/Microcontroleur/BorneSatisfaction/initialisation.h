@@ -3,20 +3,6 @@
  * 
  * @Author : Alexandre PERETJATKO
  */
-#define DEBUG(message) \
-  Serial.print("[DEBUG:"); \
-  Serial.print(__func__); \
-  Serial.print("("); \
-  Serial.print(__LINE__); \
-  Serial.print(")]-> "); \
-  Serial.println(message);
-
-// Mode prod = décommenter la ligne suivante
-//#define DEBUG(message);
-
-// Mode prod = ModeDebug false
-// Lorsque = true, le port série n'est pas initialisé, ce qui permet de gagner de la vitesse d'execution au boot.
-#define ModeDebug true
 
 // Definition des noms des fichiers
 // La synthese et les mesuress seront modifiés avec la date courante.
