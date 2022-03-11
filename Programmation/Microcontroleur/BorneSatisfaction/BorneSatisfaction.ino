@@ -72,7 +72,7 @@ void setup() {
 
 
   // -------------------------------------------------------------------------------------------------------------
-  // Alimenation des périphériques
+  // Alimentation des périphériques
   //
   digitalWrite(PIN_PWR_EN, HIGH);
   delay(20); // pour laisser à l'alimentation le temps de s'établir 20 ms mini
@@ -129,6 +129,19 @@ void setup() {
           DEBUG("Tout est ok");
           // Allumage LED verte
           digitalWrite(LED_VERT, HIGH);
+
+          // .......................................................................
+          // si la question à changée, on réinitialise les synthèses
+          // @bug : le formattage se fait même lorsque la quesiton n'a pas changée.
+          //
+          if ( CARTESD_questionChange() ) {
+
+            // Reinitialisation des fichiers de synthèse en ROM
+            DEBUG("Efface le LittleFS");
+            CARTESD_EraseROMSynthese();
+          }
+
+
 
           // Extinction LED verte
           digitalWrite(LED_VERT, LOW);
@@ -192,21 +205,12 @@ void setup() {
       DEBUG(siteID);
       DEBUG(question);
 
-      // .......................................................................
-      // si la question à changée, on réinitialise les synthèses
-      if ( CARTESD_questionChange(question) ){
-        
-          // Reinitialisation des fichiers de synthèse en ROM
-          CARTESD_EraseROMSynthese();
-      }
-      
-
 
       // .......................................................................
       //  Ecriture dans le fichier des mesures
       String ligneFichierMesure = siteID + ";" + date + ";" + heure + ";" + question + ";"
-            + String(reponseVert) + ";" + String(reponseRouge) + ";" + String(reponseJaune) + ";" 
-            + String(batterieLevel);
+                                  + String(reponseVert) + ";" + String(reponseRouge) + ";" + String(reponseJaune) + ";"
+                                  + String(batterieLevel);
       CARTESD_appendFileMesure(date, postfixeFileMesures, ligneFichierMesure );
 
 

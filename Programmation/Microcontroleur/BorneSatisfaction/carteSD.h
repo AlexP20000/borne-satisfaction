@@ -1,6 +1,6 @@
 /**
- * @Author : Alexandre PERETJATKO
- */
+   @Author : Alexandre PERETJATKO
+*/
 
 #include <SPI.h>
 #include <IniFile.h>
@@ -23,6 +23,9 @@ void CARTESD_EraseROMSynthese() {
     DEBUG("Impossible de formatter le file system en ROM");
   }
 }
+
+
+
 /**
    ----------------------------------------------------------------------------------
    Lecture du fichier de configuration.
@@ -36,8 +39,7 @@ boolean CARTESD_readConfigFile(const char *fileName, String &p_STR_siteID, Strin
 
   // test de la carte SD
   if (!SD.begin())
-    while (1)
-      DEBUG("SD.begin() failed");
+    DEBUG("SD.begin() failed");
 
 
   // Si on ne peut pas ouvrir le fichier de configuration
@@ -199,7 +201,7 @@ void CARTESD_appendFileMesure(String date, const char *path, String message) {
    ----------------------------------------------------------------------------------*/
 void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune, int batterieLevel, String date, String question, String siteID) {
 
-  // Remplacment des / par des - dans la date
+  // Remplacement des / par des - dans la date
   String l_STR_Date = date;
   l_STR_Date.replace("/", "-");
   char l_CHAR_Date[15];
@@ -213,7 +215,7 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
   DEBUG("l_CHAR_fileName:" + String(l_CHAR_fileName) );
 
   // Mise en place de LittleFS pour aller lire le fichier de synthese
-  if (!LITTLEFS.begin(true)) {
+  if (!LITTLEFS.begin()) {
     DEBUG("Il n'y a pas de file system little FS installé, lecture impossible !");
   }
 
@@ -277,14 +279,49 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
 /**
    ----------------------------------------------------------------------------------
    Vérifie si la question a changée.
-   @todo
    ----------------------------------------------------------------------------------*/
-boolean CARTESD_questionChange(String p_CHAR_question){
-  // Calcul le checksum de la question actuellement
-
-  // Comparaison avec le checksum stocké sur littleFS
-
-  // Stock le nouveau checksum
+boolean CARTESD_questionChange() {
+  String siteID, questionDansFichierConfig = "";
   
-  return false;
+  // Initialise siteID et question
+  CARTESD_readConfigFile( fileName_Config, siteID, questionDansFichierConfig );
+
+
+
+  String question = "";
+  char l_CHAR_FileName[15];
+  strcpy(l_CHAR_FileName, "/question.txt");
+
+  // Démarrage de littleFS
+  if (!LITTLEFS.begin()) {
+    DEBUG("Il n'y a pas de file system little FS installé, lecture impossible !");
+  }
+  delay(500); // Pour laisser le temps à littleFS de démarrer
+  
+
+  // Lecture de la question stockée sur littleFS
+  if ( LITTLEFS.exists(l_CHAR_FileName)) {
+    File file = LITTLEFS.open(l_CHAR_FileName, FILE_READ);
+    question = file.readString();
+    DEBUG("Lecture de Ecriture de '" + question + "' dans le fichier <" + String(l_CHAR_FileName) + ">");
+    file.close();
+
+  } else {
+    DEBUG("Fichier <" + String(l_CHAR_FileName) + "> n'existe pas");
+  }
+  DEBUG("question:" + question );
+  DEBUG("questionDansFichierConfig:" + questionDansFichierConfig );
+
+
+  // Stock la nouvelle question sur le LittleFS
+  File fileW = LITTLEFS.open(l_CHAR_FileName, FILE_WRITE);
+  if ( fileW ) {
+  fileW.print(questionDansFichierConfig);
+    DEBUG("Ecriture de '" + questionDansFichierConfig + "' dans le fichier <" + String(l_CHAR_FileName) + ">");
+  }
+  fileW.close();
+
+
+  // Renvoie le test d'égalité entre la question actuelle et celle stockée dans litlleFS
+  return (question != questionDansFichierConfig);
 }
