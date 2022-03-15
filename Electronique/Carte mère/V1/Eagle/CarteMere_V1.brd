@@ -9,7 +9,7 @@
 <grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
@@ -169,9 +169,6 @@
 <dimension x1="17" y1="72.5" x2="17" y2="80" x3="-13.5" y3="76.25" textsize="1.778" layer="47"/>
 <dimension x1="4" y1="76" x2="17" y2="76" x3="10.5" y3="96.5" textsize="1.778" layer="47"/>
 <dimension x1="4" y1="76" x2="4" y2="72.5" x3="-22.5" y3="74.25" textsize="1.778" layer="47"/>
-<dimension x1="60.4266" y1="23.495" x2="60.4774" y2="23.495" x3="60.452" y3="23.495" textsize="1.778" layer="16"/>
-<dimension x1="60.4012" y1="23.5458" x2="60.8076" y2="23.6728" x3="60.684846875" y3="23.351865625" textsize="1.778" layer="16"/>
-<dimension x1="60.9092" y1="23.495" x2="62.2554" y2="23.4188" x3="61.543034375" y3="22.763259375" textsize="1.778" layer="16"/>
 </plain>
 <libraries>
 <library name="pinhead" urn="urn:adsk.eagle:library:325">

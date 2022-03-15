@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="50" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="0.5" altunitdist="mil" altunit="mil"/>
+<grid distance="25" unitdist="mil" unit="mil" style="lines" multiple="1" display="no" altdistance="0.1" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -1757,11 +1757,14 @@ design rules under a new name.</description>
 <attribute name="NAME" x="24.5837" y="9.9896" size="1.27" layer="25" ratio="10"/>
 <attribute name="VALUE" x="37.4699" y="6.9858" size="1.27" layer="27"/>
 </element>
-<element name="R501" library="Eagle_UOF_Lib" package="0207/10" value="0R" x="47.6277" y="17.7505" smashed="yes" rot="R180">
-<attribute name="NAME" x="40.7824" y="18.3982" size="1.27" layer="25" ratio="10" rot="R180"/>
-<attribute name="VALUE" x="47.4626" y="18.3347" size="1.27" layer="27" ratio="10" rot="R180"/>
+<element name="R501" library="Eagle_UOF_Lib" package="0207/10" value="0R" x="47.6277" y="19.0205" smashed="yes" rot="R180">
+<attribute name="NAME" x="40.7824" y="19.6682" size="1.27" layer="25" ratio="10" rot="R180"/>
+<attribute name="VALUE" x="47.4626" y="19.6047" size="1.27" layer="27" ratio="10" rot="R180"/>
 </element>
-<element name="R500" library="Eagle_UOF_Lib" package="0207/10" value="100k" x="-12.7" y="-21.59"/>
+<element name="R500" library="Eagle_UOF_Lib" package="0207/10" value="100k" x="47.625" y="15.875" smashed="yes">
+<attribute name="NAME" x="36.957" y="15.494" size="1.27" layer="25" ratio="10"/>
+<attribute name="VALUE" x="45.9994" y="15.24" size="1.27" layer="27" ratio="10"/>
+</element>
 </elements>
 <signals>
 <signal name="GND">
@@ -1876,8 +1879,7 @@ design rules under a new name.</description>
 <signal name="3V3">
 <contactref element="U200" pad="17"/>
 <contactref element="Q500" pad="2"/>
-<wire x1="48.895" y1="15.07" x2="48.575" y2="13.165" width="0.8128" layer="16"/>
-<wire x1="48.895" y1="21.59" x2="48.895" y2="15.07" width="0.8128" layer="16"/>
+<wire x1="48.895" y1="21.59" x2="48.895" y2="15.875" width="0.8128" layer="16"/>
 <contactref element="J101" pad="1"/>
 <contactref element="J102" pad="1"/>
 <contactref element="J100" pad="1"/>
@@ -1885,7 +1887,6 @@ design rules under a new name.</description>
 <wire x1="56.515" y1="21.59" x2="48.895" y2="21.59" width="0.8128" layer="16"/>
 <wire x1="48.895" y1="21.59" x2="48.895" y2="53.34" width="0.8128" layer="16"/>
 <wire x1="56.515" y1="17.145" x2="66.675" y2="17.145" width="0.8128" layer="16"/>
-<wire x1="52.535" y1="15.07" x2="48.895" y2="15.07" width="0.8128" layer="16"/>
 <wire x1="66.675" y1="17.145" x2="75.565" y2="8.255" width="0.8128" layer="16"/>
 <wire x1="75.565" y1="8.255" x2="78.105" y2="8.255" width="0.8128" layer="16"/>
 <wire x1="80.01" y1="17.145" x2="80.645" y2="17.78" width="0.8128" layer="16"/>
@@ -1901,7 +1902,10 @@ design rules under a new name.</description>
 <wire x1="48.895" y1="53.34" x2="64.135" y2="68.58" width="0.8128" layer="16"/>
 <wire x1="64.135" y1="68.58" x2="68.58" y2="68.58" width="0.8128" layer="16"/>
 <contactref element="R500" pad="2"/>
-<wire x1="-7.62" y1="-21.59" x2="48.575" y2="13.165" width="0" layer="19" extent="16-16"/>
+<wire x1="52.705" y1="15.875" x2="52.875" y2="15.875" width="0.8128" layer="16"/>
+<wire x1="48.575" y1="13.165" x2="48.575" y2="15.555" width="0.8128" layer="16"/>
+<wire x1="48.575" y1="15.555" x2="48.895" y2="15.875" width="0.8128" layer="16"/>
+<wire x1="48.895" y1="15.875" x2="52.705" y2="15.875" width="0.8128" layer="16"/>
 </signal>
 <signal name="BP_VERT">
 <contactref element="R102" pad="2"/>
@@ -1934,7 +1938,7 @@ design rules under a new name.</description>
 <wire x1="58.42" y1="5.715" x2="58.42" y2="12.065" width="0.8128" layer="16"/>
 <wire x1="58.42" y1="12.065" x2="54.61" y2="15.875" width="0.8128" layer="16"/>
 <contactref element="R501" pad="1"/>
-<wire x1="52.7077" y1="17.7505" x2="53.9455" y2="17.7505" width="0.8128" layer="16"/>
+<wire x1="52.7077" y1="19.0205" x2="53.9455" y2="17.7505" width="0.8128" layer="16"/>
 <wire x1="53.9455" y1="17.7505" x2="53.975" y2="17.78" width="0.8128" layer="16"/>
 </signal>
 <signal name="LED_VERTE">
@@ -2069,12 +2073,13 @@ design rules under a new name.</description>
 </signal>
 <signal name="N$7">
 <contactref element="Q500" pad="1"/>
-<wire x1="44.6" y1="15.24" x2="46.675" y2="13.165" width="0.8128" layer="16"/>
 <contactref element="R501" pad="2"/>
-<wire x1="42.5477" y1="17.7505" x2="42.5477" y2="15.2427" width="0.8128" layer="16"/>
 <contactref element="R500" pad="1"/>
-<wire x1="42.5477" y1="15.2427" x2="44.6" y2="15.24" width="0" layer="19" extent="16-16"/>
-<wire x1="-17.78" y1="-21.59" x2="42.5477" y2="15.2427" width="0" layer="19" extent="16-16"/>
+<wire x1="46.675" y1="13.165" x2="43.35" y2="13.165" width="0.8128" layer="16"/>
+<wire x1="43.35" y1="13.165" x2="42.545" y2="13.97" width="0.8128" layer="16"/>
+<wire x1="42.545" y1="13.97" x2="42.545" y2="15.875" width="0.8128" layer="16"/>
+<wire x1="42.545" y1="15.875" x2="42.5477" y2="15.8777" width="0.8128" layer="16"/>
+<wire x1="42.5477" y1="15.8777" x2="42.5477" y2="19.0205" width="0.8128" layer="16"/>
 </signal>
 <signal name="PWR_EN">
 <contactref element="U200" pad="8"/>
