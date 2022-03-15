@@ -923,10 +923,10 @@ DIN A4, landscape with location and doc. field</description>
 <part name="U300" library="Eagle_UOF_Lib" deviceset="RTC_ADA-3295" device=""/>
 <part name="U400" library="Eagle_UOF_Lib" deviceset="SD_GT126" device=""/>
 <part name="R600" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="100R"/>
-<part name="502" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="100R"/>
+<part name="R502" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="100R"/>
 <part name="R503" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="1M"/>
 <part name="J600" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2" value="LED_VERTE"/>
-<part name="J100" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2" value="BP_Vert"/>
+<part name="J100" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2" value="BP_Rouge"/>
 <part name="SUPPLY5" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY6" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY9" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
@@ -939,7 +939,7 @@ DIN A4, landscape with location and doc. field</description>
 <part name="Q501" library="Eagle_UOF_Lib" deviceset="SI2302DS" device=""/>
 <part name="U200" library="Eagle_UOF_Lib" deviceset="FIREBEETLE-ESP32-DFR0478" device=""/>
 <part name="J101" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2" value="BP Jaune"/>
-<part name="J102" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2" value="BP Rouge"/>
+<part name="J102" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X2" device="" package3d_urn="urn:adsk.eagle:package:22435/2" value="BP Vert"/>
 <part name="SUPPLY2" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY8" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="R101" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="10k"/>
@@ -950,8 +950,8 @@ DIN A4, landscape with location and doc. field</description>
 <part name="R602" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="100R"/>
 <part name="SUPPLY3" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY4" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
-<part name="R501" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="1M"/>
-<part name="R500" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="1M"/>
+<part name="R501" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="100k"/>
+<part name="R500" library="Eagle_UOF_Lib" deviceset="R_1/4W" device="10" value="100k"/>
 <part name="Q500" library="Eagle_UOF_Lib" deviceset="SI2303DS" device=""/>
 <part name="JTEST300" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X1" device="" package3d_urn="urn:adsk.eagle:package:22485/1"/>
 <part name="JTEST301" library="pinhead" library_urn="urn:adsk.eagle:library:325" deviceset="PINHD-1X1" device="" package3d_urn="urn:adsk.eagle:package:22485/1"/>
@@ -978,7 +978,7 @@ TEMPS REEL</text>
 <attribute name="NAME" x="146.05" y="31.9786" size="1.778" layer="95"/>
 <attribute name="VALUE" x="146.05" y="34.798" size="1.778" layer="96"/>
 </instance>
-<instance part="502" gate="G$1" x="58.42" y="-15.24"/>
+<instance part="R502" gate="G$1" x="58.42" y="-15.24"/>
 <instance part="R503" gate="G$1" x="66.04" y="-20.32" smashed="yes" rot="R90">
 <attribute name="NAME" x="62.23" y="-21.8186" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="59.69" y="-24.638" size="1.778" layer="96" rot="R180"/>
@@ -1223,24 +1223,24 @@ TEMPS REEL</text>
 </net>
 <net name="BP_VERT" class="0">
 <segment>
-<wire x1="-40.64" y1="86.36" x2="-22.86" y2="86.36" width="0.1524" layer="91"/>
-<label x="-17.78" y="86.36" size="1.778" layer="95"/>
-<pinref part="R100" gate="G$1" pin="2"/>
-<junction x="-22.86" y="86.36"/>
-<wire x1="-22.86" y1="86.36" x2="-5.08" y2="86.36" width="0.1524" layer="91"/>
-<pinref part="J100" gate="G$1" pin="2"/>
+<wire x1="-40.64" y1="33.02" x2="-22.86" y2="33.02" width="0.1524" layer="91"/>
+<label x="-17.78" y="33.02" size="1.778" layer="95"/>
+<pinref part="R102" gate="G$1" pin="2"/>
+<junction x="-22.86" y="33.02"/>
+<wire x1="-22.86" y1="33.02" x2="-5.08" y2="33.02" width="0.1524" layer="91"/>
+<pinref part="J102" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="U200" gate="G$1" pin="IO25/D2"/>
-<wire x1="96.52" y1="45.72" x2="109.22" y2="45.72" width="0.1524" layer="91"/>
-<label x="101.6" y="45.72" size="1.778" layer="95"/>
+<pinref part="U200" gate="G$1" pin="IO27/D4"/>
+<wire x1="96.52" y1="50.8" x2="109.22" y2="50.8" width="0.1524" layer="91"/>
+<label x="101.6" y="50.8" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$1" class="0">
 <segment>
 <pinref part="Q501" gate="G$1" pin="G"/>
 <pinref part="R503" gate="G$1" pin="2"/>
-<pinref part="502" gate="G$1" pin="2"/>
+<pinref part="R502" gate="G$1" pin="2"/>
 <wire x1="63.5" y1="-15.24" x2="66.04" y2="-15.24" width="0.1524" layer="91"/>
 <junction x="66.04" y="-15.24"/>
 </segment>
@@ -1288,17 +1288,17 @@ TEMPS REEL</text>
 </net>
 <net name="BP_ROUGE" class="0">
 <segment>
-<wire x1="-40.64" y1="33.02" x2="-22.86" y2="33.02" width="0.1524" layer="91"/>
-<label x="-17.78" y="33.02" size="1.778" layer="95"/>
-<pinref part="R102" gate="G$1" pin="2"/>
-<junction x="-22.86" y="33.02"/>
-<wire x1="-22.86" y1="33.02" x2="-5.08" y2="33.02" width="0.1524" layer="91"/>
-<pinref part="J102" gate="G$1" pin="2"/>
+<wire x1="-40.64" y1="86.36" x2="-22.86" y2="86.36" width="0.1524" layer="91"/>
+<label x="-17.78" y="86.36" size="1.778" layer="95"/>
+<pinref part="R100" gate="G$1" pin="2"/>
+<junction x="-22.86" y="86.36"/>
+<wire x1="-22.86" y1="86.36" x2="-5.08" y2="86.36" width="0.1524" layer="91"/>
+<pinref part="J100" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="U200" gate="G$1" pin="IO27/D4"/>
-<wire x1="96.52" y1="50.8" x2="109.22" y2="50.8" width="0.1524" layer="91"/>
-<label x="101.6" y="50.8" size="1.778" layer="95"/>
+<pinref part="U200" gate="G$1" pin="IO25/D2"/>
+<wire x1="96.52" y1="45.72" x2="109.22" y2="45.72" width="0.1524" layer="91"/>
+<label x="101.6" y="45.72" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -1384,7 +1384,7 @@ TEMPS REEL</text>
 <label x="101.6" y="58.42" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="502" gate="G$1" pin="1"/>
+<pinref part="R502" gate="G$1" pin="1"/>
 <wire x1="53.34" y1="-15.24" x2="40.64" y2="-15.24" width="0.1524" layer="91"/>
 <label x="40.64" y="-15.24" size="1.778" layer="95"/>
 </segment>

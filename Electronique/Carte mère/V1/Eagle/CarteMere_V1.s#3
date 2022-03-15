@@ -1231,9 +1231,9 @@ TEMPS REEL</text>
 <pinref part="J102" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="U200" gate="G$1" pin="IO27/D4"/>
-<wire x1="96.52" y1="50.8" x2="109.22" y2="50.8" width="0.1524" layer="91"/>
-<label x="101.6" y="50.8" size="1.778" layer="95"/>
+<pinref part="U200" gate="G$1" pin="IO9/D5"/>
+<wire x1="96.52" y1="53.34" x2="109.22" y2="53.34" width="0.1524" layer="91"/>
+<label x="99.06" y="53.34" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -1281,9 +1281,9 @@ TEMPS REEL</text>
 <pinref part="J101" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="U200" gate="G$1" pin="IO26/D3"/>
-<wire x1="96.52" y1="48.26" x2="109.22" y2="48.26" width="0.1524" layer="91"/>
-<label x="101.6" y="48.26" size="1.778" layer="95"/>
+<pinref part="U200" gate="G$1" pin="IO27/D4"/>
+<wire x1="96.52" y1="50.8" x2="109.22" y2="50.8" width="0.1524" layer="91"/>
+<label x="99.06" y="50.8" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BP_ROUGE" class="0">
@@ -1296,9 +1296,9 @@ TEMPS REEL</text>
 <pinref part="J100" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="U200" gate="G$1" pin="IO25/D2"/>
-<wire x1="96.52" y1="45.72" x2="109.22" y2="45.72" width="0.1524" layer="91"/>
-<label x="101.6" y="45.72" size="1.778" layer="95"/>
+<pinref part="U200" gate="G$1" pin="IO26/D3"/>
+<wire x1="96.52" y1="48.26" x2="109.22" y2="48.26" width="0.1524" layer="91"/>
+<label x="99.06" y="48.26" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$3" class="0">
