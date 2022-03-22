@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="1.8350844"
-     inkscape:cx="1514.3718"
-     inkscape:cy="1300.2127"
+     inkscape:zoom="0.4587711"
+     inkscape:cx="590.70853"
+     inkscape:cy="1279.5052"
      inkscape:window-width="2560"
      inkscape:window-height="1387"
      inkscape:window-x="-8"
@@ -368,15 +368,6 @@
          ry="0"
          transform="scale(-1,1)" />
     </g>
-    <rect
-       style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect3259"
-       width="20.004725"
-       height="4.9999743"
-       x="-111.80563"
-       y="-42.359772"
-       ry="0"
-       transform="scale(-1,1)" />
     <path
        id="path4266"
        style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -1498,8 +1489,8 @@
         <path
            id="rect8206"
            style="vector-effect:none;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.264583;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           d="m 372.1156,212.13106 v 5.00034 h -24.94111 v 64.99964 5.00023 h 15.00011 v -5.00023 h 55.00027 v 5.00023 h 14.9996 v -5.00023 -5.45082 -59.54882 h -40.05389 v -5.00034 z"
-           sodipodi:nodetypes="cccccccccccccccc" />
+           d="m 347.17449,217.1314 v 64.99964 5.00023 h 15.00011 v -5.00023 h 55.00027 v 5.00023 h 14.9996 v -5.00023 -5.45082 -59.54882 z"
+           sodipodi:nodetypes="cccccccccccc" />
       </g>
       <g
          inkscape:label="Hershey Text"
