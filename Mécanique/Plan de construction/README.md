@@ -1,19 +1,19 @@
 ## Plan de construction ##
-Dans ce répertoie, se trouve tout ce qui concerne la construction physique.
+Dans ce rÃ©pertoie, se trouve tout ce qui concerne la construction physique.
 
 
-## Epaisseurs des matériaux ##
+## Epaisseurs des mat?aux ##
 * PMMA :
   * Dessus de la boite : 3 mm 
 * MDF :
   * Dessus de la boite : 3 mm 
 * CTP peuplier :
-  * Coté de la boite : 5 mm
+  * Cot?e la boite : 5 mm
 
-## Paramétres des découpes laser ##
-Ces paramètres sont valable pour la laser avec des miroirs propres.
+## Param?es des d?upes laser ##
+Ces paramÃ¨tres sont valable pour la laser avec des miroirs propres.
 
-| Matériau | Opération | Power | Speed | Remarque |
+| MatÃ©riau | Option | Power | Speed | Remarque |
 |----------|-----------|------|-------|----------|
 | PMMA 3 mm | Cut | 75 | 20 | |
 | PMMA 3 mm | Mark | 50 | 100 |  |
