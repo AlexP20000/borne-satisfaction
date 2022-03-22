@@ -17,7 +17,7 @@ Ensuite, dans le menu Tools > Boards manager Recherchez "ESP32" et installez les
 Dans le menu Tools > Boards, choississez la carte **FireBeetle-ESP32**
 ![Choix de la carte ESP32](./illustrations/Arduino_CardChoice.png)
 
-## Installation des librairies utilesnt à la compilation ##
+## Installation des librairies utiles à la compilation ##
 Toutes les librairies utiles se [trouvent ici](./libs/README.md)
 
 
@@ -44,7 +44,7 @@ question=Aimez-vous les artichauds ?
 
 
 ### Fichier de synthèse ###
-Fichier **YYYYMMDD_Synthese.csv** (par exemple 20220208.csv) formaté comme suit :
+Fichier **YYYYMMDD_Synthese.csv** (par exemple 20220208_Synthese.csv) formaté comme suit :
 
 A définir.
 
