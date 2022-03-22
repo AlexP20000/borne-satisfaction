@@ -1,5 +1,6 @@
 # Programme microcontrolleur #
-Dans ce répertoire, se trouve les programmes et librairies du programme du microcontroleur.
+Dans ce répertoire, se trouvent les programmes et librairies utilisées par l'ESP32.
+
 
 # Compilation du programme #
 Afin de pouvoir compiler le programme, il est nécessaire d'installer [l'IDE Arduino](https://www.arduino.cc/en/software) et les cartes ESP32.
@@ -16,8 +17,8 @@ Ensuite, dans le menu Tools > Boards manager Recherchez "ESP32" et installez les
 Dans le menu Tools > Boards, choississez la carte **FireBeetle-ESP32**
 ![Choix de la carte ESP32](./illustrations/Arduino_CardChoice.png)
 
-
-
+## Installation des librairies utilesnt à la compilation ##
+Toutes les librairies utiles se [trouvent ici](./libs/README.md)
 
 
 # Fichiers sur la carte SD #
