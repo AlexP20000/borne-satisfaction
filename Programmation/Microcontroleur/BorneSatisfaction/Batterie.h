@@ -17,6 +17,6 @@ int BATTERIE_getBatterieLevel() {
   // Calcul du pourcentage
   // On ne garde que la partie entière de la valeur
   int pourcent = (int) 100 / (mesureTensionMAX - mesureTensionMIN) * (tension - mesureTensionMIN);
-  pourcent = 100;
+  
   return pourcent;
 }
