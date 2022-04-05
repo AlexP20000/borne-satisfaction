@@ -9,21 +9,34 @@
 #include "FS.h"
 #include <LITTLEFS.h>
 
+//Nom du fichier de synthese sur littelFS
+char l_CHAR_fileNameSynthese[15] = "/question.txt";
+
+
 
 /**
    ----------------------------------------------------------------------------------
    Effacement des fichiers en ROM. (Formattage du file system)
+   @params:
+    STRING question : la question à écrire dans littelFS
    ----------------------------------------------------------------------------------*/
-void CARTESD_EraseROMSynthese() {
+void CARTESD_EraseROMSynthese(String question) {
   if (LITTLEFS.begin(true)) {
     if ( LITTLEFS.format() )
       DEBUG("Formattage du file system en ROM");
+
+      // Stock la nouvelle question sur le LittleFS
+      File file = LITTLEFS.open(l_CHAR_fileNameSynthese, FILE_WRITE);
+      if ( file ) {
+        file.print(question);
+        DEBUG("Ecriture de '" + question + "' dans le fichier <" + String(l_CHAR_fileNameSynthese) + "> sur littleFS");
+      }
+      file.close();
 
   } else {
     DEBUG("Impossible de formatter le file system en ROM");
   }
 }
-
 
 
 /**
@@ -185,7 +198,7 @@ void CARTESD_appendFileMesure(String date, const char *path, String message) {
     return;
   }
   if (file.println(message)) {
-    DEBUG("Message appended " + String(message));
+    DEBUG("Message appended :" + String(message));
   } else {
     DEBUG("Append failed");
   }
@@ -224,14 +237,18 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
   int cumulVert   = 0;
   int cumulJaune  = 0;
   String buff;
-  File fileFs = LITTLEFS.open(l_CHAR_fileName, FILE_READ);
-  cumulRouge  = fileFs.readStringUntil('\n').toInt();   // 1ere ligne
-  cumulVert   = fileFs.readStringUntil('\n').toInt();   // 2eme ligne
-  cumulJaune  = fileFs.readStringUntil('\n').toInt();   // 3eme ligne
-  fileFs.close();
-  DEBUG("cumulRouge lu:" + String(cumulRouge, DEC));
-  DEBUG("cumulVert lu:" + String(cumulVert, DEC));
-  DEBUG("cumulJaune lu:" + String(cumulJaune, DEC));
+  if ( LITTLEFS.exists(l_CHAR_fileName)) {
+    DEBUG("Lecture des cumuls à partir du fichier <" + String(l_CHAR_fileName) + "> sur LittelFS");
+    File fileFs = LITTLEFS.open(l_CHAR_fileName, FILE_READ);
+    cumulRouge  = fileFs.readStringUntil('\n').toInt();   // 1ere ligne
+    cumulVert   = fileFs.readStringUntil('\n').toInt();   // 2eme ligne
+    cumulJaune  = fileFs.readStringUntil('\n').toInt();   // 3eme ligne
+    fileFs.close();
+
+  } else {
+    DEBUG("Impossible de lire le fichier <" + String(l_CHAR_fileName) + "> sur LittelFS ***********************************");
+  }
+
 
 
   // Calcul des cumuls et des moyennes
@@ -279,49 +296,42 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
 /**
    ----------------------------------------------------------------------------------
    Vérifie si la question a changée.
+   @return:
+     True / false si la quesiton du fichier params.ini a changé par rapport à celle dans littleFS.
+     questionDansFichierConfig = La question lue dans le fichier de paramétrage.
+
    ----------------------------------------------------------------------------------*/
-boolean CARTESD_questionChange() {
-  String siteID, questionDansFichierConfig = "";
-  
-  // Initialise siteID et question
-  CARTESD_readConfigFile( fileName_Config, siteID, questionDansFichierConfig );
-
-
-
-  String question = "";
-  char l_CHAR_FileName[15];
-  strcpy(l_CHAR_FileName, "/question.txt");
+boolean CARTESD_questionChange(String &questionDansFichierConfig) {
+  String siteID, question = "";
 
   // Démarrage de littleFS
   if (!LITTLEFS.begin()) {
     DEBUG("Il n'y a pas de file system little FS installé, lecture impossible !");
   }
   delay(500); // Pour laisser le temps à littleFS de démarrer
+
+
+  // Initialise siteID et question a partir de la carte SD
+  CARTESD_readConfigFile( fileName_Config, siteID, questionDansFichierConfig );
   
 
+
   // Lecture de la question stockée sur littleFS
-  if ( LITTLEFS.exists(l_CHAR_FileName)) {
-    File file = LITTLEFS.open(l_CHAR_FileName, FILE_READ);
+  if ( LITTLEFS.exists(l_CHAR_fileNameSynthese)) {
+    File file = LITTLEFS.open(l_CHAR_fileNameSynthese, FILE_READ);
     question = file.readString();
-    DEBUG("Lecture de Ecriture de '" + question + "' dans le fichier <" + String(l_CHAR_FileName) + ">");
+    DEBUG("Lecture de '" + question + "' dans le fichier <" + String(l_CHAR_fileNameSynthese) + "> sur LittelFS");
     file.close();
 
   } else {
-    DEBUG("Fichier <" + String(l_CHAR_FileName) + "> n'existe pas");
+    DEBUG("Fichier <" + String(l_CHAR_fileNameSynthese) + "> n'existe pas dans littleFS");
   }
   DEBUG("question:" + question );
-  DEBUG("questionDansFichierConfig:" + questionDansFichierConfig );
+  DEBUG("questionDansFichierConfig:" + questionDansFichierConfig);
 
-
-  // Stock la nouvelle question sur le LittleFS
-  File fileW = LITTLEFS.open(l_CHAR_FileName, FILE_WRITE);
-  if ( fileW ) {
-  fileW.print(questionDansFichierConfig);
-    DEBUG("Ecriture de '" + questionDansFichierConfig + "' dans le fichier <" + String(l_CHAR_FileName) + ">");
-  }
-  fileW.close();
 
 
   // Renvoie le test d'égalité entre la question actuelle et celle stockée dans litlleFS
   return (question != questionDansFichierConfig);
 }
+
