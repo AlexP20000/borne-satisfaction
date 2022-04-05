@@ -6,10 +6,12 @@
    - La sauvegarde du cumul de chaque vote est faite dans un fichier TXT.
 
    @Author : Alexandre PERETJATKO
+   __________________________________________________________________________________
 */
-// Mode prod = décommenter la ligne suivante
+
+// Mode prod = commenter la ligne suivante
 // Lorsque = true, le port série n'est pas initialisé, ce qui permet de gagner de la vitesse d'execution au boot.
-#define ModeDebug true
+//#define ModeDebug
 
 
 #ifdef ModeDebug
@@ -35,7 +37,7 @@
 
 void setup() {
   // -------------------------------------------------------------------------------------------------------------
-  // initialisation des clignotement des LEDs pour la gestion d'erreurs.
+  // initialisation des clignotements des LEDs pour la gestion d'erreurs.
   //
   BOO_ProblemeBatterie      = false;
   BOO_ProblemeCarteSD       = false;
