@@ -73,7 +73,7 @@ String RTC_getTime() {
   DateTime now = rtc.now();
   char hour[3]; sprintf(hour, "%02i", now.hour());
   char minute[3]; sprintf(minute, "%02i", now.minute());
-  // char second[3]; sprintf(second, "%02i", now.second());
+  char second[3]; sprintf(second, "%02i", now.second());
  
-  return String(hour) + ":" + String(minute);
+  return String(hour) + ":" + String(minute) + ":" + String(second);
 }
