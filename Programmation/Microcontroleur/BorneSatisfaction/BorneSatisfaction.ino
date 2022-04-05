@@ -26,11 +26,11 @@
 
 
 
-#include "initialisation.h";
-#include "RTC.h";
-#include "batterie.h";
-#include "carteSD.h";
-#include "deepsleep.h";
+#include "initialisation.h"
+#include "RTC.h"
+#include "batterie.h"
+#include "carteSD.h"
+#include "deepsleep.h"
 
 
 void setup() {
@@ -50,7 +50,7 @@ void setup() {
   #ifdef ModeDebug
     Serial.begin(115200);
     delay(1000);  // On attend que le port serie soit initialisé
-    DEBUG("OK, let's go ******************************************");
+    DEBUG("OK, let's go _____________________________________________________________________________");
   #endif
 
 
@@ -125,6 +125,8 @@ void setup() {
 
           CARTESD_writeConfigFile( fileName_Config );
 
+          CARTESD_EraseROMSynthese("question");
+
         } else {
           // .......................................................................
           // Tout est ok
@@ -134,17 +136,18 @@ void setup() {
           digitalWrite(LED_VERT, HIGH);
 
           // .......................................................................
-          // si la question à changée, on réinitialise les synthèses
-          // @bug : le formattage se fait même lorsque la quesiton n'a pas changée.
-          //
-          if ( CARTESD_questionChange() ) {
+          // on réinitialise les synthèses si la question a changée
+          String question = "";
+          if( CARTESD_questionChange(question) ){
+            // Efface littelFS
+            // et 
+            // Reinitialise les fichiers de synthese et de la question dans le LittelFS
+            CARTESD_EraseROMSynthese(question);
+            DEBUG("Reinitialisation des synthèses");
 
-            // Reinitialisation des fichiers de synthèse en ROM
-            DEBUG("Efface le LittleFS");
-            CARTESD_EraseROMSynthese();
+          } else {
+            DEBUG("pas de changement dans la question");
           }
-
-
 
           // Extinction LED verte
           digitalWrite(LED_VERT, LOW);
@@ -191,8 +194,8 @@ void setup() {
     // .......................................................................
     //  Lecture de la date et l'heure
     RTC_setTime();
-    String date  = RTC_getDate();   // "2022/03/09";
-    String heure = RTC_getTime();  // "14:06";
+    String date  = RTC_getDate();   // "1971/01/27";
+    String heure = RTC_getTime();  // "14:06:24";
 
 
 
@@ -268,7 +271,6 @@ void loop() {
   // Extinction des leds
   delay( DelayExtinctionLEDs );
   if ( BOO_Clignote ) {
-    DEBUG("Clignote");
     digitalWrite(LED_ROUGE, LOW);
     digitalWrite(LED_VERT,  LOW);
     digitalWrite(LED_JAUNE, LOW);
