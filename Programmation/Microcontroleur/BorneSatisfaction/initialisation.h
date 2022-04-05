@@ -7,8 +7,8 @@
 // Definition des noms des fichiers
 // La synthese et les mesuress seront modifiés avec la date courante.
 char *fileName_Config       = "/configuration.ini";
-char *postfixeFileSynthese  = "_synthese.txt";
-char *postfixeFileMesures   = "_mesures.csv";
+char *postfixeFileSynthese  = "_recap.txt";
+char *postfixeFileMesures   = "_detail.csv";
 
 
 // Brochage des PIN
