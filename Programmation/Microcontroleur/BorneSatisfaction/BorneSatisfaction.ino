@@ -7,20 +7,23 @@
 
    @Author : Alexandre PERETJATKO
 */
-#define DEBUG(message) \
-  Serial.print("[DEBUG:"); \
-  Serial.print(__func__); \
-  Serial.print("("); \
-  Serial.print(__LINE__); \
-  Serial.print(")]-> "); \
-  Serial.println(message);
-
 // Mode prod = décommenter la ligne suivante
-//#define DEBUG(message);
-
-// Mode prod = ModeDebug false
 // Lorsque = true, le port série n'est pas initialisé, ce qui permet de gagner de la vitesse d'execution au boot.
 #define ModeDebug true
+
+
+#ifdef ModeDebug
+  #define DEBUG(message) \
+    Serial.print("[DEBUG:"); \
+    Serial.print(__func__); \
+    Serial.print("("); \
+    Serial.print(__LINE__); \
+    Serial.print(")]-> "); \
+    Serial.println(message);
+#else
+  #define DEBUG(message);
+#endif
+
 
 
 #include "initialisation.h";
@@ -44,11 +47,11 @@ void setup() {
   // -------------------------------------------------------------------------------------------------------------
   // initialisation de la liaison série.
   //
-  if ( ModeDebug ) {
+  #ifdef ModeDebug
     Serial.begin(115200);
     delay(1000);  // On attend que le port serie soit initialisé
     DEBUG("OK, let's go ******************************************");
-  }
+  #endif
 
 
   // -------------------------------------------------------------------------------------------------------------
