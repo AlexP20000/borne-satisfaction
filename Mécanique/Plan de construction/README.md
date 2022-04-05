@@ -4,7 +4,7 @@ Dans ce répertoie, se trouve tout ce qui concerne la construction physique.
 
 ## Epaisseurs des matériaux ##
 * PMMA :
-  * Dessus de la boite : 3 mm 
+  * Dessus de la boite : 3 mm
 * CTP peuplier :
   * Coté de la boite : 5 mm
 
