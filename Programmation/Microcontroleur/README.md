@@ -85,7 +85,10 @@ Exemple d'un fichier 20220208_Mesures.csv
 
 # Programmes #
 
+## Initialisation ##
+Le programme est fait (et testé) pour un micro-controlleur ESP32 sur un Firebeetle.
 
+Les variables modifiables sont visibles dans le fichier **initialisation.h**
 
 
 ## Algorithme du microcontrôleur ##
