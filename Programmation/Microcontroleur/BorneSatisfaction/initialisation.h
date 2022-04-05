@@ -24,9 +24,3 @@ char *postfixeFileMesures   = "_detail.csv";
 
 // Délais d'extinction des lEDs lors du test et des message d'erreur = 1 seconde
 const int DelayExtinctionLEDs = 1000;
-
-// Gestion des erreurs
-boolean BOO_ProblemeBatterie;
-boolean BOO_ProblemeCarteSD;
-boolean BOO_FichierParamsManquant;
-boolean BOO_Clignote;

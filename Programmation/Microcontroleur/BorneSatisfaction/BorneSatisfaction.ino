@@ -34,6 +34,12 @@
 #include "carteSD.h"
 #include "deepsleep.h"
 
+// Gestion des erreurs
+boolean BOO_ProblemeBatterie;
+boolean BOO_ProblemeCarteSD;
+boolean BOO_FichierParamsManquant;
+boolean BOO_Clignote;
+
 
 void setup() {
   // -------------------------------------------------------------------------------------------------------------
@@ -254,7 +260,7 @@ void setup() {
 /**
  * ****************************************************************************************************************
  * ****************************************************************************************************************
-   Boocle principale.
+   Boucle principale.
    On n'entre à l'interieur que pour la gestion des erreurs au démarrage du boitier de vote.
 */
 void loop() {
