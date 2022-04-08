@@ -4,6 +4,7 @@
 /**
    ----------------------------------------------------------------------------------
    Renvoie le niveau de la batterie en pourcentage (sans le signe).
+   Protection contre des valeurs négatifs du pourcentage (si < 0, on renvoie 0 )
    ---------------------------------------------------------------------------------- */
 int BATTERIE_getBatterieLevel() {
   float mesureTensionMAX = 2368;   // <- A fixer
@@ -17,6 +18,9 @@ int BATTERIE_getBatterieLevel() {
   // Calcul du pourcentage
   // On ne garde que la partie entière de la valeur
   int pourcent = (int) 100 / (mesureTensionMAX - mesureTensionMIN) * (tension - mesureTensionMIN);
+  if( pourcent < 0 ) {
+    pourcent = 0;
+  }
   
   return pourcent;
 }
