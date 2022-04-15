@@ -267,13 +267,13 @@ void loop() {
   // Allumage led ROUGE
   if ( BOO_ProblemeBatterie ) {
     DEBUG("ProblemeBatterie");
-    digitalWrite(LED_ROUGE, HIGH);
+    digitalWrite(LED_JAUNE, HIGH);
   }
 
   // Allumage led JAUNE
   if ( BOO_ProblemeCarteSD ) {
     DEBUG("ProblemeCarteSD");
-    digitalWrite(LED_JAUNE, HIGH);
+    digitalWrite(LED_ROUGE, HIGH);
   }
 
   // Extinction des leds
