@@ -5,7 +5,6 @@
 #include <SPI.h>
 #include <IniFile.h>
 
-#include <Arduino.h>
 #include "FS.h"
 #include <LITTLEFS.h>
 
@@ -13,6 +12,48 @@
 char l_CHAR_fileNameSynthese[15] = "/question.txt";
 
 
+
+
+
+
+
+
+#ifdef ModeDebug
+String _printErrorMessage(uint8_t e, bool eol = true){
+  switch (e) {
+  case IniFile::errorNoError:
+    return "no error";
+    break;
+  case IniFile::errorFileNotFound:
+    return "file not found";
+    break;
+  case IniFile::errorFileNotOpen:
+    return "file not open";
+    break;
+  case IniFile::errorBufferTooSmall:
+    return "buffer too small";
+    break;
+  case IniFile::errorSeekError:
+    return "seek error";
+    break;
+  case IniFile::errorSectionNotFound:
+    return"section not found";
+    break;
+  case IniFile::errorKeyNotFound:
+    return"key not found";
+    break;
+  case IniFile::errorEndOfFile:
+    return"end of file";
+    break;
+  case IniFile::errorUnknownError:
+    return"unknown error";
+    break;
+  default:
+    return"unknown error value";
+    break;
+  }
+}
+#endif
 
 /**
    ----------------------------------------------------------------------------------
@@ -25,13 +66,13 @@ void CARTESD_EraseROMSynthese(String question) {
     if ( LITTLEFS.format() )
       DEBUG("Formattage du file system en ROM");
 
-      // Stock la nouvelle question sur le LittleFS
-      File file = LITTLEFS.open(l_CHAR_fileNameSynthese, FILE_WRITE);
-      if ( file ) {
-        file.print(question);
-        DEBUG("Ecriture de '" + question + "' dans le fichier <" + String(l_CHAR_fileNameSynthese) + "> sur littleFS");
-      }
-      file.close();
+    // Stock la nouvelle question sur le LittleFS
+    File file = LITTLEFS.open(l_CHAR_fileNameSynthese, FILE_WRITE);
+    if ( file ) {
+      file.print(question);
+      DEBUG("Ecriture de '" + question + "' dans le fichier <" + String(l_CHAR_fileNameSynthese) + "> sur littleFS");
+    }
+    file.close();
 
   } else {
     DEBUG("Impossible de formatter le file system en ROM");
@@ -97,11 +138,13 @@ boolean CARTESD_readConfigFile(const char *fileName, String &p_STR_siteID, Strin
 
 
 
-/**
-   ----------------------------------------------------------------------------------
-   test l'existance d'un fichier.
-   Ex : CARTESD_existeFile("/hello.txt");
-  ---------------------------------------------------------------------------------- */
+/** --------------------------------------------------------------------------------------
+   @brief test l'existance d'un fichier.
+      Ex : CARTESD_existeFile("/hello.txt");
+
+   @param fileName : Le nom du fichier à tester.
+   @return boolean -> TRUE si le fichier existe.
+  ---------------------------------------------------------------------------------------- */
 boolean CARTESD_existeFile(const char *fileName) {
   File file = SD.open(fileName);
   if (!file) {
@@ -132,11 +175,15 @@ String _getRandomChar(int nbCaract) {
 
 
 /**
-   ----------------------------------------------------------------------------------
-   Ecriture d'un fichier de configuration.
-   Ex : CARTESD_existeFile("/config.ini");
-  ---------------------------------------------------------------------------------- */
-void CARTESD_writeConfigFile(const char *fileName) {
+   ---------------------------------------------------------------------------------------
+    @brief Ecriture d'un fichier de configuration.
+  Ex : CARTESD_existeFile("/config.ini");
+
+    @param fileName Le nom du fichier de parametrage
+    @param siteID    l'ID du site (random par defaut)
+    @param question  la question en toutes lettres
+  ---------------------------------------------------------------------------------------- */
+void CARTESD_writeConfigFile(const char *fileName, String siteID = "", String question = "") {
 
   DEBUG("Ecriture du fichier de configuration: " + String(fileName));
 
@@ -151,12 +198,32 @@ void CARTESD_writeConfigFile(const char *fileName) {
     myFile.println("");
 
     myFile.println("# Le siteID est votre identifiant comme il vous a ete donnee par l'enqueteur, ne le modifiez pas s'il ne vous le demande pas.");
-    myFile.println("siteID=Cool Food " + _getRandomChar(10));
+    if ( siteID == "") {
+      myFile.println("siteID=Cool Food " + _getRandomChar(10));
+
+    } else {
+      myFile.println("siteID=" + siteID );
+    }
     myFile.println("");
 
     myFile.println("# Cette phrase apparaitra dans le fichier resultat à votre questionnaire mais n'est pas visible sur la borne.");
     myFile.println("# Il est conseille de definir ici une phrase courte.");
-    myFile.println("question= Aimez-vous les brocolis ?");
+    if ( question == "") {
+      myFile.println("question= Aimez-vous les brocolis ?");
+    } else {
+      myFile.println("question=" + question);
+    }
+
+    myFile.println("");
+
+    myFile.println("# Si vous avez besoin de mettre la date à l'heure dans la borne, c'est ici.");
+    myFile.println("# Pour la mise à l'heure, décommentez (supprimez le # en début de ligne) et ");
+    myFile.println("# remplissez les champs suivant avec des valeurs numériques uniquement.");
+    myFile.println("#annee=1971");
+    myFile.println("#mois=01");
+    myFile.println("#jour=27");
+    myFile.println("#heure=14");
+    myFile.println("#minute=56");
     myFile.println("");
 
     myFile.close();
@@ -282,12 +349,14 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
   file.println("  Jaune = " + String(cumulJaune, DEC) );
   file.println("  TOTAL = " + String(total, DEC) );
   file.println("Pourcentage d'appuie sur les boutons :");
-  file.println("  Rouge = " + String(int(round(cumulRouge * 100 / total)), DEC) + "%" );
-  file.println("  Vert  = " + String(int(round(cumulVert * 100 / total)),  DEC) + "%" );
-  file.println("  Jaune = " + String(int(round(cumulJaune * 100 / total)), DEC) + "%" );
-  DEBUG("  Rouge = " + String(int(round(cumulRouge * 100 / total)), DEC) + "%" );
-  DEBUG("  Vert  = " + String(int(round(cumulVert * 100 / total)),  DEC) + "%" );
-  DEBUG("  Jaune = " + String(int(round(cumulJaune * 100 / total)), DEC) + "%" );
+  if( total != 0 ){
+    file.println("  Rouge = " + String(int(round(cumulRouge * 100 / total)), DEC) + "%" );
+    file.println("  Vert  = " + String(int(round(cumulVert * 100 / total)),  DEC) + "%" );
+    file.println("  Jaune = " + String(int(round(cumulJaune * 100 / total)), DEC) + "%" );
+    DEBUG("  Rouge = " + String(int(round(cumulRouge * 100 / total)), DEC) + "%" );
+    DEBUG("  Vert  = " + String(int(round(cumulVert * 100 / total)),  DEC) + "%" );
+    DEBUG("  Jaune = " + String(int(round(cumulJaune * 100 / total)), DEC) + "%" );
+  }
 
   file.close();
 }
@@ -313,7 +382,7 @@ boolean CARTESD_questionChange(String &questionDansFichierConfig) {
 
   // Initialise siteID et question a partir de la carte SD
   CARTESD_readConfigFile( fileName_Config, siteID, questionDansFichierConfig );
-  
+
 
 
   // Lecture de la question stockée sur littleFS
@@ -335,3 +404,111 @@ boolean CARTESD_questionChange(String &questionDansFichierConfig) {
   return (question != questionDansFichierConfig);
 }
 
+
+/** --------------------------------------------------------------------------------------
+   @brief Permet de lire le fichier de configuraiton et de mettre à jour la date et l'heure si besoin.
+
+   @param fileName : le nom du fichier ini dans lequel lire la date et l'heure.
+   @return true si la config a pu être lu
+  ----------------------------------------------------------------------------------------- */
+bool CARTESD_updateDate(const char *fileName) {
+  bool initFromFile = false;
+  const size_t bufferLen = 300;
+  char buffer[bufferLen];
+  String STR_annee, STR_mois, STR_jour, STR_heure, STR_minute;
+
+
+  // Si on ne peut pas ouvrir le fichier de configuration
+  IniFile ini(fileName);
+  if (!ini.open()) {
+    DEBUG("Failed to open <" + String(fileName) + "> for reading");
+
+    // On ne fait rien d'autre
+    return false;
+  }
+
+  DEBUG("RTC_getDate:" + RTC_getDate());
+
+
+
+
+  // Lecture de l'année à partir du fichier
+  DEBUG("Lecture de l'année a partir du fichier " + String(fileName));
+  if ( ini.getValue("config", "annee", buffer, bufferLen)) {
+    STR_annee = buffer;
+    initFromFile = true;
+  } else {
+    DEBUG(_printErrorMessage(ini.getError()) );
+    STR_annee = String(now.year());
+  }
+
+  // Lecture du mois à partir du fichier ou de la RTC
+  DEBUG("Lecture du mois");
+  if ( ini.getValue("config", "mois", buffer, bufferLen)) {
+    STR_mois = buffer;
+    initFromFile = true;
+  } else {
+    DEBUG(_printErrorMessage(ini.getError()) );
+    STR_mois = String(now.month());
+  }
+
+  // Lecture du jour à partir du fichier ou de la RTC
+  DEBUG("Lecture du jour");
+  if ( ini.getValue("config", "jour", buffer, bufferLen)) {
+    STR_jour = buffer;
+    initFromFile = true;
+  } else {
+    DEBUG(_printErrorMessage(ini.getError()) );
+    STR_jour = String(now.day());
+  }
+
+  // Lecture de l'heure à partir du fichier ou de la RTC
+  DEBUG("Lecture de l'heure");
+  if ( ini.getValue("config", "heure", buffer, bufferLen)) {
+    STR_heure = buffer;
+    initFromFile = true;
+  } else {
+    DEBUG(_printErrorMessage(ini.getError()) );
+    STR_heure = String(now.hour());
+  }
+
+  // Lecture des minutes à partir du fichier ou de la RTC
+  DEBUG("Lecture des minutes");
+  if ( ini.getValue("config", "minute", buffer, bufferLen)) {
+    STR_minute = buffer;
+    initFromFile = true;
+  } else {
+    DEBUG(_printErrorMessage(ini.getError()) );
+    STR_minute = String(now.minute());
+  }
+
+  DEBUG("heure:" + STR_heure);
+  DEBUG("minute:" + STR_minute);
+  DEBUG("Année:" + STR_annee);
+  DEBUG("Mois:" + STR_mois);
+  DEBUG("Jour:" + STR_jour);
+
+  // SI on a besoin d'initialiser la RTC à partir du fichier
+  if ( initFromFile ) {
+    // Mise à jour de la RTC ...............................
+    rtc.adjust(DateTime(STR_annee.toInt(),
+                        STR_mois.toInt(),
+                        STR_jour.toInt(),
+                        STR_heure.toInt(),
+                        STR_minute.toInt(), 0));
+
+    // Reecriture du fichier de config .....................
+    // Lecture du fichier de configuration
+    String siteID, question = "";
+    CARTESD_readConfigFile( fileName, siteID, question );
+
+    // Ecriture du fichier avec la question et le siteID
+    CARTESD_writeConfigFile( fileName, siteID, question);
+    DEBUG("Réécriture du fichier de paramétrage");
+  }
+
+
+  DEBUG("RTC_getDate:" + RTC_getDate());
+
+  return initFromFile;
+}
