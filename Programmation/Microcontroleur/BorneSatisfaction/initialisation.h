@@ -24,3 +24,16 @@ char *postfixeFileMesures   = "_detail.csv";
 
 // Délais d'extinction des lEDs lors du test et des messages d'erreur = 1 seconde
 const int DelayExtinctionLEDs = 1000;
+
+
+#ifdef ModeDebug
+#define DEBUG(message) \
+  Serial.print("[DEBUG:"); \
+  Serial.print(__func__); \
+  Serial.print("("); \
+  Serial.print(__LINE__); \
+  Serial.print(")]-> "); \
+  Serial.println(message);
+#else
+#define DEBUG(message);
+#endif

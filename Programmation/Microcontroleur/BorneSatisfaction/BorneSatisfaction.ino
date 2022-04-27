@@ -14,18 +14,6 @@
 // #define ModeDebug
 
 
-#ifdef ModeDebug
-#define DEBUG(message) \
-  Serial.print("[DEBUG:"); \
-  Serial.print(__func__); \
-  Serial.print("("); \
-  Serial.print(__LINE__); \
-  Serial.print(")]-> "); \
-  Serial.println(message);
-#else
-#define DEBUG(message);
-#endif
-
 #include "initialisation.h"
 #include "RTC.h"
 #include "batterie.h"
