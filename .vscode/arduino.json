@@ -1,6 +1,4 @@
 {
     "port": "COM11",
-    "configuration": "FlashFreq=80,UploadSpeed=921600",
-    "board": "esp32:esp32:firebeetle32",
-    "sketch": "Programmation\\Microcontroleur\\BorneSatisfaction\\BorneSatisfaction.ino"
+    "board": "esp32:esp32:firebeetle32"
 }
