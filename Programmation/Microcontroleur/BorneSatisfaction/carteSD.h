@@ -439,7 +439,7 @@ bool CARTESD_updateDate(const char *fileName) {
     STR_annee = buffer;
     initFromFile = true;
   } else {
-    DEBUG("Lecture de l'anne : " + _printErrorMessage(ini.getError()) );
+    DEBUG("year : " + _printErrorMessage(ini.getError()) );
     STR_annee = RTC_getYear();
   }
 
@@ -448,7 +448,7 @@ bool CARTESD_updateDate(const char *fileName) {
     STR_mois = buffer;
     initFromFile = true;
   } else {
-    DEBUG("Lecture du mois : " + _printErrorMessage(ini.getError()) );
+    DEBUG("month : " + _printErrorMessage(ini.getError()) );
     STR_mois = RTC_getMonth();
   }
 
@@ -457,7 +457,7 @@ bool CARTESD_updateDate(const char *fileName) {
     STR_jour = buffer;
     initFromFile = true;
   } else {
-    DEBUG("Lecture du jour : " +_printErrorMessage(ini.getError()) );
+    DEBUG("day : " +_printErrorMessage(ini.getError()) );
     STR_jour = RTC_getDay();
   }
 
@@ -466,7 +466,7 @@ bool CARTESD_updateDate(const char *fileName) {
     STR_heure = buffer;
     initFromFile = true;
   } else {
-    DEBUG("Lecture de l'heure" + _printErrorMessage(ini.getError()) );
+    DEBUG("hour : " + _printErrorMessage(ini.getError()) );
     STR_heure = RTC_getHour();
   }
 
@@ -475,7 +475,7 @@ bool CARTESD_updateDate(const char *fileName) {
     STR_minute = buffer;
     initFromFile = true;
   } else {
-    DEBUG("Lecture des minutes :" + _printErrorMessage(ini.getError()) );
+    DEBUG("minute :" + _printErrorMessage(ini.getError()) );
     STR_minute = RTC_getMinute();
   }
 
