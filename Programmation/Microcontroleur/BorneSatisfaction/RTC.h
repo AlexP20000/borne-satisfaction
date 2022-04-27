@@ -62,10 +62,11 @@ String RTC_getDate() {
 }
 
 
-/**
-  ----------------------------------------------------------------------------------
-   Renvoie l'heure sous forme de chaine de caractères.
-  ----------------------------------------------------------------------------------*/
+/** --------------------------------------------------------------------------------------
+ * @brief    Renvoie l'heure sous forme de chaine de caractères.
+ * 
+ * @return String 
+ */
 String RTC_getTime() {
   rtc.begin();
   rtc.start();
@@ -76,4 +77,75 @@ String RTC_getTime() {
   char second[3]; sprintf(second, "%02i", now.second());
  
   return String(hour) + ":" + String(minute) + ":" + String(second);
+}
+
+/** --------------------------------------------------------------------------------------
+ * @brief Renvoie l'année courant à partir de la RTC.
+ * 
+ * @return String 
+ */
+String RTC_getYear() {
+  rtc.begin();
+  rtc.start();
+
+  DateTime now = rtc.now();
+  return String(now.year());
+}
+
+/** --------------------------------------------------------------------------------------
+ * @brief Renvoie le mois courant à partir de la RTC.
+ * 
+ * @return String 
+ */
+String RTC_getMonth() {
+  rtc.begin();
+  rtc.start();
+
+  DateTime now = rtc.now();
+  char mois[3]; sprintf(mois, "%02i", now.month());
+
+  return String(mois);
+}
+
+/** --------------------------------------------------------------------------------------
+ * @brief Renvoie le jour courant à partir de la RTC.
+ * 
+ * @return String 
+ */
+String RTC_getDay() {
+  rtc.begin();
+  rtc.start();
+
+  DateTime now = rtc.now();
+  char jour[3]; sprintf(jour, "%02i", now.day());
+
+  return String(jour);
+}
+/** --------------------------------------------------------------------------------------
+ * @brief Renvoie l'heure courante à partir de la RTC.
+ * 
+ * @return String 
+ */
+String RTC_getHour() {
+  rtc.begin();
+  rtc.start();
+
+  DateTime now = rtc.now();
+  char hour[3]; sprintf(hour, "%02i", now.hour());
+ 
+  return String(hour);
+}
+/** --------------------------------------------------------------------------------------
+ * @brief Renvoie l'heure courante à partir de la RTC.
+ * 
+ * @return String 
+ */
+String RTC_getMinute() {
+  rtc.begin();
+  rtc.start();
+
+  DateTime now = rtc.now();
+  char minute[3]; sprintf(minute, "%02i", now.minute());
+ 
+  return String(minute);
 }

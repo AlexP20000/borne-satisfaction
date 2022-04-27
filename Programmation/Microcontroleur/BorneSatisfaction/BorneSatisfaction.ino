@@ -9,20 +9,21 @@
    __________________________________________________________________________________
 */
 // Mode prod => commenter la ligne suivante
-//              pour faire en sorte que le port série ne soit pas initialisé, ce qui permet de gagner de la vitesse d'execution au boot. 
+//              pour faire en sorte que le port série ne soit pas initialisé, ce qui
+//              permet de gagner de la vitesse d'execution au boot.
 #define ModeDebug
 
 
 #ifdef ModeDebug
-  #define DEBUG(message) \
-    Serial.print("[DEBUG:"); \
-    Serial.print(__func__); \
-    Serial.print("("); \
-    Serial.print(__LINE__); \
-    Serial.print(")]-> "); \
-    Serial.println(message);
+#define DEBUG(message) \
+  Serial.print("[DEBUG:"); \
+  Serial.print(__func__); \
+  Serial.print("("); \
+  Serial.print(__LINE__); \
+  Serial.print(")]-> "); \
+  Serial.println(message);
 #else
-  #define DEBUG(message);
+#define DEBUG(message);
 #endif
 
 #include "initialisation.h"
@@ -57,11 +58,11 @@ void setup() {
   // -------------------------------------------------------------------------------------------------------------
   // initialisation de la liaison série.
   //
-  #ifdef ModeDebug
-    Serial.begin(115200);
-    delay(1000);  // On attend que le port serie soit initialisé
-    DEBUG("OK, let's go _____________________________________________________________________________");
-  #endif
+#ifdef ModeDebug
+  Serial.begin(115200);
+  delay(1000);  // On attend que le port serie soit initialisé
+  DEBUG("OK, let's go _____________________________________________________________________________");
+#endif
 
 
   // -------------------------------------------------------------------------------------------------------------
@@ -148,9 +149,9 @@ void setup() {
           // .......................................................................
           // on réinitialise les synthèses si la question a changée
           String question = "";
-          if( CARTESD_questionChange(question) ){
+          if ( CARTESD_questionChange(question) ) {
             // Efface littelFS
-            // et 
+            // et
             // Reinitialise les fichiers de synthese et de la question dans le LittelFS
             CARTESD_EraseROMSynthese(question);
             DEBUG("Reinitialisation des synthèses");
@@ -160,10 +161,10 @@ void setup() {
           }
 
           // Lecture de la date et l'heure
-          if( CARTESD_updateDate(fileName_Config)){
+          if ( CARTESD_updateDate(fileName_Config)) {
             // initialisation de la RTC à partir du fichier de paramétrage
             DEBUG("initialisation de la RTC à partir du fichier de paramétrage");
-            for( int i = 0; i <=3; i++){
+            for ( int i = 0; i <= 3; i++) {
               digitalWrite(LED_VERT, LOW);
               delay(DelayExtinctionLEDs);
               digitalWrite(LED_VERT, HIGH);

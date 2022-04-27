@@ -197,7 +197,8 @@ void CARTESD_writeConfigFile(const char *fileName, String siteID = "", String qu
     myFile.println("[config]");
     myFile.println("");
 
-    myFile.println("# Le siteID est votre identifiant comme il vous a ete donnee par l'enqueteur, ne le modifiez pas s'il ne vous le demande pas.");
+    myFile.println("# Le siteID est votre identifiant comme il vous a ete donnee par l'enqueteur,");
+    myFile.println("# ne le modifiez pas s'il ne vous le demande pas.");
     if ( siteID == "") {
       myFile.println("siteID=Cool Food " + _getRandomChar(10));
 
@@ -219,12 +220,12 @@ void CARTESD_writeConfigFile(const char *fileName, String siteID = "", String qu
     myFile.println("# Si vous avez besoin de mettre la date à l'heure dans la borne, c'est ici.");
     myFile.println("# Pour la mise à l'heure, décommentez (supprimez le # en début de ligne) et ");
     myFile.println("# remplissez les champs suivant avec des valeurs numériques uniquement.");
-    myFile.println("#annee=1971");
-    myFile.println("#mois=01");
-    myFile.println("#jour=27");
-    myFile.println("#heure=14");
+    myFile.println("# Une fois la mise à l'heure faite, les lignes seront automatiquement commentées.");
+    myFile.println("#year=2022");
+    myFile.println("#month=04");
+    myFile.println("#day=27");
+    myFile.println("#hour=14");
     myFile.println("#minute=56");
-    myFile.println("");
 
     myFile.close();
   } else {
@@ -406,10 +407,10 @@ boolean CARTESD_questionChange(String &questionDansFichierConfig) {
 
 
 /** --------------------------------------------------------------------------------------
-   @brief Permet de lire le fichier de configuraiton et de mettre à jour la date et l'heure si besoin.
+   @brief Permet de lire le fichier de configuration et de mettre à jour la date et l'heure si besoin.
 
    @param fileName : le nom du fichier ini dans lequel lire la date et l'heure.
-   @return true si la config a pu être lu
+   @return true si la config a pu être lu à partir du fichier de config
   ----------------------------------------------------------------------------------------- */
 bool CARTESD_updateDate(const char *fileName) {
   bool initFromFile = false;
@@ -428,65 +429,56 @@ bool CARTESD_updateDate(const char *fileName) {
   }
 
   DEBUG("RTC_getDate:" + RTC_getDate());
+  DEBUG("RTC_getTime:" + RTC_getTime());
 
 
 
 
   // Lecture de l'année à partir du fichier
-  DEBUG("Lecture de l'année a partir du fichier " + String(fileName));
-  if ( ini.getValue("config", "annee", buffer, bufferLen)) {
+  if ( ini.getValue("config", "year", buffer, bufferLen)) {
     STR_annee = buffer;
     initFromFile = true;
   } else {
-    DEBUG(_printErrorMessage(ini.getError()) );
-    STR_annee = String(now.year());
+    DEBUG("Lecture de l'anne : " + _printErrorMessage(ini.getError()) );
+    STR_annee = RTC_getYear();
   }
 
   // Lecture du mois à partir du fichier ou de la RTC
-  DEBUG("Lecture du mois");
-  if ( ini.getValue("config", "mois", buffer, bufferLen)) {
+  if ( ini.getValue("config", "month", buffer, bufferLen)) {
     STR_mois = buffer;
     initFromFile = true;
   } else {
-    DEBUG(_printErrorMessage(ini.getError()) );
-    STR_mois = String(now.month());
+    DEBUG("Lecture du mois : " + _printErrorMessage(ini.getError()) );
+    STR_mois = RTC_getMonth();
   }
 
   // Lecture du jour à partir du fichier ou de la RTC
-  DEBUG("Lecture du jour");
-  if ( ini.getValue("config", "jour", buffer, bufferLen)) {
+  if ( ini.getValue("config", "day", buffer, bufferLen)) {
     STR_jour = buffer;
     initFromFile = true;
   } else {
-    DEBUG(_printErrorMessage(ini.getError()) );
-    STR_jour = String(now.day());
+    DEBUG("Lecture du jour : " +_printErrorMessage(ini.getError()) );
+    STR_jour = RTC_getDay();
   }
 
   // Lecture de l'heure à partir du fichier ou de la RTC
-  DEBUG("Lecture de l'heure");
-  if ( ini.getValue("config", "heure", buffer, bufferLen)) {
+  if ( ini.getValue("config", "hour", buffer, bufferLen)) {
     STR_heure = buffer;
     initFromFile = true;
   } else {
-    DEBUG(_printErrorMessage(ini.getError()) );
-    STR_heure = String(now.hour());
+    DEBUG("Lecture de l'heure" + _printErrorMessage(ini.getError()) );
+    STR_heure = RTC_getHour();
   }
 
   // Lecture des minutes à partir du fichier ou de la RTC
-  DEBUG("Lecture des minutes");
   if ( ini.getValue("config", "minute", buffer, bufferLen)) {
     STR_minute = buffer;
     initFromFile = true;
   } else {
-    DEBUG(_printErrorMessage(ini.getError()) );
-    STR_minute = String(now.minute());
+    DEBUG("Lecture des minutes :" + _printErrorMessage(ini.getError()) );
+    STR_minute = RTC_getMinute();
   }
 
-  DEBUG("heure:" + STR_heure);
-  DEBUG("minute:" + STR_minute);
-  DEBUG("Année:" + STR_annee);
-  DEBUG("Mois:" + STR_mois);
-  DEBUG("Jour:" + STR_jour);
 
   // SI on a besoin d'initialiser la RTC à partir du fichier
   if ( initFromFile ) {
@@ -509,6 +501,8 @@ bool CARTESD_updateDate(const char *fileName) {
 
 
   DEBUG("RTC_getDate:" + RTC_getDate());
+  DEBUG("RTC_getTime:" + RTC_getTime());
+
 
   return initFromFile;
 }

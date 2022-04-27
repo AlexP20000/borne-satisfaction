@@ -22,5 +22,5 @@ char *postfixeFileMesures   = "_detail.csv";
 
 #define PIN_PWR_EN 13
 
-// Délais d'extinction des lEDs lors du test et des message d'erreur = 1 seconde
+// Délais d'extinction des lEDs lors du test et des messages d'erreur = 1 seconde
 const int DelayExtinctionLEDs = 1000;
