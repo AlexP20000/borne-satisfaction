@@ -80,15 +80,16 @@ void CARTESD_EraseROMSynthese(String question) {
 }
 
 
-/**
-   ----------------------------------------------------------------------------------
-   Lecture du fichier de configuration.
-   @param
-    CHAR fileName: le nom du fichier (ne pas oublier le / en début de chaine).
-   @return
-    String siteID:    le Site ID du boitier de vote
-    String question:  la question écrite dans le fichier de configuration.
-  ---------------------------------------------------------------------------------- */
+/** --------------------------------------------------------------------------------------
+ * @brief    Lecture du fichier de configuration.
+ * 
+ * @param fileName le nom du fichier de conf
+ * @param p_STR_siteID  l'ID sdu site
+ * @param p_STR_question la question du sondage 
+ * @return boolean false : initialisation impossible.
+          String siteID:    le Site ID du boitier de vote
+          String question:  la question écrite dans le fichier de configuration.
+------------------------------------------------------------------------------------------ */
 boolean CARTESD_readConfigFile(const char *fileName, String &p_STR_siteID, String &p_STR_question) {
 
   // test de la carte SD
@@ -123,6 +124,7 @@ boolean CARTESD_readConfigFile(const char *fileName, String &p_STR_siteID, Strin
 
   } else {
     DEBUG("Could not read 'siteID' from section 'config'");
+    return false;
   }
 
   // Lecture de la question
@@ -131,6 +133,7 @@ boolean CARTESD_readConfigFile(const char *fileName, String &p_STR_siteID, Strin
 
   } else {
     DEBUG("Could not read 'question' from section 'config'");
+    return false;
   }
   return true;
 }

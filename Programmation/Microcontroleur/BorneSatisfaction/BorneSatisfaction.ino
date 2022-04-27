@@ -102,6 +102,9 @@ void setup() {
       and wakeupCause != ESP_SLEEP_WAKEUP_TIMER
       and wakeupCause != ESP_SLEEP_WAKEUP_TOUCHPAD
       and wakeupCause != ESP_SLEEP_WAKEUP_ULP) {
+    
+    DEBUG("mise sous tension");
+    
     // .......................................................................
     // Batterie faible
     //
@@ -139,44 +142,58 @@ void setup() {
           CARTESD_EraseROMSynthese("question");
 
         } else {
-          // .......................................................................
-          // Tout est ok
-          //
-          DEBUG("Tout est ok");
-          // Allumage LED verte
-          digitalWrite(LED_VERT, HIGH);
+          String siteID, question = "";
+          if ( ! CARTESD_readConfigFile( fileName_Config, siteID, question ) ) {
+            
+            // Il y a eu un problème de lecture de fichier de config sur la carte SD
+            DEBUG("Il y a eu un problème de lecture de variables dans le fichier de config sur la carte SD");
 
-          // .......................................................................
-          // on réinitialise les synthèses si la question a changée
-          String question = "";
-          if ( CARTESD_questionChange(question) ) {
-            // Efface littelFS
-            // et
-            // Reinitialise les fichiers de synthese et de la question dans le LittelFS
-            CARTESD_EraseROMSynthese(question);
-            DEBUG("Reinitialisation des synthèses");
+            CARTESD_writeConfigFile( fileName_Config );
+            CARTESD_EraseROMSynthese("question");
 
+            BOO_ProblemeCarteSD = true;
+            BOO_Clignote = true;
           } else {
-            DEBUG("pas de changement dans la question");
-          }
 
-          // Lecture de la date et l'heure
-          if ( CARTESD_updateDate(fileName_Config)) {
-            // initialisation de la RTC à partir du fichier de paramétrage
-            DEBUG("initialisation de la RTC à partir du fichier de paramétrage");
-            for ( int i = 0; i <= 3; i++) {
-              digitalWrite(LED_VERT, LOW);
-              delay(DelayExtinctionLEDs);
-              digitalWrite(LED_VERT, HIGH);
-              delay(DelayExtinctionLEDs);
+            // .......................................................................
+            // Tout est ok
+            //
+            DEBUG("Tout est ok");
+            // Allumage LED verte
+            digitalWrite(LED_VERT, HIGH);
+
+            // .......................................................................
+            // on réinitialise les synthèses si la question a changée
+            String question = "";
+            if ( CARTESD_questionChange(question) ) {
+              // Efface littelFS
+              // et
+              // Reinitialise les fichiers de synthese et de la question dans le LittelFS
+              CARTESD_EraseROMSynthese(question);
+              DEBUG("Reinitialisation des synthèses");
+
+            } else {
+              DEBUG("pas de changement dans la question");
             }
+
+            // Lecture de la date et l'heure
+            if ( CARTESD_updateDate(fileName_Config)) {
+              // initialisation de la RTC à partir du fichier de paramétrage
+              DEBUG("initialisation de la RTC à partir du fichier de paramétrage");
+              for ( int i = 0; i <= 3; i++) {
+                digitalWrite(LED_VERT, LOW);
+                delay(DelayExtinctionLEDs);
+                digitalWrite(LED_VERT, HIGH);
+                delay(DelayExtinctionLEDs);
+              }
+            }
+
+            // Extinction LED verte
+            digitalWrite(LED_VERT, LOW);
+
+            // Deep sleep
+            DEEPSLEEP_start();
           }
-
-          // Extinction LED verte
-          digitalWrite(LED_VERT, LOW);
-
-          // Deep sleep
-          DEEPSLEEP_start();
         }
       }
     }
@@ -259,13 +276,6 @@ void setup() {
       // .......................................................................
       // Deep sleep
       DEEPSLEEP_start();
-
-
-
-    } else {
-      // Il y a eu un poroblème de lecture de fichier de config sur la carte SD
-      BOO_ProblemeCarteSD = true;
-      BOO_Clignote = true;
     }
   }
 }
