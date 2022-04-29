@@ -30,21 +30,37 @@ La carte SD contient plusieurs type de fichiers :
 
 ## Format des fichiers ##
 
-### Fichier paramétrage ###
+### Fichier de configuration ###
 fichier : **configuration.ini** formaté comme suit :
 ```
-[configuration]
-; le siteID est votre identifiant comme il vous a été donnée par **l'enquêteur**, ne le modifiez pas s'il ne vous le demande pas.
-siteID=OpenFactory
+# Ceci est le fichier de configuration pour l'application 'Compteur de vote'.
+# Ne modifiez pas le nom des variables (ce qui se trouve avant le signe egale sur une ligne).
+# Vous pouvez modifier le texte se trouvant apres le signe egale a votre guise.
+#____________________________________________________________________________________________
+[config]
 
-; Cette phrase apparaitra dans le fichier résultat à votre questionnaire mais n'est pas visible sur la borne.
-; Il est conseillé de définir ici une phrase courte.
-question=Aimez-vous les artichauds ?
+# Le siteID est votre identifiant comme il vous a ete donnee par l'enqueteur,
+# ne le modifiez pas s'il ne vous le demande pas.
+siteID=Cool Food UOF
+
+# Cette phrase apparaitra dans le fichier resultat à votre questionnaire mais n'est pas visible sur la borne.
+# Il est conseille de definir ici une phrase courte.
+question=Aimez-vous faire des tests sur cette borne ?
+
+# Si vous avez besoin de mettre la date à l'heure dans la borne, c'est ici.
+# Pour la mise à l'heure, décommentez (supprimez le # en début de ligne) et 
+# remplissez les champs suivant avec des valeurs numériques uniquement.
+# Une fois la mise à l'heure faite, les lignes seront automatiquement commentées.
+#year=2022
+#month=04
+#day=27
+#hour=14
+#minute=56
 ```
 
 
 ### Fichier de synthèse ###
-Fichier **YYYYMMDD_recap.txt** (par exemple 20220208_recap.csv) formaté comme suit :
+Fichier **YYYY-MM-DD_recap.txt** (par exemple 2022-04-27_recap.txt) formaté comme suit :
 
 
 ```
@@ -52,12 +68,12 @@ Etablissement = Cool Food I23I5V242Q
 Date          = 2022/04/05
 Question      = Voulez vous manger un plat végétarien une fois par semaine ?
 Batterie      = 96%
-Nombre d'appuie sur les boutons :
+Nombre d'appui sur les boutons :
   Rouge = 2
   Vert  = 4
   Jaune = 3
   TOTAL = 9
-Pourcentage d'appuie sur les boutons :
+Pourcentage d'appui sur les boutons :
   Rouge = 22%
   Vert  = 44%
   Jaune = 33%
@@ -68,17 +84,17 @@ Pourcentage d'appuie sur les boutons :
 
 
 ### Fichiers CSV ###
-Fichier **YYYYMMDD_detail.csv** (par exemple 20220208_detail.csv) formaté comme suit :
+Fichier **YYYY-MM-DD_detail.csv** (par exemple 2022-04-27_detail.csv) formaté comme suit :
 
 
 Exemple d'un fichier 20220208_Mesures.csv
 
-| ID du site | Date | Heure | Question | Oui | Non | Indécis | Niveau Batterie
+| ID du site | Date | Heure | Question | Vert | Rouge | Jaune | Niveau Batterie
 | ---------- | ---- | ----- | -------- | --- | --- | ----------- | ---------------
 | OpenFactory | 08/02/2022 | 12:45:52 | Aimez-vous les artichauds | 1 | 0 | 0 | 90%
 | OpenFactory | 08/02/2022 | 12:45:53 | Aimez-vous les artichauds | 1 | 0 | 0 | 90%
 | OpenFactory | 08/02/2022 | 12:45:55 | Aimez-vous les artichauds | 0 | 0 | 1 | 90%
-| OpenFactory | 08/02/2022 | 20:12:15 | Aimez-vous les artichauds | 0 | 1 | 0 | 50%
+| OpenFactory | 08/05/2022 | 20:12:15 | Aimez-vous les artichauds | 0 | 1 | 0 | 50%
 
 
 
@@ -89,6 +105,18 @@ Exemple d'un fichier 20220208_Mesures.csv
 Le programme est fait (et testé) pour un micro-controlleur ESP32 sur un Firebeetle.
 
 Les variables modifiables sont visibles dans le fichier **initialisation.h**
+
+## Codes couleur ##
+Les LEDS sont utilisées pour indiquer des alertes ou des erreurs lors de la mise sous tension de la borne.
+
+| Couleur | Allumage LED  | Signification | Bloquant |
+|---------|------|---------------|------|
+| Rouge | Fixe | Carte SD manquante | Oui |
+| Rouge | Clignotant | Fichier configuration manquante | Oui |
+| Jaune | Bref | Niveau de batterie < 20% | Non  |
+| Jaune | Clignotant | Niveau de batterie < 5% | Non  |
+| Vert  | Clignotant | Date et heure mise à jour à partir du fichier de configuration | Non |
+| Vert  | Bref | Tout est OK | Non |
 
 
 ## Algorithme du microcontrôleur ##
