@@ -237,11 +237,14 @@ void CARTESD_writeConfigFile(const char *fileName, String siteID = "", String qu
 }
 
 
-/**
-   ----------------------------------------------------------------------------------
-   Ajout d'une ligne à la fin du fichier des mesures.
-   Si le fichier n'existe pas, on le cré.
-  ----------------------------------------------------------------------------------*/
+  /**
+   ---------------------------------------------------------------------------------------
+   * @brief    Ajout d'une ligne à la fin du fichier des mesures.
+   * 
+   * @param date la date courante sous la forme 1971/01/27
+   * @param path le chemin où sauver le fichier
+   * @param message la chaine de caractères à enregistrer dans le fichier.
+  ----------------------------------------------------------------------------------------*/
 void CARTESD_appendFileMesure(String date, const char *path, String message) {
 
   // Construction du nom du fichier avec la date en préfixe
@@ -257,7 +260,7 @@ void CARTESD_appendFileMesure(String date, const char *path, String message) {
     DEBUG("Le fichier " + fileName + " n'existe pas, on l'initialise");
 
     // Ajoute la ligne d'entête des colonnes
-    message = "Identifiant du site;Date;Heure;Question;Oui;Non;Indecis;Niveau Batterie\n" + message;
+    message = "Identifiant du site;Date;Heure;Question;Vert;Rouge;Jaune;Niveau Batterie\n" + message;
     DEBUG(message);
   }
 
