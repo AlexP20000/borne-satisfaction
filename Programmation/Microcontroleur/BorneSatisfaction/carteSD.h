@@ -350,12 +350,12 @@ void CARTESD_miseAJourSynthese(const char *path, int rouge, int vert, int jaune,
   file.println("Date          = " + date);
   file.println("Question      = " + question);
   file.println("Batterie      = " + String(batterieLevel) + "%" );
-  file.println("Nombre d'appuie sur les boutons :");
+  file.println("Nombre d'appui sur les boutons :");
   file.println("  Rouge = " + String(cumulRouge, DEC) );
   file.println("  Vert  = " + String(cumulVert,  DEC) );
   file.println("  Jaune = " + String(cumulJaune, DEC) );
   file.println("  TOTAL = " + String(total, DEC) );
-  file.println("Pourcentage d'appuie sur les boutons :");
+  file.println("Pourcentage d'appui sur les boutons :");
   if( total != 0 ){
     file.println("  Rouge = " + String(int(round(cumulRouge * 100 / total)), DEC) + "%" );
     file.println("  Vert  = " + String(int(round(cumulVert * 100 / total)),  DEC) + "%" );
