@@ -115,7 +115,8 @@ Les LEDS sont utilisées pour indiquer des alertes ou des erreurs lors de la mis
 | Rouge | Clignotant | Fichier configuration manquante | Oui |
 | Jaune | Bref | Niveau de batterie < 20% | Non  |
 | Jaune | Clignotant | Niveau de batterie < 5% | Non  |
-| Vert  | Clignotant | Date et heure mise à jour à partir du fichier de configuration | Non |
+| Jaune | Clignotant (3x) | Echec de la mise à l'heure | Non  |
+| Vert  | Clignotant (3x) | Date et heure mise à jour à partir du fichier de configuration | Non |
 | Vert  | Bref | Tout est OK | Non |
 
 

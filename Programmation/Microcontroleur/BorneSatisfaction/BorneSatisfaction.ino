@@ -11,7 +11,7 @@
 // Mode prod => commenter la ligne suivante
 //              pour faire en sorte que le port série ne soit pas initialisé, ce qui
 //              permet de gagner de la vitesse d'execution au boot.
-// #define ModeDebug
+//#define ModeDebug
 
 
 #include "initialisation.h"
@@ -165,19 +165,32 @@ void setup() {
             }
 
             // Lecture de la date et l'heure
-            if ( CARTESD_updateDate(fileName_Config)) {
+            bool erreurFormat = false;
+            if ( CARTESD_updateDate(fileName_Config, erreurFormat)) {
               // initialisation de la RTC à partir du fichier de paramétrage
               DEBUG("initialisation de la RTC à partir du fichier de paramétrage");
-              for ( int i = 0; i <= 3; i++) {
+              for ( int i = 0; i < 3; i++) {
                 digitalWrite(LED_VERT, LOW);
                 delay(DelayExtinctionLEDs);
                 digitalWrite(LED_VERT, HIGH);
                 delay(DelayExtinctionLEDs);
               }
+            } else {
+              if( erreurFormat ){
+                DEBUG("Erreur de format de date ou d'heure dans '"+ String(fileName_Config) +"' à l'initialisation de la RTC");
+                for ( int i = 0; i < 3; i++) {
+                  digitalWrite(LED_JAUNE, HIGH);
+                  delay(DelayExtinctionLEDs);
+                  digitalWrite(LED_JAUNE, LOW);
+                  delay(DelayExtinctionLEDs);
+                }
+              }
+
             }
 
-            // Extinction LED verte
+            // Extinction LEDs
             digitalWrite(LED_VERT, LOW);
+            digitalWrite(LED_JAUNE, LOW);
 
             // Deep sleep
             DEEPSLEEP_start();

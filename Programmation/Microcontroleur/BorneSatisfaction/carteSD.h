@@ -220,10 +220,9 @@ void CARTESD_writeConfigFile(const char *fileName, String siteID = "", String qu
 
     myFile.println("");
 
-    myFile.println("# Si vous avez besoin de mettre la date à l'heure dans la borne, c'est ici.");
-    myFile.println("# Pour la mise à l'heure, décommentez (supprimez le # en début de ligne) et ");
+    myFile.println("# Pour faire la mise à l'heure, décommentez (supprimez le # en début de ligne) et ");
     myFile.println("# remplissez les champs suivant avec des valeurs numériques uniquement.");
-    myFile.println("# Une fois la mise à l'heure faite, les lignes seront automatiquement commentées.");
+    myFile.println("# Une fois la mise à l'heure faite (au démarrage de la borne), ces 5 lignes seront automatiquement commentées.");
     myFile.println("#year=2022");
     myFile.println("#month=04");
     myFile.println("#day=27");
@@ -418,7 +417,7 @@ boolean CARTESD_questionChange(String &questionDansFichierConfig) {
    @param fileName : le nom du fichier ini dans lequel lire la date et l'heure.
    @return true si la config a pu être lu à partir du fichier de config
   ----------------------------------------------------------------------------------------- */
-bool CARTESD_updateDate(const char *fileName) {
+bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   bool initFromFile = false;
   const size_t bufferLen = 300;
   char buffer[bufferLen];
@@ -488,21 +487,34 @@ bool CARTESD_updateDate(const char *fileName) {
 
   // SI on a besoin d'initialiser la RTC à partir du fichier
   if ( initFromFile ) {
-    // Mise à jour de la RTC ...............................
-    rtc.adjust(DateTime(STR_annee.toInt(),
+    // Creation d'une date
+    DateTime date =  DateTime(STR_annee.toInt(),
                         STR_mois.toInt(),
                         STR_jour.toInt(),
                         STR_heure.toInt(),
-                        STR_minute.toInt(), 0));
+                        STR_minute.toInt(), 0);
 
-    // Reecriture du fichier de config .....................
-    // Lecture du fichier de configuration
-    String siteID, question = "";
-    CARTESD_readConfigFile( fileName, siteID, question );
+    // Si on a une date valide
+    if( date.isValid() ) {
+      erreurFormat = false;
 
-    // Ecriture du fichier avec la question et le siteID
-    CARTESD_writeConfigFile( fileName, siteID, question);
-    DEBUG("Réécriture du fichier de paramétrage");
+      // Mise à jour de la RTC ...............................
+      rtc.adjust(date);
+      
+      // Reecriture du fichier de config .....................
+      // Lecture du fichier de configuration
+      String siteID, question = "";
+      CARTESD_readConfigFile( fileName, siteID, question );
+
+      // Ecriture du fichier avec la question et le siteID
+      CARTESD_writeConfigFile( fileName, siteID, question);
+      DEBUG("Réécriture du fichier de paramétrage");
+    } else {
+      DEBUG("Date non valide, impossible de mettre la RTC à jour");
+      initFromFile = false;
+      
+      erreurFormat = true;
+    }
   }
 
 

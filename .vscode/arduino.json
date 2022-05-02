@@ -1,4 +1,5 @@
 {
-    "port": "COM11",
-    "board": "esp32:esp32:firebeetle32"
+    "port": "COM4",
+    "board": "esp32:esp32:firebeetle32",
+    "sketch": "Programmation\\Microcontroleur\\BorneSatisfaction\\BorneSatisfaction.ino"
 }
