@@ -26,7 +26,7 @@ boolean BOO_ProblemeCarteSD;
 boolean BOO_FichierParamsManquant;
 boolean BOO_Clignote;
 
-unsigned long myTime;
+unsigned long LNG_Timer;
 
 
 void setup() {
@@ -283,7 +283,7 @@ void setup() {
   }
 
   // Timer pour le clignottement des leds
-  myTime = millis();
+  LNG_Timer = millis();
 }
 
 
@@ -296,8 +296,8 @@ void setup() {
 */
 void loop() {
 
-  // Si le timer est dépassé
-  if( myTime + DelayExtinctionLEDs < millis() ){
+  // SI LE TIMER EST DÉPASSÉ .............................................................
+  if( LNG_Timer + DelayExtinctionLEDs < millis() ){
     // Allumage/Extinction led ROUGE
     if ( BOO_ProblemeBatterie ) {
       DEBUG("ProblemeBatterie");
@@ -309,12 +309,14 @@ void loop() {
       DEBUG("ProblemeCarteSD");
       digitalWrite(LED_ROUGE, ! digitalRead(LED_ROUGE) );
     }
-    myTime = millis();
+    // Réinitilaisation du timer
+    LNG_Timer = millis();
   }
 
-  // Si on appui sur un bouton
+
+  // SI ON APPUI SUR UN BOUTON ...........................................................
   if( digitalRead(BTN_JAUNE) == HIGH or digitalRead(BTN_ROUGE) == HIGH or digitalRead( BTN_VERT) == HIGH ){
-    DEBUG("Alarme aquitée. Hop, en deep sleep");
+    DEBUG("Alarme aquitée. On entre en deep sleep");
     // Deep sleep
     DEEPSLEEP_start();
   }
