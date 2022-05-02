@@ -11,7 +11,7 @@
 // Mode prod => commenter la ligne suivante
 //              pour faire en sorte que le port série ne soit pas initialisé, ce qui
 //              permet de gagner de la vitesse d'execution au boot.
-//#define ModeDebug
+#define ModeDebug
 
 
 #include "initialisation.h"
@@ -25,6 +25,8 @@ boolean BOO_ProblemeBatterie;
 boolean BOO_ProblemeCarteSD;
 boolean BOO_FichierParamsManquant;
 boolean BOO_Clignote;
+
+unsigned long myTime;
 
 
 void setup() {
@@ -279,6 +281,9 @@ void setup() {
       DEEPSLEEP_start();
     }
   }
+
+  // Timer pour le clignottement des leds
+  myTime = millis();
 }
 
 
@@ -290,25 +295,27 @@ void setup() {
    On n'entre à l'interieur que pour la gestion des erreurs au démarrage du boitier de vote.
 */
 void loop() {
-  // Allumage led ROUGE
-  if ( BOO_ProblemeBatterie ) {
-    DEBUG("ProblemeBatterie");
-    digitalWrite(LED_JAUNE, HIGH);
+
+  // Si le timer est dépassé
+  if( myTime + DelayExtinctionLEDs < millis() ){
+    // Allumage/Extinction led ROUGE
+    if ( BOO_ProblemeBatterie ) {
+      DEBUG("ProblemeBatterie");
+      digitalWrite(LED_JAUNE, ! digitalRead(LED_JAUNE) );
+    }
+
+    // Allumage/Extinction  led JAUNE
+    if ( BOO_ProblemeCarteSD ) {
+      DEBUG("ProblemeCarteSD");
+      digitalWrite(LED_ROUGE, ! digitalRead(LED_ROUGE) );
+    }
+    myTime = millis();
   }
 
-  // Allumage led JAUNE
-  if ( BOO_ProblemeCarteSD ) {
-    DEBUG("ProblemeCarteSD");
-    digitalWrite(LED_ROUGE, HIGH);
-  }
-
-  // Extinction des leds
-  delay( DelayExtinctionLEDs );
-  if ( BOO_Clignote ) {
-    digitalWrite(LED_ROUGE, LOW);
-    digitalWrite(LED_VERT,  LOW);
-    digitalWrite(LED_JAUNE, LOW);
-
-    delay( DelayExtinctionLEDs );
+  // Si on appui sur un bouton
+  if( digitalRead(BTN_JAUNE) == HIGH or digitalRead(BTN_ROUGE) == HIGH or digitalRead( BTN_VERT) == HIGH ){
+    DEBUG("Alarme aquitée. Hop, en deep sleep");
+    // Deep sleep
+    DEEPSLEEP_start();
   }
 }
