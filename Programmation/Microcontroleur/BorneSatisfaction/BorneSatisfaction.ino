@@ -11,7 +11,7 @@
 // Mode prod => commenter la ligne suivante
 //              pour faire en sorte que le port série ne soit pas initialisé, ce qui
 //              permet de gagner de la vitesse d'execution au boot.
-#define ModeDebug
+//#define ModeDebug
 
 
 #include "initialisation.h"
