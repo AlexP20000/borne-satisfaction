@@ -9,8 +9,8 @@ issue 10 :
   un pourcent > 100
 ------------------------------------------------------------------------------------------ */
 int BATTERIE_getBatterieLevel() {
-  float mesureTensionMAX = 2368;   // <- A fixer
-  float mesureTensionMIN = 250; // <- A fixer
+  float mesureTensionMAX = 2425;
+  float mesureTensionMIN = 1725;
 
   // Renvoie la tension
   int tension = (int) analogRead(A0);
