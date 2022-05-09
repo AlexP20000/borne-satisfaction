@@ -194,13 +194,13 @@ void CARTESD_writeConfigFile(const char *fileName, String siteID = "", String qu
   File myFile = SD.open(fileName, FILE_WRITE);
   if (myFile) {
     myFile.println("# Ceci est le fichier de configuration pour l'application 'Compteur de vote'.");
-    myFile.println("# Ne modifiez pas le nom des variables (ce qui se trouve avant le signe egale sur une ligne).");
-    myFile.println("# Vous pouvez modifier le texte se trouvant apres le signe egale a votre guise.");
+    myFile.println("# Ne modifiez pas le nom des variables (ce qui se trouve avant le signe égal sur une ligne).");
+    myFile.println("# Vous pouvez modifier le texte se trouvant apres le signe égal à votre guise.");
     myFile.println("#____________________________________________________________________________________________");
     myFile.println("[config]");
     myFile.println("");
 
-    myFile.println("# Le siteID est votre identifiant comme il vous a ete donnee par l'enqueteur,");
+    myFile.println("# Le siteID est votre identifiant comme il vous a été donnée par l'enqueteur,");
     myFile.println("# ne le modifiez pas s'il ne vous le demande pas.");
     if ( siteID == "") {
       myFile.println("siteID=Cool Food " + _getRandomChar(10));
@@ -210,8 +210,8 @@ void CARTESD_writeConfigFile(const char *fileName, String siteID = "", String qu
     }
     myFile.println("");
 
-    myFile.println("# Cette phrase apparaitra dans le fichier resultat à votre questionnaire mais n'est pas visible sur la borne.");
-    myFile.println("# Il est conseille de definir ici une phrase courte.");
+    myFile.println("# Cette phrase apparaîtra dans le fichier résultat à votre questionnaire mais n'est pas visible sur la borne.");
+    myFile.println("# Il est conseillé de définir ici une phrase courte.");
     if ( question == "") {
       myFile.println("question= Aimez-vous les brocolis ?");
     } else {
