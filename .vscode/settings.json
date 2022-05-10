@@ -4,5 +4,6 @@
     
     ],
     "plantuml.diagramsRoot": "",
-    "plantuml.exportOutDir": "Programmation\\Microcontroleur\\illustrations"
+    "plantuml.exportOutDir": ".\\",
+    "plantuml.exportSubFolder": false
 }

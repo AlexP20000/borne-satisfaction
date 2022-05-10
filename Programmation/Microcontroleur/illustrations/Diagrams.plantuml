@@ -64,31 +64,35 @@ else (non)
 	:Allumage de la LED du bouton appuyé;
 	:Lecture de la date et l'heure;
 	:Lecture niveau batterie ;
-	:Lecture du fichier de configuration;
-	:Ecriture dans en fin de fichier des mesures;
-	:Mise à jour de la synthèse des votes;
-	note right
-		On utilise littleFS pour gain de rapidité
-	end note
+	if( Peut-on lire le fichier de paramétrage ?) then (oui)
+		:Lecture du fichier de configuration;
+		:Ecriture dans en fin de fichier des mesures;
+		:Mise à jour de la synthèse des votes;
+		note right
+			On utilise littleFS pour gain de rapidité
+		end note
 
-	:délai avant exctinction des Led;
-	note right
-		Ce delai est ajustable,
-		il permet à l'usager de vérifier que son vote
-		a bien été pris en compte
-	end note
+		:délai avant exctinction des Led;
+		note right
+			Ce delai est ajustable,
+			il permet à l'usager de vérifier que son vote
+			a bien été pris en compte
+		end note
 
-	:Eteind les LEDs ;
-	note right
-		On éteint toutes les Leds,
-		sans chercher laquelle est allumée
-	end note
-	
-	:Deep sleep;
-	note right
-		Mise en place du masque de réveil des boutons.
-	end note
-	stop
+		:Eteind les LEDs ;
+		note right
+			On éteint toutes les Leds,
+			sans chercher laquelle est allumée
+		end note
+		
+		:Deep sleep;
+		note right
+			Mise en place du masque de réveil des boutons.
+		end note
+		stop
+	else (non)
+		#red:Mettre le Flag probleme\ncarte SD à vrai\n(BOO_ProblemeCarteSD = true);
+	endif
 endif;
 
 #lightblue:Entrée dans la fonction loop();

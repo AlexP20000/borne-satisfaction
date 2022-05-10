@@ -290,6 +290,12 @@ void setup() {
       // .......................................................................
       // Deep sleep
       DEEPSLEEP_start();
+
+
+    } else {
+      // Lecture impossible du fichier de paramétrage
+      DEBUG("Lecture impossible du fichier de paramétrage : Carte SD arrachée ?");
+      BOO_ProblemeCarteSD = true;
     }
   }
 
