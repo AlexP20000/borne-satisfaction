@@ -423,7 +423,10 @@ boolean CARTESD_questionChange(String &questionDansFichierConfig) {
 
    @param fileName : le nom du fichier ini dans lequel lire la date et l'heure.
    @return true si la config a pu être lu à partir du fichier de config
-  ----------------------------------------------------------------------------------------- */
+
+   @version issue #23 : Protection contre la saisie d'une année < 2000.
+  */
+  //----------------------------------------------------------------------------------------- 
 bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   bool initFromFile = false;
   const size_t bufferLen = 300;
@@ -494,12 +497,13 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
 
   // SI on a besoin d'initialiser la RTC à partir du fichier
   if ( initFromFile ) {
-    // Creation d'une date
-    DateTime date =  DateTime(STR_annee.toInt(),
+    // Creation d'une date (année doit être > 2000 )
+    DateTime date =  DateTime(STR_annee.toInt() < 2000 ? 2000:STR_annee.toInt(),
                         STR_mois.toInt(),
                         STR_jour.toInt(),
                         STR_heure.toInt(),
-                        STR_minute.toInt(), 0);
+                        STR_minute.toInt(), 
+                        0);
 
     // Si on a une date valide
     if( date.isValid() ) {
@@ -516,8 +520,14 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
       // Ecriture du fichier avec la question et le siteID
       CARTESD_writeConfigFile( fileName, siteID, question);
       DEBUG("Réécriture du fichier de paramétrage");
+
     } else {
       DEBUG("Date non valide, impossible de mettre la RTC à jour");
+      DEBUG("STR_annee:" + STR_annee);
+      DEBUG("STR_mois:" + STR_mois);
+      DEBUG("STR_jour:" + STR_jour);
+      DEBUG("STR_heure:" + STR_heure);
+      DEBUG("STR_minute:" + STR_minute);
       initFromFile = false;
       
       erreurFormat = true;

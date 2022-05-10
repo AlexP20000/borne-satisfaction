@@ -7,7 +7,7 @@
  * @date 2022-05-10
  * @author Alexandre PERETJATKO (peretjatko@univ-brest.fr)
  * 
- * @version 1.0.2
+ * @version 1.0.4
  */
 
 // _______________________________________________________________________________________
@@ -18,7 +18,7 @@
               pour faire en sorte que le port série ne soit pas initialisé, ce qui
               permet de gagner de la vitesse d'execution au boot.
  */
-#define ModeDebug
+//#define ModeDebug
 
 
 #include "initialisation.h"
@@ -152,6 +152,7 @@ void setup() {
           }
 
           // Lecture de la date et l'heure
+          DEBUG("Lecture de la date et l'heure");
           bool erreurFormat = false;
           if ( CARTESD_updateDate(fileName_Config, erreurFormat)) {
             // initialisation de la RTC à partir du fichier de paramétrage
