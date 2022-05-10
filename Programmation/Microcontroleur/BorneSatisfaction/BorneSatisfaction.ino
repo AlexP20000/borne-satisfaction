@@ -6,6 +6,7 @@
    - La sauvegarde du cumul de chaque vote est faite dans un fichier TXT.
 
    @Author : Alexandre PERETJATKO
+   @version : 1.0.2
    __________________________________________________________________________________
 */
 // Mode prod => commenter la ligne suivante
