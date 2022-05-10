@@ -1,6 +1,12 @@
 /**
- * @Author : Alexandre PERETJATKO
+ * @file RTC.h
+ * @brief contains all function for RTC purpose.
+ * @date 2022-05-10
+   @author Alexandre PERETJATKO
+ * 
+ * @version 1.0.2
  */
+
 /*
   capteur RTC pcf8523
   Date and time functions using a PCF8523 RTC connected via I2C and Wire lib
@@ -13,8 +19,8 @@ DateTime now;
 
 /**
   ----------------------------------------------------------------------------------
-  Initialise "now" avec la RTC
-  ----------------------------------------------------------------------------------*/
+  @brief Initialise "now" avec la RTC
+  */
 String RTC_setTime() {
   rtc.begin();
   rtc.start();
@@ -46,10 +52,15 @@ String RTC_setTime() {
 }
 
 
+   
+
+
 /**
   ----------------------------------------------------------------------------------
-   Renvoie la date sous forme de chaine de caractères.
-  ----------------------------------------------------------------------------------*/
+ * @brief Renvoie la date sous forme de chaine de caractères.
+ * 
+ * @return String 
+  */
 String RTC_getDate() {
   rtc.begin();
   rtc.start();

@@ -1,20 +1,26 @@
 /**
-   @Author : Alexandre PERETJATKO
-*/
+ * @file Batterie.h
+ * @author Alexandre PERETJATKO (peretjatko@univ-brest.fr)
+ * @brief contains all function for battery purpose.
+ * @date 2022-05-10
+ * @version 1.0.2
+ * 
+ */
+// _______________________________________________________________________________________
+
 /**
  -----------------------------------------------------------------------------------------
-Renvoie le niveau de la batterie en pourcentage (sans le signe).
-issue 10 :
-  Protection contre des valeurs négatifs du pourcentage (si < 0, on renvoie 0 ) et si on a 
-  un pourcent > 100
------------------------------------------------------------------------------------------- */
+ @brief Renvoie le niveau de la batterie en pourcentage (sans le signe).
+ @version issue #10 : Protection contre des valeurs négatifs du pourcentage (si < 0, on renvoie 0 ) et si on a un pourcent > 100
+ @return int contenant le pourcentage du niveau de charge de la batterie.
+*/
 int BATTERIE_getBatterieLevel() {
   float mesureTensionMAX = 2425;
   float mesureTensionMIN = 1725;
 
   // Renvoie la tension
   int tension = (int) analogRead(A0);
-  DEBUG ("Mesure analogique renvoyee par la batterie:  " + String(tension));
+  DEBUG("Mesure analogique renvoyee par la batterie:  " + String(tension));
 
 
   // Calcul du pourcentage

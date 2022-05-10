@@ -1,12 +1,18 @@
 /**
- * @Author : Alexandre PERETJATKO
+ * @file deepsleep.h
+ * @brief contains all function for deepsleep purpose.
+ * @date 2022-05-10
+   @author Alexandre PERETJATKO
+ * 
+ * @version 1.0.2
  */
 
 /**
-   ----------------------------------------------------------------------------------
-   Défintion du deep sleep pour la mise ne palce du wake up lorsqu'on appuie sur un bouton.
-   @see https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/
-   ---------------------------------------------------------------------------------- */
+  ----------------------------------------------------------------------------------
+  @brief Défintion du deep sleep pour la mise ne place du wake up lorsqu'on appuie sur un bouton.
+
+  @see https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/
+  */
 void DEEPSLEEP_start() {
   // Calcul du mask de bits pour les GPIO utilisés par les boutons
   int somme = pow(2, BTN_ROUGE) + pow(2, BTN_VERT) + pow(2, BTN_JAUNE); // 33554432 + 67108864 + 268435456 = 234881024
@@ -28,10 +34,12 @@ void DEEPSLEEP_start() {
 
 
 /**
-   ----------------------------------------------------------------------------------
-   Renvoie le numéro du GPIO qui a sortie l'ESP du Deep sleep.
-   @see https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/
-   ---------------------------------------------------------------------------------- */
+  ----------------------------------------------------------------------------------
+  @brief Renvoie le numéro du GPIO qui a sortie l'ESP du Deep sleep.
+  @see https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/
+   
+  @return GPIO number as int
+  */
 int DEEPSLEEP_getGPIOWakeUp() {
   uint64_t GPIO_reason = esp_sleep_get_ext1_wakeup_status();
 

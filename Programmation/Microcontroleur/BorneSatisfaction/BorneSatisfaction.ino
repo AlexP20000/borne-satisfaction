@@ -1,17 +1,23 @@
 /**
-   Programme pour micro-controlleur ESP32
-
-   Ce programme permet de compter le nombre d'appuye sur un bouton de vote.
+ * @file BorneSatisfaction.ino
+ * @brief Main programm for ESP32 micro-controller
+ * @details Ce programme permet de compter le nombre d'appui sur un bouton de vote.
    - La sauvegarde de chaque vote est faite dans un fichier CSV.
    - La sauvegarde du cumul de chaque vote est faite dans un fichier TXT.
+ * @date 2022-05-10
+ * @author Alexandre PERETJATKO (peretjatko@univ-brest.fr)
+ * 
+ * @version 1.0.2
+ */
 
-   @Author : Alexandre PERETJATKO
-   @version : 1.0.2
-   __________________________________________________________________________________
-*/
-// Mode prod => commenter la ligne suivante
-//              pour faire en sorte que le port série ne soit pas initialisé, ce qui
-//              permet de gagner de la vitesse d'execution au boot.
+// _______________________________________________________________________________________
+
+/**
+ * @def ModeDeug
+ * @brief Mode prod => commenter la ligne suivante
+              pour faire en sorte que le port série ne soit pas initialisé, ce qui
+              permet de gagner de la vitesse d'execution au boot.
+ */
 #define ModeDebug
 
 
@@ -85,7 +91,7 @@ void setup() {
 
 
   /** -------------------------------------------------------------------------------------------------------------
-      A-t-om une mise sous tension ?
+      A-t-on une mise sous tension ?
      (on fait les tests de bon fonctionnements)
   */
   if (wakeupCause != ESP_SLEEP_WAKEUP_EXT0

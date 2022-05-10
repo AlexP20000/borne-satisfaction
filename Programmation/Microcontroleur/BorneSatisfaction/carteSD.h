@@ -1,7 +1,11 @@
 /**
-   @Author : Alexandre PERETJATKO
-*/
-
+ * @file carteSD.h
+ * @brief contains all function for SD card purpose.
+ * @date 2022-05-10
+   @author : Alexandre PERETJATKO
+ * 
+ * @version 1.0.2
+ */
 #include <SPI.h>
 #include <IniFile.h>
 
@@ -17,7 +21,10 @@ char l_CHAR_fileNameSynthese[15] = "/question.txt";
 
 
 
-
+/**
+ * @brief Diaply error message (only in debug mode) from SD card driver.
+ * @return String : error message.
+ */
 #ifdef ModeDebug
 String _printErrorMessage(uint8_t e, bool eol = true){
   switch (e) {
@@ -57,7 +64,7 @@ String _printErrorMessage(uint8_t e, bool eol = true){
 
 /**
    ----------------------------------------------------------------------------------
-   Effacement des fichiers en ROM. (Formattage du file system)
+   @brief Effacement des fichiers en ROM. (Formattage du file system)
    @params:
     STRING question : la question à écrire dans littelFS
    ----------------------------------------------------------------------------------*/
