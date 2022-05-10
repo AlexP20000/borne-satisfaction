@@ -103,53 +103,99 @@ void setup() {
     DEBUG("mise sous tension");
     
     // .......................................................................
-    // Batterie faible
+    // Carte SD manquante
     //
-    batterieLevel = BATTERIE_getBatterieLevel();
-    if (batterieLevel < 20) {
-      DEBUG("Batterie faible");
-      BOO_ProblemeBatterie = true;
-
-      if (batterieLevel < 5) {
-        DEBUG("Batterie Tres faible");
-        BOO_Clignote = true;
-      }
-
+    if (!SD.begin()) {
+      DEBUG("Carte SD manquante");
+      BOO_ProblemeCarteSD = true;
 
     } else {
       // .......................................................................
-      // Carte SD manquante
+      // Fichier params manquant
+      // (on test l'existance du fichier de configuration).
       //
-      if (!SD.begin()) {
-        DEBUG("Carte SD manquante");
+      if (! CARTESD_existeFile( fileName_Config )) {
+        DEBUG("Fichier params manquant");
         BOO_ProblemeCarteSD = true;
+        BOO_Clignote = true;
+
+        CARTESD_writeConfigFile( fileName_Config );
+
+        CARTESD_EraseROMSynthese("question");
 
       } else {
-        // .......................................................................
-        // Fichier params manquant
-        // (on test l'existance du fichier de configuration).
-        //
-        if (! CARTESD_existeFile( fileName_Config )) {
-          DEBUG("Fichier params manquant");
-          BOO_ProblemeCarteSD = true;
-          BOO_Clignote = true;
+        String siteID, question = "";
+        if ( ! CARTESD_readConfigFile( fileName_Config, siteID, question ) ) {
+          
+          // Il y a eu un problème de lecture de fichier de config sur la carte SD
+          DEBUG("Il y a eu un problème de lecture de variables dans le fichier de config sur la carte SD");
 
           CARTESD_writeConfigFile( fileName_Config );
-
           CARTESD_EraseROMSynthese("question");
 
+          BOO_ProblemeCarteSD = true;
+          BOO_Clignote = true;
         } else {
-          String siteID, question = "";
-          if ( ! CARTESD_readConfigFile( fileName_Config, siteID, question ) ) {
-            
-            // Il y a eu un problème de lecture de fichier de config sur la carte SD
-            DEBUG("Il y a eu un problème de lecture de variables dans le fichier de config sur la carte SD");
 
-            CARTESD_writeConfigFile( fileName_Config );
-            CARTESD_EraseROMSynthese("question");
+          // .......................................................................
+          // on réinitialise les synthèses si la question a changée
+          String question = "";
+          if ( CARTESD_questionChange(question) ) {
+            // Efface littelFS
+            // et
+            // Reinitialise les fichiers de synthese et de la question dans le LittelFS
+            CARTESD_EraseROMSynthese(question);
+            DEBUG("Reinitialisation des synthèses");
 
-            BOO_ProblemeCarteSD = true;
-            BOO_Clignote = true;
+          } else {
+            DEBUG("pas de changement dans la question");
+          }
+
+          // Lecture de la date et l'heure
+          bool erreurFormat = false;
+          if ( CARTESD_updateDate(fileName_Config, erreurFormat)) {
+            // initialisation de la RTC à partir du fichier de paramétrage
+            DEBUG("initialisation de la RTC à partir du fichier de paramétrage");
+            for ( int i = 0; i < 3; i++) {
+              digitalWrite(LED_VERT, LOW);
+              delay(DelayExtinctionLEDs/3);
+              digitalWrite(LED_VERT, HIGH);
+              delay(DelayExtinctionLEDs/3);
+            }
+          } else {
+            if( erreurFormat ){
+              DEBUG("Erreur de format de date ou d'heure dans '"+ String(fileName_Config) +"' à l'initialisation de la RTC");
+              for ( int i = 0; i < 3; i++) {
+                digitalWrite(LED_JAUNE, HIGH);
+                delay(DelayExtinctionLEDs);
+                digitalWrite(LED_JAUNE, LOW);
+                delay(DelayExtinctionLEDs);
+              }
+            }
+
+          }
+
+          // Extinction LEDs
+          digitalWrite(LED_VERT, LOW);
+          digitalWrite(LED_JAUNE, LOW);
+
+
+
+
+          // .......................................................................
+          // Batterie faible
+          //
+          batterieLevel = BATTERIE_getBatterieLevel();
+          if (batterieLevel < 20) {
+            DEBUG("Batterie faible");
+            BOO_ProblemeBatterie = true;
+
+            if (batterieLevel < 5) {
+              DEBUG("Batterie Tres faible");
+              BOO_Clignote = true;
+            }
+
+
           } else {
 
             // .......................................................................
@@ -159,47 +205,6 @@ void setup() {
             // Allumage LED verte
             digitalWrite(LED_VERT, HIGH);
 
-            // .......................................................................
-            // on réinitialise les synthèses si la question a changée
-            String question = "";
-            if ( CARTESD_questionChange(question) ) {
-              // Efface littelFS
-              // et
-              // Reinitialise les fichiers de synthese et de la question dans le LittelFS
-              CARTESD_EraseROMSynthese(question);
-              DEBUG("Reinitialisation des synthèses");
-
-            } else {
-              DEBUG("pas de changement dans la question");
-            }
-
-            // Lecture de la date et l'heure
-            bool erreurFormat = false;
-            if ( CARTESD_updateDate(fileName_Config, erreurFormat)) {
-              // initialisation de la RTC à partir du fichier de paramétrage
-              DEBUG("initialisation de la RTC à partir du fichier de paramétrage");
-              for ( int i = 0; i < 3; i++) {
-                digitalWrite(LED_VERT, LOW);
-                delay(DelayExtinctionLEDs);
-                digitalWrite(LED_VERT, HIGH);
-                delay(DelayExtinctionLEDs);
-              }
-            } else {
-              if( erreurFormat ){
-                DEBUG("Erreur de format de date ou d'heure dans '"+ String(fileName_Config) +"' à l'initialisation de la RTC");
-                for ( int i = 0; i < 3; i++) {
-                  digitalWrite(LED_JAUNE, HIGH);
-                  delay(DelayExtinctionLEDs);
-                  digitalWrite(LED_JAUNE, LOW);
-                  delay(DelayExtinctionLEDs);
-                }
-              }
-
-            }
-
-            // Extinction LEDs
-            digitalWrite(LED_VERT, LOW);
-            digitalWrite(LED_JAUNE, LOW);
 
             // Deep sleep
             DEEPSLEEP_start();
@@ -334,7 +339,10 @@ void loop() {
 
   // SI ON APPUI SUR UN BOUTON ...........................................................
   if( digitalRead(BTN_JAUNE) == HIGH or digitalRead(BTN_ROUGE) == HIGH or digitalRead( BTN_VERT) == HIGH ){
-    DEBUG("Alarme aquitée. On entre en deep sleep");
+    DEBUG("Alarme acquitée. On reboot");
+
+    delay(DelayExtinctionLEDs);
+
     // Deep sleep
     DEEPSLEEP_start();
   }

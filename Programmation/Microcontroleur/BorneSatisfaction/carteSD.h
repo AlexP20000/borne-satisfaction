@@ -2,7 +2,7 @@
  * @file carteSD.h
  * @brief contains all function for SD card purpose.
  * @date 2022-05-10
-   @author : Alexandre PERETJATKO
+   @author Alexandre PERETJATKO
  * 
  * @version 1.0.2
  */

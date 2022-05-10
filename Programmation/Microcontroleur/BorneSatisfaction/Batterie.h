@@ -32,5 +32,6 @@ int BATTERIE_getBatterieLevel() {
   if( pourcent > 100 ) {
     return 100;
   }
+
   return pourcent;
 }

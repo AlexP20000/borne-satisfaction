@@ -1,2 +1,8 @@
 {
+    "plantuml.exportFormat": "png",
+    "plantuml.commandArgs": [
+    
+    ],
+    "plantuml.diagramsRoot": "",
+    "plantuml.exportOutDir": "Programmation\\Microcontroleur\\illustrations"
 }
