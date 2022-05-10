@@ -11,7 +11,7 @@
 // Mode prod => commenter la ligne suivante
 //              pour faire en sorte que le port série ne soit pas initialisé, ce qui
 //              permet de gagner de la vitesse d'execution au boot.
-//#define ModeDebug
+#define ModeDebug
 
 
 #include "initialisation.h"
@@ -99,11 +99,11 @@ void setup() {
     // Batterie faible
     //
     batterieLevel = BATTERIE_getBatterieLevel();
-    if (batterieLevel <= 20) {
+    if (batterieLevel < 20) {
       DEBUG("Batterie faible");
       BOO_ProblemeBatterie = true;
 
-      if (batterieLevel <= 5) {
+      if (batterieLevel < 5) {
         DEBUG("Batterie Tres faible");
         BOO_Clignote = true;
       }
@@ -300,14 +300,25 @@ void loop() {
   if( LNG_Timer + DelayExtinctionLEDs < millis() ){
     // Allumage/Extinction led ROUGE
     if ( BOO_ProblemeBatterie ) {
-      DEBUG("ProblemeBatterie");
-      digitalWrite(LED_JAUNE, ! digitalRead(LED_JAUNE) );
+      DEBUG("ProblemeBatterie -> JAUNE");
+      if( BOO_Clignote ) {
+        digitalWrite(LED_JAUNE, ! digitalRead(LED_JAUNE) );
+        DEBUG("Clignotement JAUNE");
+      } else {
+        digitalWrite(LED_JAUNE, HIGH );
+      }
     }
 
     // Allumage/Extinction  led JAUNE
     if ( BOO_ProblemeCarteSD ) {
-      DEBUG("ProblemeCarteSD");
-      digitalWrite(LED_ROUGE, ! digitalRead(LED_ROUGE) );
+      DEBUG("ProblemeCarteSD -> ROUGE");
+      if( BOO_Clignote ) {
+        digitalWrite(LED_ROUGE, ! digitalRead(LED_ROUGE) );
+        DEBUG("Clignottement ROUGE");
+      } else {
+        digitalWrite(LED_ROUGE, HIGH );
+
+      }
     }
     // Réinitilaisation du timer
     LNG_Timer = millis();
