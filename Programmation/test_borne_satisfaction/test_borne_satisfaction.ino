@@ -208,12 +208,9 @@ void setup() {
       Serial.println ("");
     }
     Serial.print ("     Vérification de l'heure RTC : ");
-    if (! rtc.initialized() || rtc.lostPower()) {
-      Serial.println ("=> heure absente.");
-      Serial.println ("     Programmation de l'heure...");
-      rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-      Serial.print ("     Vérification de l'heure RTC : ");
-    }
+    Serial.println ("     Programmation de l'heure...");
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    Serial.print ("     Vérification de l'heure RTC : ");
     // When the RTC was stopped and stays connected to the battery, it has
     // to be restarted by clearing the STOP bit. Let's do this to ensure
     // the RTC is running.
