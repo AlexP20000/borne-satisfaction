@@ -20,7 +20,6 @@ char l_CHAR_fileNameSynthese[15] = "/question.txt";
 
 
 
-
 /**
  * @brief Diaply error message (only in debug mode) from SD card driver.
  * @return String : error message.
@@ -60,8 +59,28 @@ String _printErrorMessage(uint8_t e, bool eol = true){
     break;
   }
 }
+
+/**
+  ----------------------------------------------------------------------------------
+ * @brief Fait clignoter une leds un certain nombre de fois (only for debug mode)
+ * 
+ * @param nb int le nombre de fois que l'on veut un allumage de la LED ledPIN
+ */
+void _clignoteLED(unsigned int nb, unsigned int ledPin){
+  for( int i= 0; i <= nb; i++){
+    digitalWrite(ledPin, ! digitalRead(ledPin) );
+    delay( 250 );
+  }
+  digitalWrite(ledPin, LOW );
+  delay( 1000 );
+}
+#else
+void _clignoteLED(unsigned int nb, unsigned int ledPin){
+  delay(1000);
+}
 #endif
 
+   
 /**
    ----------------------------------------------------------------------------------
    @brief Effacement des fichiers en ROM. (Formattage du file system)
@@ -453,6 +472,7 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   if ( ini.getValue("config", "year", buffer, bufferLen)) {
     STR_annee = buffer;
     initFromFile = true;
+    _clignoteLED(1, LED_JAUNE);
   } else {
     DEBUG("year : " + _printErrorMessage(ini.getError()) );
     STR_annee = RTC_getYear();
@@ -462,6 +482,7 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   if ( ini.getValue("config", "month", buffer, bufferLen)) {
     STR_mois = buffer;
     initFromFile = true;
+    _clignoteLED(2, LED_JAUNE);
   } else {
     DEBUG("month : " + _printErrorMessage(ini.getError()) );
     STR_mois = RTC_getMonth();
@@ -471,6 +492,7 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   if ( ini.getValue("config", "day", buffer, bufferLen)) {
     STR_jour = buffer;
     initFromFile = true;
+    _clignoteLED(3, LED_JAUNE);
   } else {
     DEBUG("day : " +_printErrorMessage(ini.getError()) );
     STR_jour = RTC_getDay();
@@ -480,6 +502,7 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   if ( ini.getValue("config", "hour", buffer, bufferLen)) {
     STR_heure = buffer;
     initFromFile = true;
+    _clignoteLED(4, LED_JAUNE);
   } else {
     DEBUG("hour : " + _printErrorMessage(ini.getError()) );
     STR_heure = RTC_getHour();
@@ -489,6 +512,7 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   if ( ini.getValue("config", "minute", buffer, bufferLen)) {
     STR_minute = buffer;
     initFromFile = true;
+    _clignoteLED(5, LED_JAUNE);
   } else {
     DEBUG("minute :" + _printErrorMessage(ini.getError()) );
     STR_minute = RTC_getMinute();
@@ -498,6 +522,7 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   // SI on a besoin d'initialiser la RTC à partir du fichier
   if ( initFromFile ) {
     // Creation d'une date (année doit être > 2000 )
+    _clignoteLED(1, LED_ROUGE);
     DateTime date =  DateTime(STR_annee.toInt() < 2000 ? 2000:STR_annee.toInt(),
                         STR_mois.toInt(),
                         STR_jour.toInt(),
@@ -507,19 +532,25 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
 
     // Si on a une date valide
     if( date.isValid() ) {
+      _clignoteLED(2, LED_ROUGE);
       erreurFormat = false;
 
       // Mise à jour de la RTC ...............................
       rtc.adjust(date);
+      _clignoteLED(3, LED_ROUGE);
       
       // Reecriture du fichier de config .....................
       // Lecture du fichier de configuration
       String siteID, question = "";
+      delay(1000);
       CARTESD_readConfigFile( fileName, siteID, question );
+      _clignoteLED(4, LED_ROUGE);
 
       // Ecriture du fichier avec la question et le siteID
+      delay(1000);
       CARTESD_writeConfigFile( fileName, siteID, question);
       DEBUG("Réécriture du fichier de paramétrage");
+      _clignoteLED(5, LED_ROUGE);
 
     } else {
       DEBUG("Date non valide, impossible de mettre la RTC à jour");
@@ -538,6 +569,7 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   DEBUG("RTC_getDate:" + RTC_getDate());
   DEBUG("RTC_getTime:" + RTC_getTime());
 
+  _clignoteLED(1, LED_VERT);
 
   return initFromFile;
 }

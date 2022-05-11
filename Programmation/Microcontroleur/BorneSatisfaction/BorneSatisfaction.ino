@@ -7,7 +7,7 @@
  * @date 2022-05-10
  * @author Alexandre PERETJATKO (peretjatko@univ-brest.fr)
  * 
- * @version 1.0.4
+ * @version 1.0.5
  */ // ___________________________________________________________________________________
 
 /**
@@ -203,6 +203,7 @@ void setup() {
             DEBUG("Tout est ok");
             // Allumage LED verte
             digitalWrite(LED_VERT, HIGH);
+            delay( DelayExtinctionLEDs);
 
 
             // Deep sleep
