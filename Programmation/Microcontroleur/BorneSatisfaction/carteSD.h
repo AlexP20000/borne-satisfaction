@@ -68,7 +68,9 @@ String _printErrorMessage(uint8_t e, bool eol = true){
  */
 void _clignoteLED(unsigned int nb, unsigned int ledPin){
   for( int i= 1; i <= nb; i++){
-    digitalWrite(ledPin, ! digitalRead(ledPin) );
+    digitalWrite(ledPin, HIGH );
+    delay( 250 );
+    digitalWrite(ledPin, LOW );
     delay( 250 );
   }
   digitalWrite(ledPin, LOW );
@@ -78,7 +80,6 @@ void _clignoteLED(unsigned int nb, unsigned int ledPin){
 void _clignoteLED(unsigned int nb, unsigned int ledPin){
 }
 #endif
-
    
 /**
    ----------------------------------------------------------------------------------
@@ -248,10 +249,9 @@ void CARTESD_writeConfigFile(const char *fileName, String siteID = "", String qu
     myFile.println("# Pour faire la mise à l'heure, décommentez (supprimez le # en début de ligne) et ");
     myFile.println("# remplissez les champs suivant avec des valeurs numériques uniquement.");
     myFile.println("# Une fois la mise à l'heure faite (au démarrage de la borne), ces 5 lignes seront automatiquement commentées.");
-    myFile.println("# Il est fortement conseillé de ne pas mettre à jour la date ET l'heure en même temps.");
     myFile.println("#year=2022");
-    myFile.println("#month=04");
-    myFile.println("#day=27");
+    myFile.println("#month=05");
+    myFile.println("#day=11");
     myFile.println("#hour=14");
     myFile.println("#minute=56");
 
@@ -531,6 +531,8 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
       erreurFormat = false;
 
       // Mise à jour de la RTC ...............................
+      rtc.begin();
+      rtc.start();
       rtc.adjust(date);
       _clignoteLED(2, LED_VERT);
       
@@ -538,12 +540,12 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
       // Lecture du fichier de configuration
       String siteID, question = "";
       CARTESD_readConfigFile( fileName, siteID, question );
-      _clignoteLED(2, LED_VERT);
+      _clignoteLED(3, LED_VERT);
 
       // Ecriture du fichier avec la question et le siteID
       CARTESD_writeConfigFile( fileName, siteID, question);
       DEBUG("Réécriture du fichier de paramétrage");
-      _clignoteLED(2, LED_VERT);
+      _clignoteLED(4, LED_VERT);
 
     } else {
       _clignoteLED(2, LED_ROUGE);
@@ -563,7 +565,7 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
   DEBUG("RTC_getDate:" + RTC_getDate());
   DEBUG("RTC_getTime:" + RTC_getTime());
 
-  _clignoteLED(1, LED_VERT);
+  _clignoteLED(5, LED_VERT);
 
   return initFromFile;
 }
