@@ -76,7 +76,6 @@ void _clignoteLED(unsigned int nb, unsigned int ledPin){
 }
 #else
 void _clignoteLED(unsigned int nb, unsigned int ledPin){
-  delay( 1000 );
 }
 #endif
 
@@ -533,7 +532,6 @@ bool CARTESD_updateDate(const char *fileName, bool &erreurFormat) {
 
       // Mise à jour de la RTC ...............................
       rtc.adjust(date);
-      delay(2000);
       _clignoteLED(2, LED_VERT);
       
       // Reecriture du fichier de config .....................
