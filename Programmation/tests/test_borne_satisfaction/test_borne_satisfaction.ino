@@ -24,9 +24,9 @@
 #include "SPI.h"
 #include "RTClib.h"
 
-#define TEST_LEDS false
-#define TEST_BP   false
-#define TEST_RTC  false
+#define TEST_LEDS true
+#define TEST_BP   true
+#define TEST_RTC  true
 #define TEST_SD   true
 
 #define VERTE  0
@@ -92,6 +92,7 @@ void setup() {
   Serial.println ("");
   Serial.println ("Début du test de la carte mère :");
   Serial.println ("");
+
 
   if (TEST_LEDS) {
     Serial.println ("");
@@ -199,7 +200,6 @@ void setup() {
       Serial.println ("");
     }
     peripheriques(ON);
-    rtc.start();
     Serial.print ("     RTC Présente et alimentée : ");
     if (! rtc.begin()) {
       erreur("RTC introuvable");
@@ -208,29 +208,36 @@ void setup() {
       Serial.println ("");
     }
     Serial.print ("     Vérification de l'heure RTC : ");
-    bool fin=false;
-    int nb_ess=0;
-    while (! fin) {
-      affiche_heure_rtc();
-      Serial.println ("     L'heure et la date sont-elles correste ?");
-      while (!Serial.available());
-      reponse = Serial.readString().substring(0,1);
-      if (reponse =="O" or reponse =="o") {
-        fin=true;
-      } else {
-        if (nb_ess>=3) {
-          erreur ("Programmation de la RTC impossible");
-        } else {
-          Serial.print (String(3-nb_ess) + " essais restant. ");
-          saisie_heure();
-          nb_ess = nb_ess + 1;
-        }
-      }
+    Serial.println ("     Programmation de l'heure...");
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    Serial.print ("     Vérification de l'heure RTC : ");
+    // When the RTC was stopped and stays connected to the battery, it has
+    // to be restarted by clearing the STOP bit. Let's do this to ensure
+    // the RTC is running.
+    rtc.start();
+    Serial.print ("     Date et heure de la RTC : ");
+    // lectrue de la date et de l'heure : 
+    DateTime now = rtc.now();
+    Serial.print(now.year(), DEC);
+    Serial.print('/');
+    Serial.print(now.month(), DEC);
+    Serial.print('/');
+    Serial.print(now.day(), DEC);
+    Serial.print(" (");
+    Serial.print(daysOfTheWeek[now.dayOfTheWeek()]);
+    Serial.print(") ");
+    Serial.print(now.hour(), DEC);
+    Serial.print(':');
+    Serial.print(now.minute(), DEC);
+    Serial.print(':');
+    Serial.print(now.second(), DEC);
+    Serial.println();
+    Serial.println ("     L'heure et la date sont-elles correste ?");
+    while (!Serial.available());
+    reponse = Serial.readString().substring(0,1);
+    if (reponse !="O" and reponse !="o") {
+      erreur("Problème sur la RTC.");
     }
-    Serial.println (" FIN");
-    while (true) {
-      delay(1);
-    }    
   }
 
  
@@ -392,79 +399,4 @@ void deleteFile(fs::FS &fs, const char * path){
     } else {
         Serial.println("Delete failed");
     }
-}
-
-void affiche_heure_rtc() {
-    // lectrue de la date et de l'heure : 
-    DateTime now = rtc.now();
-    Serial.print(now.year(), DEC);
-    Serial.print('/');
-    Serial.print(now.month(), DEC);
-    Serial.print('/');
-    Serial.print(now.day(), DEC);
-    Serial.print(" (");
-    Serial.print(daysOfTheWeek[now.dayOfTheWeek()]);
-    Serial.print(") ");
-    Serial.print(now.hour(), DEC);
-    Serial.print(':');
-    Serial.print(now.minute(), DEC);
-    Serial.print(':');
-    Serial.print(now.second(), DEC);
-    Serial.println();  
-}
-
-
-bool saisie_heure(){
-   bool ok=false;
-   char date[]="Jan  1 2000";
-   char heure[]="00:00:00";
-   
-  Serial.println ("Saisissez la date et l'heure au format JJ/MM/AAAA hh:mm");
-  while (!Serial.available());
-  reponse = Serial.readString();
-  ok=true;
-  if (reponse.length() != 16) {
-    ok=false;
-  }
-  if (ok and reponse.charAt(2) != '/') {
-    ok=false;
-  }
-  if (ok and reponse.charAt(5) != '/') {
-    ok=false;
-  }
-  if (ok and reponse.charAt(10) != ' ') {
-    ok=false;
-  }
-  if (ok and reponse.charAt(13) != ':') {
-    ok=false;
-  }
-  int d_jour = reponse.substring(0,2).toInt();
-  if (d_jour<0 or d_jour>31) {
-    Serial.println ("     EREUR de saisie sur le jour saisi : "+d_jour);
-    ok=false;
-  }
-  int d_mois=reponse.substring(3,5).toInt();
-  if (d_mois<0 or d_mois>12) ok=false;
-  int d_annee=reponse.substring(6,10).toInt();
-  if (d_annee<2000 or d_annee>9999) ok=false;
-  int d_heure=reponse.substring(6,10).toInt();
-  if (d_heure<0 or d_heure>23) ok=false;
-  int d_minutes=reponse.substring(6,10).toInt();
-  if (d_minutes<0 or d_minutes>59) ok=false;
-  if ((d_mois==4 or d_mois==6 or d_mois==9 or d_mois==11) and d_jour>30) ok=false;
-  if (d_mois==2 and d_jour>29) ok=false;
-  if (d_annee%4 !=0 and d_mois==2 and d_jour>28) ok=false;
-   
-  if (!ok) {
-    Serial.println ("     ERREUR de formatage de la date");
-    Serial.println ("");
-  } else {
-    Serial.println ("Mise à l'heure ...");
- 
-
-
-    
-    Serial.println ("      TODO");
-  }
-  return ok;
 }
