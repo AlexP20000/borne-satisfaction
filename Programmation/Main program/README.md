@@ -1,5 +1,21 @@
+* TOC
+{:toc}
+
 # Programme microcontrolleur #
 Dans ce répertoire, se trouvent les programmes et librairies utilisées par l'ESP32.
+
+# Répertoires
+
+**doc** : the technical documetation of the ESP32 code (from Doxygen) in HTML format.
+
+**Microcontroleur** : ESP32 programms
+
+**test_borne_satisfaction** : ???? [#24](https://github.com/AlexP20000/borne-satisfaction/issues/24)
+
+**tests** : Tests unitaires des différents composants de la carte mère (CarteSD, DeepSleep, Leds, Littelfs, RTC ).
+
+---
+
 
 
 # Compilation du programme #
@@ -21,16 +37,29 @@ Dans le menu Tools > Boards, choississez la carte **FireBeetle-ESP32**
 Toutes les librairies utiles se [trouvent ici](./libs/README.md)
 
 
-# Fichiers sur la carte SD #
+
+
+# Utilisation du programme #
+
+Lors de sa première execution, le programme va générer un fichier de paramétrage vierge sur la carte SD. Une fois ce fichier modifié, vous pourrez :
+- Mettre la borne à l'heure,
+- Initialiser un ID pour la borne.
+- Initialiser une question.
+
+La borne est alors prète à enregistrer les réponses à la question. L'enregistrement se fait de plusieures façon dans différents fichiers stockés sur al acrte SD.
+
+
+
+## Fichiers sur la carte SD ##
 La carte SD contient plusieurs type de fichiers :
 - Fichier de paramétrage (Modifiable par le **gestionnaire**)
 - Fichier d'enregistrements des résultats (Généré par le programme).
 - Fichier de synthèse des résultats (Généré par le programme).
 
 
-## Format des fichiers ##
+### Format des fichiers ###
 
-### Fichier de configuration ###
+#### Fichier de paramétrage ####
 fichier : **configuration.ini** formaté comme suit :
 ```
 # Ceci est le fichier de configuration pour l'application 'Compteur de vote'.
@@ -59,7 +88,7 @@ question=Aimez-vous faire des tests sur cette borne ?
 ```
 
 
-### Fichier de synthèse ###
+#### Fichier de synthèse ####
 Fichier **YYYY-MM-DD_recap.txt** (par exemple 2022-04-27_recap.txt) formaté comme suit :
 
 
@@ -83,7 +112,7 @@ Pourcentage d'appui sur les boutons :
 
 
 
-### Fichiers CSV ###
+#### Fichiers CSV ####
 Fichier **YYYY-MM-DD_detail.csv** (par exemple 2022-04-27_detail.csv) formaté comme suit :
 
 
@@ -97,16 +126,7 @@ Exemple d'un fichier 20220208_Mesures.csv
 | OpenFactory | 08/05/2022 | 20:12:15 | Aimez-vous les artichauds | 0 | 1 | 0 | 50%
 
 
-
-
-# Programmes #
-
-## Initialisation ##
-Le programme est fait (et testé) pour un micro-controlleur ESP32 sur un Firebeetle.
-
-Les variables modifiables sont visibles dans le fichier **initialisation.h**
-
-## Codes couleur ##
+## Codes couleur des LEDs ##
 Les LEDS sont utilisées pour indiquer des alertes ou des erreurs lors de la mise sous tension de la borne.
 
 | Couleur | Allumage LED  | Signification | Bloquant |
