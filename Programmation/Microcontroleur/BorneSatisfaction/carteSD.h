@@ -221,12 +221,12 @@ void CARTESD_writeConfigFile(const char *fileName, String siteID = "", String qu
   if (myFile) {
     myFile.println("# Ceci est le fichier de configuration pour l'application 'Compteur de vote'.");
     myFile.println("# Ne modifiez pas le nom des variables (ce qui se trouve avant le signe égal sur une ligne).");
-    myFile.println("# Vous pouvez modifier le texte se trouvant apres le signe égal à votre guise.");
+    myFile.println("# Vous pouvez modifier le texte se trouvant après le signe égal à votre guise.");
     myFile.println("#____________________________________________________________________________________________");
     myFile.println("[config]");
     myFile.println("");
 
-    myFile.println("# Le siteID est votre identifiant comme il vous a été donnée par l'enqueteur,");
+    myFile.println("# Le siteID est votre identifiant comme il vous a été donné par l'enquêteur,");
     myFile.println("# ne le modifiez pas s'il ne vous le demande pas.");
     if ( siteID == "") {
       myFile.println("siteID=Cool Food " + _getRandomChar(10));
