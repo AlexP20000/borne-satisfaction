@@ -1,18 +1,6 @@
 * TOC
 {:toc}
 
-# Programme microcontrolleur #
-Dans ce répertoire, se trouvent les programmes et librairies utilisées par l'ESP32.
-
-# Répertoires
-
-**doc** : the technical documetation of the ESP32 code (from Doxygen) in HTML format.
-
-**Microcontroleur** : ESP32 programms
-
-**test_borne_satisfaction** : ???? [#24](https://github.com/AlexP20000/borne-satisfaction/issues/24)
-
-**tests** : Tests unitaires des différents composants de la carte mère (CarteSD, DeepSleep, Leds, Littelfs, RTC ).
 
 ---
 
